@@ -52,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Stack(
             children: <Widget>[
               Column(
+
+
                 children: <Widget>[
                   /*  Container(
                 color: BaseColor.color_itembg,
