@@ -24,7 +24,7 @@ void main () async {
           bloc: DartBloc(),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: '天云商城',
+            title: '趣拍',
             theme: new ThemeData(
               platform: defaultTargetPlatform == TargetPlatform.iOS
                   ? TargetPlatform.iOS
