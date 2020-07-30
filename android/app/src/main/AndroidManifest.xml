@@ -58,7 +58,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.ty.ty_mall.fileProvider"
+            android:authorities="com.tianyun.qupai.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
