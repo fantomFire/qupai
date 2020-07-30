@@ -68,5 +68,7 @@ class BaseColor {
   static const Color color_daiqueren= Color(0xFFfab213);
   static const Color color_daizhifu= Color(0xFFff6c00);
   static const Color color_ff6c=  Color(0xFFff6c00);
+  static const Color color_bg_dialog = Color(0x60000000);
+  static const Color color_3E7FFF = Color(0xFF3E7FFF);
 
 }
