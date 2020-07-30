@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:qupai/common_views/customview.dart';
+import 'package:qupai/urls.dart';
 import 'package:qupai/utils/CommonUtil.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
+import 'package:qupai/values/textstyles.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -40,15 +43,18 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-  /*  SystemUiOverlayStyle systemUiOverlayStyle =
-    SystemUiOverlayStyle(statusBarColor: BaseColor.color_ffffff);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);*/
+/*
+    SystemUiOverlayStyle systemUiOverlayStyle =
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+*/
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+
+        backgroundColor: BaseColor.color_ffffff,
         automaticallyImplyLeading: false,
-        title: Text("趣拍"),
+        title: TextView("趣拍",style: TextStyles.color_333333_18,),
         centerTitle: false,
         elevation: 0,
         actions: <Widget>[
@@ -57,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen>
               IconButton(
                   icon: Icon(
                     Icons.mail_outline,
+                    color: BaseColor.color_333333,
                     // size: ScreenUtil().getAdapterSize(18),
                   ),
                   onPressed: () {})
@@ -229,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           Container(
-              height: list.length * 140,
               child: ListView.builder(
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(), //禁止滚动
                 itemCount: list.length,
                 itemExtent:140,
@@ -392,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: Swiper(
             itemBuilder: (BuildContext context, int index) {
               return CachedNetworkImage(
-                imageUrl: list[index],
+                imageUrl: Urls.imageTest,
                 fit: BoxFit.fill,
               );
             },
@@ -444,8 +451,9 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           Container(
-              height: list.length * 140,
+
               child: ListView.builder(
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(), //禁止滚动
                 itemCount: list.length,
                 itemExtent: 140,

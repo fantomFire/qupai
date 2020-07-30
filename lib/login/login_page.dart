@@ -224,7 +224,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async{
- //NavigatorUtil.pushReplacementNamed(context, "/main_page");
+
+    SpUtil.putString("user_id", "1");
+
+ NavigatorUtil.pushReplacementNamed(context, "/main_page");
       if (phoneController.text.length == 0) {
       ToastUtil.toast("请输入手机号码");
       return;
@@ -234,6 +237,7 @@ class _LoginPageState extends State<LoginPage> {
       ToastUtil.toast("请输入密码");
       return;
     }
+
    HttpResponse response = await HttpUtil.send(context, "post", Urls.Login, {
       "username":phoneController.text.trim().toString(),
       "password":passController.text.trim().toString(),
