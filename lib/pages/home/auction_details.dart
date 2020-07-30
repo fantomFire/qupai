@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:qupai/utils/native_utils.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 class AuctionDetailsPage extends StatefulWidget {
   final String  status;
@@ -529,8 +531,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/tabs', ModalRoute.withName("/tabs"));
+                      NavigatorUtil.pushReplacementNamed(context, '/main_page');
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -539,7 +540,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('images/home.png',
+                          Image.asset(UiUtils.getImgPath('home_normal'),
                               width: ScreenUtil().getAdapterSize(20),
                               height: ScreenUtil().getAdapterSize(20)),
                           Text(
@@ -561,7 +562,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('images/service.png',
+                          Image.asset(UiUtils.getImgPath('service'),
                               width: ScreenUtil().getAdapterSize(20),
                               height: ScreenUtil().getAdapterSize(20)),
                           Text(
@@ -595,7 +596,11 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0)),
-                onPressed: () {},
+                onPressed: () {
+                   NavigatorUtil.pushNamed(context, "/ensureOrder");
+
+
+                },
               )),
             )
           ],

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
+import 'package:qupai/pages/home/demonstration_session.dart';
 import 'login/login_page.dart';
 import 'pages/mainPage.dart';
 
@@ -16,16 +17,18 @@ Map<String, WidgetBuilder> routes() {
       return arguments == null
           ? AuctionSessionPage()
           : AuctionSessionPage(
-        status: arguments['status'],
-      );
+              status: arguments['status'],
+            );
     },
     '/auctionDetails': (BuildContext context) {
       Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
       return arguments == null
           ? AuctionDetailsPage()
           : AuctionDetailsPage(
-        status: arguments['status'],
-      );
+              status: arguments['status'],
+            );
     },
+    '/demonstrationSession': (context) => DemonstrationSessionPage(),
+    '/ensureOrder': (context) => EnsureOrder(),
   };
 }

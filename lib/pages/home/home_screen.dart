@@ -25,10 +25,10 @@ class _HomeScreenState extends State<HomeScreen>
   int _page = 1;
   bool isChange = false;
   List list = [
-    {"status": 1},
-    {"status": 2},
-    {"status": 3},
-    {"status": 1}
+    "1",
+    '2',
+    '3',
+    '4'
   ];
 
 
@@ -73,11 +73,10 @@ class _HomeScreenState extends State<HomeScreen>
                   children: <Widget>[
                     _swperListData.length > 0
                         ? _swiperWidget(_swperListData)
-                        : SizedBox(),
+                        : Container(),
                     Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6,
-                            horizontal: 10),
+                       height: 36,
+                        padding: EdgeInsets.only(left: 15),
                         color: Theme.of(context).backgroundColor,
                         child: Row(
                           children: <Widget>[
@@ -90,6 +89,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 "趣拍交易正式上线了，欢迎大家前来体验！",
                                 style: TextStyle(
                                     fontSize: 12),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                             )
                           ],
@@ -203,23 +204,23 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _morningWidget(list) {
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 10),
+          vertical: 20,
+          horizontal: 16),
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           Container(
+            height: 35,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(4),
                 color: Color(0xffF1F1F1)),
             padding: EdgeInsets.symmetric(
-                vertical: 6,
                 horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("上午场"),
+                Text("上午场",style: TextStyle(fontSize: 18,color: BaseColor.color_333333,fontWeight: FontWeight.bold),),
                 Text("9:30-11:30",
                     style: TextStyle(
                         fontSize: 12,
@@ -232,7 +233,6 @@ class _HomeScreenState extends State<HomeScreen>
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(), //禁止滚动
                 itemCount: list.length,
-                itemExtent:140,
                 itemBuilder: (BuildContext context, int index) {
                   return _listMorningItemWidget(list[index], index);
                 },
@@ -246,16 +246,16 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
         onTap: () {
           if (index == 0) {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data["status"]});
+            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":"1"});
           } else {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data["status"]});
+            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":"2"});
           }
         },
         child: Container(
-          height: 140,
-          margin: EdgeInsets.symmetric(
-              horizontal: 5,
-              vertical: 5),
+          height: 170,
+          margin: EdgeInsets.only(
+
+              top: 15),
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
@@ -281,8 +281,8 @@ class _HomeScreenState extends State<HomeScreen>
                           fit: BoxFit.fill,
                         ),
                       ),
-                      width: 55,
-                      height: 27,
+                      width: 58,
+                      height: 23,
                       alignment: Alignment.center,
                       child: Text(
                         index == 0 ? "特价场" : "普通场",
@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen>
                             color: Colors.white,
                             fontSize: 12),
                       )),
-                  data["status"] == 1
+                  data == '1'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   )
-                      : data["status"] == 2
+                      : data == '2'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
@@ -345,7 +345,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   )
-                      : data["status"] == 3
+                      : data == '3'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
@@ -418,23 +418,22 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _afternoonWidget(list) {
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 10),
+          vertical: 20,
+          horizontal: 16),
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(4),
                 color: Color(0xffF1F1F1)),
             padding: EdgeInsets.symmetric(
-                vertical: 6,
-                horizontal: 10),
+              horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("下午场"),
+                Text("下午场",style: TextStyle(fontSize: 18,color: BaseColor.color_333333,fontWeight: FontWeight.bold),),
                 Text("14:30-16:30",
                     style: TextStyle(
                         fontSize: 12,
@@ -448,7 +447,6 @@ class _HomeScreenState extends State<HomeScreen>
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(), //禁止滚动
                 itemCount: list.length,
-                itemExtent: 140,
                 itemBuilder: (BuildContext context, int index) {
                   return _listAfternoonItemWidget(list[index], index);
                 },
@@ -462,16 +460,15 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
         onTap: () {
           if (index == 0) {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data["status"]});
+            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data});
           } else {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data["status"]});
+            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data});
           }
         },
         child: Container(
-          height: 140,
-          margin: EdgeInsets.symmetric(
-              horizontal: 5,
-              vertical: 5),
+          height: 170,
+          margin: EdgeInsets.only(
+              top: 15),
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
@@ -497,8 +494,8 @@ class _HomeScreenState extends State<HomeScreen>
                           fit: BoxFit.fill,
                         ),
                       ),
-                      width:55,
-                      height: 27,
+                      width:58,
+                      height: 23,
                       alignment: Alignment.center,
                       child: Text(
                         index == 0 ? "特价场" : "普通场",
@@ -506,7 +503,7 @@ class _HomeScreenState extends State<HomeScreen>
                             color: Colors.white,
                             fontSize: 12),
                       )),
-                  data["status"] == 1
+                  data == '1'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
@@ -533,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   )
-                      : data["status"] == 2
+                      : data== '2'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
@@ -561,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   )
-                      : data["status"] == 3
+                      : data == '3'
                       ? Container(
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 0.2),
