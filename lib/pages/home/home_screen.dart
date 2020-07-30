@@ -36,23 +36,15 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     CommonUtil.initCache(context);
-
-
-
   }
 
   @override
   Widget build(BuildContext context) {
-/*
-    SystemUiOverlayStyle systemUiOverlayStyle =
-    SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-*/
 
     return Scaffold(
-      appBar: AppBar(
+      appBar:AppBar(
+        backgroundColor: Colors.transparent,
 
-        backgroundColor: BaseColor.color_ffffff,
         automaticallyImplyLeading: false,
         title: TextView("趣拍",style: TextStyles.color_333333_18,),
         centerTitle: false,

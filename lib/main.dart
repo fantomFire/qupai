@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart'as gs;
 import 'package:oktoast/oktoast.dart';
 import 'package:qupai/pages/mainPage.dart';
 import 'package:qupai/routs.dart';
+import 'package:qupai/theme/appTheme.dart';
 import 'package:qupai/utils/bloc/bloc_provider.dart';
 import 'package:qupai/utils/bloc/dart_bloc.dart';
 import 'package:qupai/values/baseColor.dart';
@@ -26,6 +27,10 @@ void main () async {
     ..indicatorColor = BaseColor.color_3E7FFF
     ..progressColor = BaseColor.color_ffffff
     ..indicatorSize = 60;
+  bool isDark =
+  WidgetsBinding.instance.window.platformBrightness == Brightness.dark
+      ? true
+      : false;
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(OKToast(
@@ -36,11 +41,14 @@ void main () async {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: '趣拍',
-            theme: new ThemeData(
+            theme: AppTheme.getAppTheme(isDark),
+            darkTheme: AppTheme.getAppTheme(isDark),
+            themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+     /*       theme: new ThemeData(
               platform: defaultTargetPlatform == TargetPlatform.iOS
                   ? TargetPlatform.iOS
                   : TargetPlatform.android,
-            ),
+            ),*/
             home: MainPage(),
             // 国际化支持
             localizationsDelegates: [
@@ -57,7 +65,7 @@ void main () async {
         )));
     if (Platform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.white,
+        statusBarColor: Colors.transparent,
       ));
     }
   });

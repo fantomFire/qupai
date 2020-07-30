@@ -1,5 +1,6 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/pages/team/team.dart';
 import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
@@ -22,7 +23,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin  {
   int _tabIndex = 0;
   var tabImages;
-  var appBarTitles = ["商城", "订单", "客服", "我的"];
+  var appBarTitles = ["首页", "团队", "客服", "我的"];
   String user_id;
   PageController _pageController = PageController();
 
@@ -63,19 +64,19 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
   setUserInfo();
     tabImages = [
       [
-        getTabImage(UiUtils.getImgPath('home_normal')),
+        getTabImage(UiUtils.getImgPath('home')),
         getTabImage(UiUtils.getImgPath('home_select'))
       ],
       [
-        getTabImage(UiUtils.getImgPath('order_normal')),
-        getTabImage(UiUtils.getImgPath('tab_order_selected'))
+        getTabImage(UiUtils.getImgPath('team')),
+        getTabImage(UiUtils.getImgPath('team_select'))
       ],
       [
-        getTabImage(UiUtils.getImgPath('kefu')),
-        getTabImage(UiUtils.getImgPath('kefu_select'))
+        getTabImage(UiUtils.getImgPath('service')),
+        getTabImage(UiUtils.getImgPath('service_select'))
       ],
       [
-        getTabImage(UiUtils.getImgPath('mine_normal')),
+        getTabImage(UiUtils.getImgPath('mine')),
         getTabImage(UiUtils.getImgPath('mine_select'))
       ],
     ];
@@ -87,16 +88,14 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
         child: Scaffold(
           body: Column(
             children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).padding.top,
-              ),
               Expanded(
                   child: PageView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 children: <Widget>[
                   HomeScreen(),
-                  OrderScreen(),
+                  TeamPage(),
+                  //OrderScreen(),
                    CustomServiceScreen(),
                   //    ChatScreen(),
                   MainScreen(),
