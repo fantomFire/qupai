@@ -15,7 +15,7 @@ import 'package:qupai/utils/bloc/dart_bloc.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'common_views/maxscaletextwidget.dart';
 
-//
+//main
 void main () async {
   WidgetsFlutterBinding.ensureInitialized();
   await SpUtil.getInstance();
