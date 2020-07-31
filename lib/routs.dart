@@ -4,6 +4,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
+import 'package:qupai/pages/home/ensure_order.dart';
 import 'login/login_page.dart';
 import 'pages/mainPage.dart';
 
