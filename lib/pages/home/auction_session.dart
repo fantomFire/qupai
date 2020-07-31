@@ -4,6 +4,8 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/utils/uiutils.dart';
 
+import '../../urls.dart';
+
 
 class AuctionSessionPage extends StatefulWidget {
   final String status;
@@ -95,7 +97,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                Urls.imageTest),
             fit: BoxFit.cover,
           ),
         ),
@@ -117,7 +119,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
             decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                      Urls.imageTest),
                   fit: BoxFit.fill,
                 ),
                 borderRadius:
@@ -171,7 +173,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
                 decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                          Urls.imageTest),
                       fit: BoxFit.fill,
                     ),
                     borderRadius:

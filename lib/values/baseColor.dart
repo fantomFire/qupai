@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 class BaseColor {
+
+  static const Color color_C60000 = Color(0xFFC60000);
+  static const Color color_bbbb= Color(0xFFbbbbbb);
+
+
+
+
+
+
   static const Color color_itembg = Color(0xFFFFFFFF);
   static const Color color_ffffff = Color(0xFFFFFFFF);
   static const Color color_ffffff_pagege = Color(0xFFFFFFFF);
@@ -62,7 +71,6 @@ class BaseColor {
 
   //订单状态
   static const Color color_daifahuo= Color(0xFFff6C00);
-  static const Color color_yiwancheng= Color(0xFFbbbbbb);
   static const Color color_guashou= Color(0xFFD68661);
   static const Color color_guashouerror= Color(0xFFff0000);
   static const Color color_daiqueren= Color(0xFFfab213);

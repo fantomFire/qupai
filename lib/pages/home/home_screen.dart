@@ -19,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
   List _swperListData = [
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"
+    Urls.imageTest,
+    Urls.imageTest
   ];
   int _page = 1;
   bool isChange = false;
@@ -259,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                    Urls.imageTest),
                 fit: BoxFit.fill,
               ),
               borderRadius:
@@ -472,7 +472,7 @@ class _HomeScreenState extends State<HomeScreen>
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                    'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                    Urls.imageTest),
                 fit: BoxFit.fill,
               ),
               borderRadius:

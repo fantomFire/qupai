@@ -7,6 +7,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:qupai/utils/native_utils.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
+
+import '../../urls.dart';
 class AuctionDetailsPage extends StatefulWidget {
   final String  status;
   AuctionDetailsPage({Key key, this.status}) : super(key: key);
@@ -22,8 +24,8 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
   List tabs = ["可拍卖", "已拍卖"];
   bool isChange = false;
   List _swperListData = [
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
-    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg"
+    Urls.imageTest,
+    Urls.imageTest
   ];
   String _day1;
   String _hour1;

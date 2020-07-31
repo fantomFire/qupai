@@ -175,8 +175,8 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
     if(user_id?.isNotEmpty == true) {
       LoginEntity entity = SpUtil.getObj(
           'user', (v) => LoginEntity.fromJson(v));
-      CacheManager.instance.setUserInfo(entity);
-      CacheManager.instance.setCookie(entity.user_token);
+  //    CacheManager.instance.setUserInfo(entity);
+    //  CacheManager.instance.setCookie(entity.user_token);
     }
   }
 }

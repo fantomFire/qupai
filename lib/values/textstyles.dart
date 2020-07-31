@@ -17,6 +17,14 @@ class TextStyles {
   static const TextStyle color_333333_19 = const TextStyle(color: BaseColor.color_333333, fontSize: 19);
   static const TextStyle color_333333_20 = const TextStyle(color: BaseColor.color_333333, fontSize: 20);
 
+  static const TextStyle color_C60000_14 = const TextStyle(color: BaseColor.color_C60000, fontSize: 14);
+  static const TextStyle color_C60000_11 = const TextStyle(color: BaseColor.color_C60000, fontSize: 11);
+
+
+
+
+
+
   static const TextStyle color_FF86_12 = const TextStyle(color: BaseColor.color_FF8637, fontSize: 12);
 
   static const TextStyle color_666666_8 = const TextStyle(color: BaseColor.color_666666, fontSize: 8);

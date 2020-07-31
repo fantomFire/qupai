@@ -4,6 +4,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/utils/uiutils.dart';
 
+import '../../urls.dart';
+
 class TeamPage extends StatefulWidget {
   TeamPage({Key key}) : super(key: key);
 
@@ -166,7 +168,7 @@ class _TeamPageState extends State<TeamPage>
               ClipOval(
                   child: CachedNetworkImage(
                 imageUrl:
-                    "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+                Urls.imageTest,
                 width: ScreenUtil().getAdapterSize(40),
                 height: ScreenUtil().getAdapterSize(40),
                 fit: BoxFit.fill,
@@ -363,7 +365,7 @@ class _TeamPageState extends State<TeamPage>
             child: ClipOval(
                 child: CachedNetworkImage(
               imageUrl:
-                  "https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg",
+              Urls.imageTest,
               width: ScreenUtil().getAdapterSize(60),
               height: ScreenUtil().getAdapterSize(60),
               fit: BoxFit.fill,
