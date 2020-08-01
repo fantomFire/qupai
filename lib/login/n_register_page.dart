@@ -4,6 +4,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/utils/uiutils.dart';
+import 'package:qupai/widgets/RoundCheckBox.dart';
 import 'package:qupai/widgets/WZTextField.dart';
 
 class NRegisterPage extends StatefulWidget {
@@ -16,15 +17,15 @@ class NRegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<NRegisterPage> {
-  bool isButtonEnable = true; //按钮状态  是否可点击
+  bool isButtonEnable = true; //获取验证码按钮状态  是否可点击
   String buttonText = '获取验证码'; //初始文本
-  String phone = "";
-  String pwd = "";
-  String smsCode = "";
+  String phone;
+  String inviteCode ;
+  String smsCode;
+  String pwd ;
   int count = 60; //初始倒计时时间
   Timer timer; //倒计时的计时器
-  bool loginType = true;
-  bool check = false;
+  bool check = false;//阅读协议选择状态
 
   @override
   Widget build(BuildContext context) {
@@ -72,17 +73,15 @@ class _RegisterPageState extends State<NRegisterPage> {
                     0, ScreenUtil().getAdapterSize(20)),
                 width: ScreenUtil().getAdapterSize(267),
                 child: WZTextField(
-                  hintText: "验证码",
+                  hintText: "请输入验证码",
                   maxLines: 1,
                   keyboardType: TextInputType.text,
                   icon: Icon(
-                    Icons.sms,
+                    Icons.verified_user,
                     size: ScreenUtil().getAdapterSize(20),
                   ),
                   button: Container(
-                    constraints: BoxConstraints(
-                        maxWidth: ScreenUtil().getAdapterSize(80),
-                        maxHeight: ScreenUtil().getAdapterSize(30)),
+                    constraints: BoxConstraints(),
                     margin: EdgeInsets.all(ScreenUtil().getAdapterSize(5)),
                     child: FlatButton(
                       color: Color(0xffC60000),
@@ -91,29 +90,29 @@ class _RegisterPageState extends State<NRegisterPage> {
                         child: Center(
                           child: Text(
                             '$buttonText',
-                            style: TextStyle(
-                                fontSize: ScreenUtil().getAdapterSize(9)),
+                            style: TextStyle(fontSize: ScreenUtil().getSp(11)),
                           ),
                         ),
                       ),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
+                          borderRadius: BorderRadius.circular(20)),
                       disabledColor: Colors.grey,
                       disabledTextColor: Colors.white,
+                      onPressed: () {
+                        _buttonClickListen();
+                      },
                     ),
                   ),
-                  suffixIconWidth: ScreenUtil().getAdapterSize(100),
-                  suffixIconHeight: ScreenUtil().getAdapterSize(40),
+                  suffixIconWidth: ScreenUtil().getHeight(100),
+                  suffixIconHeight: ScreenUtil().getHeight(40),
                   onChanged: (value) {
-                    LogUtil.v("验证码:" + value, tag: "摩登");
                     smsCode = value;
-                    pwd = "";
                   },
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0,
-                    0, ScreenUtil().getAdapterSize(20)),
+                margin: EdgeInsets.fromLTRB(
+                    0, 0, 0, ScreenUtil().getAdapterSize(20)),
                 width: ScreenUtil().getAdapterSize(267),
                 child: WZTextField(
                   maxLines: 1,
@@ -125,8 +124,7 @@ class _RegisterPageState extends State<NRegisterPage> {
                     size: ScreenUtil().getAdapterSize(20),
                   ),
                   onChanged: (value) {
-                    pwd = value;
-                    smsCode = "";
+                    inviteCode = value;
                   },
                   errorText: "邀请码不能为空",
                 ),
@@ -146,12 +144,13 @@ class _RegisterPageState extends State<NRegisterPage> {
                   ),
                   onChanged: (value) {
                     pwd = value;
-                    smsCode = "";
                   },
                   errorText: "密码不能为空",
                 ),
               ),
               Container(
+                  margin: EdgeInsets.fromLTRB(
+                      0, 0, 0, ScreenUtil().getAdapterSize(66)),
                   height: ScreenUtil().getAdapterSize(40),
                   width: ScreenUtil().getAdapterSize(280),
                   child: FlatButton(
@@ -170,15 +169,12 @@ class _RegisterPageState extends State<NRegisterPage> {
                     onPressed: () async {},
                   )),
               Container(
-                alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.fromLTRB(0, 0, 0, ScreenUtil().getAdapterSize(30)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Checkbox(
+                    RoundCheckBox(
                       value: check,
-                      activeColor: Color(0xffC60000),
                       onChanged: (bool val) {
                         // val 是布尔值
                         setState(() {
@@ -199,14 +195,16 @@ class _RegisterPageState extends State<NRegisterPage> {
                                   color: Color(0xffC60000),
                                   fontSize: ScreenUtil().getAdapterSize(10),
                                 ),
-                                recognizer: TapGestureRecognizer()..onTap = () {}),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {}),
                             TextSpan(
                                 text: "《隐私政策》",
                                 style: TextStyle(
                                   color: Color(0xffC60000),
                                   fontSize: ScreenUtil().getAdapterSize(10),
                                 ),
-                                recognizer: TapGestureRecognizer()..onTap = () {}),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {}),
                           ]),
                     )
                   ],
@@ -217,5 +215,43 @@ class _RegisterPageState extends State<NRegisterPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    timer?.cancel(); //销毁计时器
+    timer = null;
+    super.dispose();
+  }
+
+  void _buttonClickListen() {
+    setState(() async {
+      //当按钮可点击时
+      if (isButtonEnable) {
+        isButtonEnable = false; //按钮状态标记
+        _initTimer();
+        return null; //返回null按钮禁止点击
+      } else {
+        //当按钮不可点击时
+        return null; //返回null按钮禁止点击
+      }
+    });
+  }
+
+  void _initTimer() {
+    timer = new Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      count--;
+      setState(() {
+        if (count == 0) {
+          timer.cancel(); //倒计时结束取消定时器
+          isButtonEnable = true; //按钮可点击
+          count = 60; //重置时间
+          buttonText = '获取验证码'; //重置按钮文本
+        } else {
+          buttonText = '重发($count)'; //更新文本内容
+        }
+      });
+    });
   }
 }

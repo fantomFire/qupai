@@ -113,7 +113,7 @@ class _WZTextFieldState extends State<WZTextField> {
               fontSize: ScreenUtil().getAdapterSize(12),
             ),
             // 文字提醒
-            // errorText: widget.errorText,
+//             errorText: widget.errorText,
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
