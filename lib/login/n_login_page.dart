@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/widgets/WZTextField.dart';
 
@@ -15,15 +16,8 @@ class NLoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<NLoginPage> {
-  bool isButtonEnable = true; //按钮状态  是否可点击
-  String buttonText = '获取验证码'; //初始文本
-  String phone = "";
-  String pwd = "";
-  String smsCode = "";
-  int count = 60; //初始倒计时时间
-  Timer timer; //倒计时的计时器
-  bool loginType = true;
-  bool check = false;
+  String phone;
+  String pwd;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +75,6 @@ class _LoginPageState extends State<NLoginPage> {
                   ),
                   onChanged: (value) {
                     pwd = value;
-                    smsCode = "";
                   },
                   // errorText: "密码不能为空",
                 ),
@@ -94,12 +87,17 @@ class _LoginPageState extends State<NLoginPage> {
                     colorBrightness: Brightness.dark,
                     child: Container(
                       child: Center(
-                        child: Text("登录",style: TextStyle(color: Color(0xffffffff),fontSize: ScreenUtil().getAdapterSize(18))),
+                        child: Text("登录",
+                            style: TextStyle(
+                                color: Color(0xffffffff),
+                                fontSize: ScreenUtil().getAdapterSize(18))),
                       ),
                     ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      NavigatorUtil.pushNamed(context, "/register");
+                    },
                   )),
               Container(
                 margin: EdgeInsets.fromLTRB(0, ScreenUtil().getAdapterSize(20),
@@ -107,14 +105,29 @@ class _LoginPageState extends State<NLoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("立即注册",style: TextStyle(color: Color(0xff333333),fontSize: ScreenUtil().getAdapterSize(12))),
+                    InkWell(
+                      child: Text("立即注册",
+                          style: TextStyle(
+                              color: Color(0xff333333),
+                              fontSize: ScreenUtil().getAdapterSize(12))),
+                      onTap: () {
+                        NavigatorUtil.pushNamed(context, "/register");
+                      },
+                      highlightColor: Colors.transparent,
+                    ),
                     Text("   |   "),
-                    Text("忘记密码?",style: TextStyle(color: Color(0xff333333),fontSize: ScreenUtil().getAdapterSize(12))),
+                    Text("忘记密码?",
+                        style: TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: ScreenUtil().getAdapterSize(12))),
                   ],
                 ),
               ),
               Center(
-                child: Text("短信验证登录",style: TextStyle(color: Color(0xffC60000),fontSize: ScreenUtil().getAdapterSize(12))),
+                child: Text("短信验证登录",
+                    style: TextStyle(
+                        color: Color(0xffC60000),
+                        fontSize: ScreenUtil().getAdapterSize(12))),
               )
             ],
           ),
