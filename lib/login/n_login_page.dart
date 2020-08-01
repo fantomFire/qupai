@@ -97,6 +97,10 @@ class _LoginPageState extends State<NLoginPage> {
                         borderRadius: BorderRadius.circular(20.0)),
                     onPressed: () async {
 
+                      //当前测试专用
+                      SpUtil.putString("user_id", "1");
+
+                      NavigatorUtil.pushNamed(context, "/main_page");
                     },
                   )),
               Container(

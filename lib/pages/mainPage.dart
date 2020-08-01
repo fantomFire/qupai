@@ -11,6 +11,7 @@ import 'package:qupai/values/textstyles.dart';
 import '../common_views/customview.dart';
 import '../login/entity/login_entity.dart';
 import 'custom/customer_screen.dart';
+import 'custom/service.dart';
 import 'home/home_screen.dart';
 import 'main/main_screen.dart';
 import 'order/order_screen.dart';
@@ -20,7 +21,8 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin  {
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
   var tabImages;
   var appBarTitles = ["首页", "团队", "客服", "我的"];
@@ -60,8 +62,8 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
   @override
   void initState() {
     super.initState();
-     user_id =  SpUtil.getString("user_id");
-  setUserInfo();
+    user_id = SpUtil.getString("user_id");
+    setUserInfo();
     tabImages = [
       [
         getTabImage(UiUtils.getImgPath('home')),
@@ -95,9 +97,7 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
                 children: <Widget>[
                   HomeScreen(),
                   TeamPage(),
-                  //OrderScreen(),
-                   CustomServiceScreen(),
-                  //    ChatScreen(),
+                  ServicePage(),
                   MainScreen(),
                 ],
               )),
@@ -118,34 +118,21 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
             type: BottomNavigationBarType.fixed,
             currentIndex: _tabIndex,
             iconSize: 16.0,
-            onTap: (index){
+            onTap: (index) {
               setState(() {
-               int current = _tabIndex;
+                int current = _tabIndex;
                 _tabIndex = index;
-                if(_tabIndex!=0){
-                  if(user_id?.isNotEmpty == true){
-
-                    if(_tabIndex==2){
-                      _tabIndex=current;
-                      NavigatorUtil.pushNamed(context, "/tochat");
-                    }else{
-                      _pageController.jumpToPage(_tabIndex);
-                    }
-                    //_pageController.jumpToPage(_tabIndex);
-                  }else{
-                    NavigatorUtil.pushNamed(context,"/login");
+                if (_tabIndex != 0) {
+                  if (user_id?.isNotEmpty == true) {
+                    _pageController.jumpToPage(_tabIndex);
+                  } else {
+                    NavigatorUtil.pushNamed(context, "/login");
                   }
-                }else{
+                } else {
                   _pageController.jumpToPage(_tabIndex);
                 }
-
-
-
               });
-
             },
-
-
           ),
         ),
         onWillPop: _doubleExit);
@@ -171,12 +158,12 @@ class _MainPageState extends State<MainPage>with SingleTickerProviderStateMixin 
     }
   }
 
-  void setUserInfo() async{
-    if(user_id?.isNotEmpty == true) {
-      LoginEntity entity = SpUtil.getObj(
-          'user', (v) => LoginEntity.fromJson(v));
-  //    CacheManager.instance.setUserInfo(entity);
-    //  CacheManager.instance.setCookie(entity.user_token);
+  void setUserInfo() async {
+    if (user_id?.isNotEmpty == true) {
+      LoginEntity entity =
+          SpUtil.getObj('user', (v) => LoginEntity.fromJson(v));
+      //    CacheManager.instance.setUserInfo(entity);
+      //  CacheManager.instance.setCookie(entity.user_token);
     }
   }
 }
