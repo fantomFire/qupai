@@ -5,12 +5,12 @@ import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
-import 'login/login_page.dart';
+import 'login/n_login_page.dart';
 import 'pages/mainPage.dart';
 
 Map<String, WidgetBuilder> routes() {
   return <String, WidgetBuilder>{
-    '/login': (BuildContext context) => LoginPage(), // 登录界面
+    '/login': (BuildContext context) => NLoginPage(), // 登录界面
 
     "/main_page": (BuildContext context) => MainPage(),
     '/auctionSession': (BuildContext context) {
