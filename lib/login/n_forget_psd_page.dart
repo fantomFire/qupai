@@ -7,56 +7,44 @@ import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/widgets/RoundCheckBox.dart';
 import 'package:qupai/widgets/WZTextField.dart';
 
-class NRegisterPage extends StatefulWidget {
-  NRegisterPage({Key key}) : super(key: key);
+class NForgetPsdPage extends StatefulWidget {
+  NForgetPsdPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _RegisterPageState();
+    return _ForgetPsdPageState();
   }
 }
 
-class _RegisterPageState extends State<NRegisterPage> {
+class _ForgetPsdPageState extends State<NForgetPsdPage> {
   bool isButtonEnable = true; //获取验证码按钮状态  是否可点击
   String buttonText = '获取验证码'; //初始文本
   String phone;
-  String inviteCode ;
   String smsCode;
-  String pwd ;
+  String pwd;
+
   int count = 60; //初始倒计时时间
   Timer timer; //倒计时的计时器
-  bool check = false;//阅读协议选择状态
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("忘记密码",style: TextStyle(fontSize: ScreenUtil().getSp(18)),),
+      ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(UiUtils.getImgPath("loginbg")),
-            fit: BoxFit.fill,
-          ),
-        ),
+        margin: EdgeInsets.fromLTRB(0, ScreenUtil().getAdapterSize(10), 0, 0),
+        padding: EdgeInsets.only(left: ScreenUtil().getAdapterSize(16)),
+        color: Colors.white,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              //logo
               Container(
-                height: ScreenUtil().getAdapterSize(250),
-                child: Image(
-                  image: AssetImage(UiUtils.getImgPath("qupai")),
-                  fit: BoxFit.contain,
-                  width: ScreenUtil().getAdapterSize(67),
-                  height: ScreenUtil().getAdapterSize(88),
-                ),
-              ),
-              Container(
-                width: ScreenUtil().getAdapterSize(267),
                 child: WZTextField(
                   maxLines: 1,
                   keyboardType: TextInputType.phone,
-                  hintText: "手机号",
+                  hintText: "请输入手机号",
                   // labelText: "手机号",
                   icon: Icon(
                     Icons.phone_android,
@@ -71,7 +59,6 @@ class _RegisterPageState extends State<NRegisterPage> {
               Container(
                 margin: EdgeInsets.fromLTRB(0, ScreenUtil().getAdapterSize(20),
                     0, ScreenUtil().getAdapterSize(20)),
-                width: ScreenUtil().getAdapterSize(267),
                 child: WZTextField(
                   hintText: "请输入验证码",
                   maxLines: 1,
@@ -111,33 +98,11 @@ class _RegisterPageState extends State<NRegisterPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, 0, 0, ScreenUtil().getAdapterSize(20)),
-                width: ScreenUtil().getAdapterSize(267),
                 child: WZTextField(
                   maxLines: 1,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
-                  hintText: "邀请码",
-                  icon: Icon(
-                    Icons.person_add,
-                    size: ScreenUtil().getAdapterSize(20),
-                  ),
-                  onChanged: (value) {
-                    inviteCode = value;
-                  },
-                  errorText: "邀请码不能为空",
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, 0, 0, ScreenUtil().getAdapterSize(57)),
-                width: ScreenUtil().getAdapterSize(267),
-                child: WZTextField(
-                  maxLines: 1,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
-                  hintText: "密码",
+                  hintText: "请输入密码",
                   icon: Icon(
                     Icons.lock,
                     size: ScreenUtil().getAdapterSize(20),
@@ -149,6 +114,12 @@ class _RegisterPageState extends State<NRegisterPage> {
                 ),
               ),
               Container(
+                alignment: Alignment.topLeft,
+                margin: EdgeInsets.fromLTRB(
+                    0, ScreenUtil().getAdapterSize(20), 0, ScreenUtil().getAdapterSize(198)),
+                child: Text("密码必须8-16位的数字、字母组合",style: TextStyle(fontSize: ScreenUtil().getSp(10),color: Color(0xffBBBBBB)),),
+              ),
+              Container(
                   margin: EdgeInsets.fromLTRB(
                       0, 0, 0, ScreenUtil().getAdapterSize(66)),
                   height: ScreenUtil().getAdapterSize(40),
@@ -158,7 +129,7 @@ class _RegisterPageState extends State<NRegisterPage> {
                     colorBrightness: Brightness.dark,
                     child: Container(
                       child: Center(
-                        child: Text("注册",
+                        child: Text("完成",
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontSize: ScreenUtil().getAdapterSize(18))),
@@ -168,48 +139,6 @@ class _RegisterPageState extends State<NRegisterPage> {
                         borderRadius: BorderRadius.circular(20.0)),
                     onPressed: () async {},
                   )),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    RoundCheckBox(
-                      value: check,
-                      onChanged: (bool val) {
-                        // val 是布尔值
-                        setState(() {
-                          check = val;
-                        });
-                      },
-                    ),
-                    RichText(
-                      text: TextSpan(
-                          text: '我已阅读并接受',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: ScreenUtil().getAdapterSize(10)),
-                          children: [
-                            TextSpan(
-                                text: "《用户协议》",
-                                style: TextStyle(
-                                  color: Color(0xffC60000),
-                                  fontSize: ScreenUtil().getAdapterSize(10),
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {}),
-                            TextSpan(
-                                text: "《隐私政策》",
-                                style: TextStyle(
-                                  color: Color(0xffC60000),
-                                  fontSize: ScreenUtil().getAdapterSize(10),
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {}),
-                          ]),
-                    )
-                  ],
-                ),
-              ),
             ],
           ),
         ),

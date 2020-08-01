@@ -96,7 +96,7 @@ class _LoginPageState extends State<NLoginPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     onPressed: () async {
-                      NavigatorUtil.pushNamed(context, "/register");
+
                     },
                   )),
               Container(
@@ -116,10 +116,16 @@ class _LoginPageState extends State<NLoginPage> {
                       highlightColor: Colors.transparent,
                     ),
                     Text("   |   "),
-                    Text("忘记密码?",
-                        style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: ScreenUtil().getAdapterSize(12))),
+                    InkWell(
+                      child: Text("忘记密码?",
+                          style: TextStyle(
+                              color: Color(0xff333333),
+                              fontSize: ScreenUtil().getAdapterSize(12))),
+                      onTap: () {
+                        NavigatorUtil.pushNamed(context, "/forget");
+                      },
+                      highlightColor: Colors.transparent,
+                    ),
                   ],
                 ),
               ),
