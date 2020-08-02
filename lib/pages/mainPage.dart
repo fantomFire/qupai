@@ -1,6 +1,5 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:qupai/pages/mine/mine_screen.dart';
 import 'package:qupai/pages/mine/n_mine_screen.dart';
 import 'package:qupai/pages/team/team.dart';
 import 'package:qupai/utils/cacahe_manager.dart';

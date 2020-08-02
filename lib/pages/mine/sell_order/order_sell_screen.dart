@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:qupai/pages/mine/sell_order/sell_page.dart';
 import 'package:qupai/values/baseColor.dart';
-import 'order_page.dart';
-
-class OrderScreen extends StatefulWidget {
+import 'package:qupai/widgets/appbars.dart';
+class OrderSell extends StatefulWidget {
   @override
-  _OrderScreenState createState() => _OrderScreenState();
+  _OrderSellState createState() => _OrderSellState();
 }
 
-class _OrderScreenState extends State<OrderScreen>
+class _OrderSellState extends State<OrderSell>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  List<String> _tabTitles = ["全部",'待发货', "待确认", "挂售", "待支付",];
+  List<String> _tabTitles = ["全部",'待交易', "待确认", "申诉", "已取消","已完成",];
   TabController _tabController;
   PageController _pageController;
-  List<EasyRefreshController> _easyRefreshControllers = new List();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: _tabTitles.length);
     _pageController = new PageController();
-    for (int i = 0; i < _tabTitles.length; i++) {
-      _easyRefreshControllers.add(new EasyRefreshController());
-    }
   }
 
   @override
@@ -36,6 +32,8 @@ class _OrderScreenState extends State<OrderScreen>
         backgroundColor: BaseColor.color_ffffff_pagege,
         body: Column(
           children: <Widget>[
+
+            AppBars.normalTitle(context, '我的买单'),
             Container(
               child: TabBar(
                 onTap: (index) {
@@ -77,39 +75,33 @@ class _OrderScreenState extends State<OrderScreen>
   List<Widget> getPages() {
 
     return [
-      OrderScreenDemand(
+      SellPage(
         status: 0,
        // easyRefreshController: _easyRefreshControllers[0],
 
       ),
-      OrderScreenDemand(
+      SellPage(
         status:1,
      //   easyRefreshController: _easyRefreshControllers[1],
 
       ),
-      OrderScreenDemand(
+      SellPage(
         status:4,
         //easyRefreshController: _easyRefreshControllers[2],
       ),
-      OrderScreenDemand(
+      SellPage(
         status: 3,
      //   easyRefreshController: _easyRefreshControllers[3],
       ),
-      OrderScreenDemand(
+      SellPage(
         status: 5,
        // easyRefreshController: _easyRefreshControllers[4],
       ),
-
+      SellPage(
+        status: 6,
+        // easyRefreshController: _easyRefreshControllers[4],
+      ),
     ];
 
-  }
-  void refresh() {
-    if (_easyRefreshControllers != null && _easyRefreshControllers.length != 0) {
-      for (int i = 0; i < _easyRefreshControllers.length; i++) {
-        if (_easyRefreshControllers[i] != null) {
-          _easyRefreshControllers[i].callRefresh();
-        }
-      }
-    }
   }
 }

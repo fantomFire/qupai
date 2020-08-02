@@ -7,9 +7,11 @@ import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
+import 'package:qupai/pages/mine/buy_order/order_detail.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
 import 'pages/mainPage.dart';
+import 'pages/mine/buy_order/order_screen.dart';
 
 Map<String, WidgetBuilder> routes() {
   return <String, WidgetBuilder>{
@@ -37,5 +39,7 @@ Map<String, WidgetBuilder> routes() {
     },
     '/demonstrationSession': (context) => DemonstrationSessionPage(),
     '/ensureOrder': (context) => EnsureOrder(),
+    '/buy_order': (context) => OrderScreen(),
+    '/order_detail':(context) => OrderDetail(),
   };
 }

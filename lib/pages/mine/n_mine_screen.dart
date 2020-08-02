@@ -35,9 +35,6 @@ class _MinePageState extends State<MinePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -344,26 +341,29 @@ class _MinePageState extends State<MinePage> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            NavigatorUtil.pushNamed(context, "/my_wallet");
+                            NavigatorUtil.pushNamed(context, "/buy_order");
                           },
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(top: 12),
-                                  width: 23,
-                                  height: 23,
-                                  child: Image.asset(
-                                      UiUtils.getImgPath("icon_mrdd"))),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: TextView(
-                                  "我的买单",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: BaseColor.color_333333),
-                                ),
-                              )
-                            ],
+                          child: Container(
+                            color: BaseColor.color_ffffff,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    width: 23,
+                                    height: 23,
+                                    child: Image.asset(
+                                        UiUtils.getImgPath("icon_mrdd"))),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: TextView(
+                                    "我的买单",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: BaseColor.color_333333),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         GestureDetector(
