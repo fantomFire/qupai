@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/widgets/appbars.dart';
 
+import 'company_page.dart';
 import 'order_page.dart';
 
 class EnsureOrder extends StatefulWidget {
@@ -56,7 +57,7 @@ class _EnsureOrderState extends State<EnsureOrder>
             child: PageView(
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(),
-              children: [OrderPage(), OrderPage()],
+              children: [OrderPage(), CompanyPage()],
               onPageChanged: (index) {
                 _tabController.animateTo(index);
               },

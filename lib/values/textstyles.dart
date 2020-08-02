@@ -12,6 +12,8 @@ class TextStyles {
   static const TextStyle color_333333_14 = const TextStyle(color: BaseColor.color_333333, fontSize: 14);
   static const TextStyle color_333333_15 = const TextStyle(color: BaseColor.color_333333, fontSize: 15);
   static const TextStyle color_333333_16 = const TextStyle(color: BaseColor.color_333333, fontSize: 16);
+  static const TextStyle color_333333_16_b = const TextStyle(color: BaseColor.color_333333, fontSize: 16,fontWeight: FontWeight.bold);
+
   static const TextStyle color_333333_17 = const TextStyle(color: BaseColor.color_333333, fontSize: 17);
   static const TextStyle color_333333_18 = const TextStyle(color: BaseColor.color_333333, fontSize: 18);
   static const TextStyle color_333333_19 = const TextStyle(color: BaseColor.color_333333, fontSize: 19);
@@ -49,6 +51,8 @@ class TextStyles {
   static const TextStyle color_f99a1d_15 = const TextStyle(color: BaseColor.color_f99a1d_font, fontSize: 15);
   static const TextStyle color_f99a1d_16 = const TextStyle(color: BaseColor.color_f99a1d_font, fontSize: 16);
   static const TextStyle color_f99a1d_17 = const TextStyle(color: BaseColor.color_f99a1d_font, fontSize: 17);
+  static const TextStyle color_ffffff_9 = const TextStyle(color: BaseColor.color_ffffff, fontSize: 9);
+
   static const TextStyle color_ffffff_12 = const TextStyle(color: BaseColor.color_ffffff, fontSize: 12);
   static const TextStyle color_ffffff_13 = const TextStyle(color: BaseColor.color_ffffff, fontSize: 13);
   static const TextStyle color_ffffff_14 = const TextStyle(color: BaseColor.color_ffffff, fontSize: 14);

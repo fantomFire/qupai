@@ -43,11 +43,10 @@ class _MinePageState extends State<MinePage> {
         child: Column(
           children: <Widget>[
             Container(
-              height: 220,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: ExactAssetImage(UiUtils.getImgPath("mincentebg")),
-                    fit: BoxFit.fill),
+                  height: 225,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xffD63432), Color(0xffFE8564)]),
               ),
               child: Column(
                 children: <Widget>[
@@ -191,21 +190,21 @@ class _MinePageState extends State<MinePage> {
                                               }
                                             },
                                             child: Container(
-                                              height: 20,
-                                              width: 30,
+                                              alignment: Alignment.center,
+                                              height: 13,
+                                              width: 27,
                                               padding: EdgeInsets.only(
                                                   left: 2, right: 2),
                                               margin: EdgeInsets.only(left: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(3)),
-                                                  color:
-                                                      BaseColor.color_817c94),
+                                                  BorderRadius.all(
+                                                      Radius.circular(6)),
+                                                  color: Color(0x55ffffff)),
                                               child: TextView(
                                                 "复制",
                                                 style:
-                                                    TextStyles.color_ffffff_13,
+                                                    TextStyles.color_ffffff_9,
                                               ),
                                             ),
                                           ),

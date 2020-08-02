@@ -82,14 +82,14 @@ class _WZTextFieldState extends State<WZTextField> {
             prefixIcon: Row(children: <Widget>[
               widget.icon == null ? Text('') : widget.icon
             ]),
-            prefixIconConstraints: BoxConstraints(
+          /*  prefixIconConstraints: BoxConstraints(
               maxWidth: widget.iconWidth == null
                   ? ScreenUtil().getAdapterSize(30)
                   : widget.iconWidth,
               maxHeight: widget.iconHeight == null
                   ? ScreenUtil().getAdapterSize(20)
                   : widget.iconHeight,
-            ),
+            ),*/
             prefixStyle: TextStyle(
               color: Color(0xffC60000),
             ),
@@ -98,14 +98,14 @@ class _WZTextFieldState extends State<WZTextField> {
                 children: <Widget>[
                   widget.button == null ? Text('') : widget.button
                 ]),
-            suffixIconConstraints: BoxConstraints(
+         /*   suffixIconConstraints: BoxConstraints(
               maxWidth: widget.suffixIconWidth == null
                   ? ScreenUtil().getAdapterSize(0)
                   : widget.suffixIconWidth,
               maxHeight: widget.suffixIconHeight == null
                   ? ScreenUtil().getAdapterSize(0)
                   : widget.suffixIconHeight,
-            ),
+            ),*/
             labelText: widget.labelText,
             hintText: widget.hintText,
             hintStyle: TextStyle(

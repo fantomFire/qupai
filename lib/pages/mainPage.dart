@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage>
     setUserInfo();
     tabImages = [
       [
-        getTabImage(UiUtils.getImgPath('home')),
+        getTabImage(UiUtils.getImgPath('home_normal')),
         getTabImage(UiUtils.getImgPath('home_select'))
       ],
       [

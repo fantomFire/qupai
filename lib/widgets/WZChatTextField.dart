@@ -64,7 +64,7 @@ class _WZChatTextFieldState extends State<WZChatTextField> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none),
           isDense: widget.isDense,
-          prefixIconConstraints:
+       /*   prefixIconConstraints:
               BoxConstraints(maxWidth: ScreenUtil().getAdapterSize(10)),
           suffixIcon: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -78,7 +78,7 @@ class _WZChatTextFieldState extends State<WZChatTextField> {
             maxHeight: widget.suffixIconHeight == null
                 ? ScreenUtil().getAdapterSize(0)
                 : widget.suffixIconHeight,
-          ),
+          ),*/
           hintText: widget.hintText,
           hintStyle: TextStyle(
             color: Colors.grey,

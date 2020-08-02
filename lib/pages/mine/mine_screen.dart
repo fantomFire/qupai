@@ -12,18 +12,16 @@ import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
-import 'package:share/share.dart';
-
 
 import '../../urls.dart';
 import 'entity/user_info.dart';
 
-class MineScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget {
   @override
-  _MineScreenState createState() => _MineScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _MineScreenState extends State<MineScreen> {
+class _MainScreenState extends State<MainScreen> {
   int userId;
   UserInfoBean userInfoBean;
 
@@ -36,32 +34,30 @@ class _MineScreenState extends State<MineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
-              height: 220,
+              height: 225,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: ExactAssetImage(UiUtils.getImgPath("mincentebg")),
-                    fit: BoxFit.fill),
+                gradient: LinearGradient(
+                    colors: [Color(0xffD63432), Color(0xffFE8564)]),
               ),
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 18, right: 13, left: 13),
+                    margin: EdgeInsets.only(top: 40, right: 13, left: 13),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Container(),
                         Container(
-                          child: TextView(
-                            "我的",
-                            style: TextStyles.color_withe_18,
+                          padding: EdgeInsets.all(5),
+                          child: GestureDetector(
+                            onTap: () {
+                              NavigatorUtil.pushNamed(context, "/setting_page");
+                            },
+                            child: Image.asset(UiUtils.getImgPath("set")),
                           ),
                         ),
                         Container(
@@ -77,74 +73,82 @@ class _MineScreenState extends State<MineScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 28, right: 13, left: 13),
+                    margin: EdgeInsets.only(top: 30, right: 15, left: 17),
                     child: Row(
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            NavigatorUtil.pushNamed(context, "/user_info",).then((v){
-                             getUserInfo();
+                            NavigatorUtil.pushNamed(
+                              context,
+                              "/user_info",
+                            ).then((v) {
+                              getUserInfo();
                             });
                           },
                           child: ClipOval(
-                            child: userInfoBean == null
-                                ? Container()
-                                :ImageLoadUtil(
-                                  url: '${Urls.imageBase}${userInfoBean?.user_img}',
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.fill,
-                                  ),
-                          ),
+                              child: ImageLoadUtil(
+                            url: Urls.imageTest,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.fill,
+                          )),
                         ),
                         Expanded(
                           child: Container(
+                            height: 50,
                             margin: EdgeInsets.only(left: 12),
                             child: Column(
-                            //  mainAxisSize: MainAxisSize.min,
+                              //  mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
                                     TextView(
-                                      userInfoBean?.user_name,
+                                      '小艾同学',
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: BaseColor.color_ffffff),
                                     ),
-                                   GestureDetector(
-                                     onTap: (){
-                                       NavigatorUtil.pushNamed(context, "/mine_leve");
-                                     },
-                                     child:  Container(
-                                       alignment: Alignment.centerLeft,
-                                       height: 18,
-                                       padding: EdgeInsets.only(right: 10),
-                                       margin: EdgeInsets.only(left: 10),
-                                       decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.all(Radius.circular(15)),
-                                           color: BaseColor.color_817c94),
-                                       child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.start,
-                                         children: <Widget>[
-                                           Container(
-                                             margin: EdgeInsets.only(right: 4),
-                                             alignment: Alignment.center,
-                                             width: 17,
-                                             height: 17,
-                                             decoration: BoxDecoration(
-                                                 shape: BoxShape.circle,
-                                                 color: BaseColor.color_F8D986),
-                                             child: Image.asset(UiUtils.getImgPath("star")),
-                                           ),
-                                           TextView(
-                                             "LV ${userInfoBean?.user_level.toString()}",
-                                             style: TextStyle(
-                                                 fontSize: 12, color: BaseColor.color_ffffff),
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        NavigatorUtil.pushNamed(
+                                            context, "/mine_leve");
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        height: 18,
+                                        padding: EdgeInsets.only(right: 10),
+                                        margin: EdgeInsets.only(left: 10),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15)),
+                                            color: BaseColor.color_817c94),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin: EdgeInsets.only(right: 4),
+                                              alignment: Alignment.center,
+                                              width: 17,
+                                              height: 17,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      BaseColor.color_F8D986),
+                                              child: Image.asset(
+                                                  UiUtils.getImgPath("star")),
+                                            ),
+                                            TextView(
+                                              "运营中心 ",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color:
+                                                      BaseColor.color_ffffff),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     Expanded(
                                       child: Container(
                                         alignment: Alignment.bottomRight,
@@ -171,12 +175,12 @@ class _MineScreenState extends State<MineScreen> {
                                         child: Container(
                                       child: Row(
                                         children: <Widget>[
-                                          TextView(
-                                              "邀请码 ${userInfoBean?.user_invitation_code.toString()}",
+                                          TextView("邀请码 K098ZY",
                                               style:
                                                   TextStyles.color_ffffff_13),
                                           GestureDetector(
                                             onTap: () {
+                                              ToastUtil.toast("已复制该邀请码");
                                               if (userInfoBean != null) {
                                                 Clipboard.setData(ClipboardData(
                                                     text: userInfoBean
@@ -186,21 +190,21 @@ class _MineScreenState extends State<MineScreen> {
                                               }
                                             },
                                             child: Container(
-                                              height: 20,
-                                              width: 30,
+                                              alignment: Alignment.center,
+                                              height: 13,
+                                              width: 27,
                                               padding: EdgeInsets.only(
                                                   left: 2, right: 2),
                                               margin: EdgeInsets.only(left: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
-                                                          Radius.circular(3)),
-                                                  color:
-                                                      BaseColor.color_817c94),
+                                                          Radius.circular(6)),
+                                                  color: Color(0x55ffffff)),
                                               child: TextView(
                                                 "复制",
                                                 style:
-                                                    TextStyles.color_ffffff_13,
+                                                    TextStyles.color_ffffff_9,
                                               ),
                                             ),
                                           ),
@@ -234,7 +238,7 @@ class _MineScreenState extends State<MineScreen> {
                           onTap: () {
                             NavigatorUtil.pushNamed(context, "/my_wallet");
                           },
-                          child:  Column(
+                          child: Column(
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.only(top: 12),
@@ -254,7 +258,6 @@ class _MineScreenState extends State<MineScreen> {
                                       color: BaseColor.color_DDDDD),
                                 ),
                               )
-
                             ],
                           ),
                         ),
@@ -263,41 +266,121 @@ class _MineScreenState extends State<MineScreen> {
                           width: 0.5,
                           color: BaseColor.color_E6E6E6,
                         ),
-                       GestureDetector(
-                         onTap: (){
-                           NavigatorUtil.pushNamed(context, "/mine_getMoney");
-                         },
-                         child:  Column(
-                           children: <Widget>[
-                             Container(
-                               margin: EdgeInsets.only(top: 12),
-                               child: TextView(
-                                 userInfoBean?.bonus.toString(),
-                                 style: TextStyle(
-                                     fontSize: 17,
-                                     color: BaseColor.color_ffffff),
-                               ),
-                             ),
-                             Container(
-                               margin: EdgeInsets.only(top: 5),
-                               child: TextView(
-                                 "我的业绩",
-                                 style: TextStyle(
-                                     fontSize: 12, color: BaseColor.color_DDDDD),
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
+                        GestureDetector(
+                          onTap: () {
+                            NavigatorUtil.pushNamed(context, "/mine_getMoney");
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 12),
+                                child: TextView(
+                                  userInfoBean?.bonus.toString(),
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: BaseColor.color_ffffff),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: TextView(
+                                  "我的积分",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: BaseColor.color_DDDDD),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-            Line(
-              color: BaseColor.color_ffffff,
-              height: 10,
+            Container(
+              margin: EdgeInsets.only(top: 15, bottom: 10),
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.circular(30)),
+                clipBehavior: Clip.antiAlias,
+                child: ImageLoadUtil(
+                  url: Urls.imageTest,
+                  fit: BoxFit.fill,
+                  height: 60,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Card(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 37,
+                      child: TextView(
+                        '我的订单',
+                        style: TextStyles.color_333333_16_b,
+                      ),
+                    ),
+                    Line(),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Image.asset(
+                                UiUtils.getImgPath('buy_order'),
+                                width: 23,
+                                height: 23,
+                                fit: BoxFit.fill,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 13),
+                                child: TextView('我的买单'),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Image.asset(
+                                UiUtils.getImgPath('buy_order'),
+                                width: 23,
+                                height: 23,
+                                fit: BoxFit.fill,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 13),
+                                child: TextView('我的卖单'),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Image.asset(
+                                UiUtils.getImgPath('buy_order'),
+                                width: 23,
+                                height: 23,
+                                fit: BoxFit.fill,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 13),
+                                child: TextView('实物订单'),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
             mainItemWidget("appointment", "我的预约", () {
               NavigatorUtil.pushNamed(context, "/mine_appointment");
@@ -308,23 +391,21 @@ class _MineScreenState extends State<MineScreen> {
             mainItemWidget("team", "我的推荐", () {
               NavigatorUtil.pushNamed(context, "/mine_team");
             }),
-
             mainItemWidget("certification", "实名认证", () {
-              if(userInfoBean?.user_card_status=='0'){
-                NavigatorUtil.pushNamed(context, "/mine_certification").then((v){
-                  if(v!=null){
+              if (userInfoBean?.user_card_status == '0') {
+                NavigatorUtil.pushNamed(context, "/mine_certification")
+                    .then((v) {
+                  if (v != null) {
                     getUserInfo();
                   }
                 });
-              }else  if(userInfoBean?.user_card_status=='1'){
-              ToastUtil.toast("实名认证审核中");
-              }else  if(userInfoBean?.user_card_status=='2'){
+              } else if (userInfoBean?.user_card_status == '1') {
+                ToastUtil.toast("实名认证审核中");
+              } else if (userInfoBean?.user_card_status == '2') {
                 NavigatorUtil.pushNamed(context, "/mine_certification_succ");
-              }else {
+              } else {
                 NavigatorUtil.pushNamed(context, "/mine_certification_fail");
               }
-
-
             }),
             mainItemWidget("cardimg", "银行卡管理", () {
               NavigatorUtil.pushNamed(context, "/mine_card_manager");
@@ -387,10 +468,9 @@ class _MineScreenState extends State<MineScreen> {
         initState: true);
     if (response.result) {
       if (response.datas != null) {
-       // userInfoBean = UserInfoBean.fromJson(response.datas);
+        // userInfoBean = UserInfoBean.fromJson(response.datas);
         setState(() {});
       }
-
     }
   }
 }

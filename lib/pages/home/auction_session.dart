@@ -36,7 +36,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 200)).then((e) {
-      _timeFunc("2020-07-28 18:00");
+      _timeFunc("2020-08-02 17:07");
     });
     _tabController = TabController(length: tabs.length, vsync: this);
     _tabController.addListener(() {
@@ -70,6 +70,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
       _diffDate = _diffDate.subtract(Duration(seconds: 1));
       // count++;
       if (_diffDate.difference(_newDate).inSeconds <= 0) {
+        print('=============');
         //取消定时器，避免无限回调
         timer.cancel();
         timer = null;
@@ -89,6 +90,7 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
         // _text = _diffDate.weekday.toString()+'  ' +_diffDate.hour.toString()+':' + _diffDate.minute.toString() +':'+ _diffDate.second.toString();
       });
       // debugPrint(_text);
+
     });
   }
 
