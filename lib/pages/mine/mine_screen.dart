@@ -18,12 +18,12 @@ import 'package:share/share.dart';
 import '../../urls.dart';
 import 'entity/user_info.dart';
 
-class MainScreen extends StatefulWidget {
+class MineScreen extends StatefulWidget {
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MineScreenState createState() => _MineScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MineScreenState extends State<MineScreen> {
   int userId;
   UserInfoBean userInfoBean;
 
@@ -89,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: ClipOval(
                             child: userInfoBean == null
                                 ? Container()
-                                :ImageUtil(
+                                :ImageLoadUtil(
                                   url: '${Urls.imageBase}${userInfoBean?.user_img}',
                                     width: 50,
                                     height: 50,

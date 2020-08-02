@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/utils/uiutils.dart';
 
-class ImageUtil extends StatelessWidget {
+class ImageLoadUtil extends StatelessWidget {
   final String url;
   final double width;
   final double height;
@@ -10,7 +10,7 @@ class ImageUtil extends StatelessWidget {
   final String defaultImage;
   final Map<String, String> headers;
 
-  const ImageUtil(
+  const ImageLoadUtil(
       {Key key,
       this.url,
       this.width: double.infinity,

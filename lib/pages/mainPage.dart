@@ -1,5 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/pages/mine/mine_screen.dart';
+import 'package:qupai/pages/mine/n_mine_screen.dart';
 import 'package:qupai/pages/team/team.dart';
 import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/navigator_util.dart';
@@ -10,11 +12,8 @@ import 'package:qupai/values/textstyles.dart';
 
 import '../common_views/customview.dart';
 import '../login/entity/login_entity.dart';
-import 'custom/customer_screen.dart';
-import 'custom/service.dart';
+import 'custom/service_screen.dart';
 import 'home/home_screen.dart';
-import 'main/main_screen.dart';
-import 'order/order_screen.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -98,7 +97,7 @@ class _MainPageState extends State<MainPage>
                   HomeScreen(),
                   TeamPage(),
                   ServicePage(),
-                  MainScreen(),
+                  MinePage(),
                 ],
               )),
             ],
