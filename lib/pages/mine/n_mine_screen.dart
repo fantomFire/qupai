@@ -306,8 +306,14 @@ class _MinePageState extends State<MinePage> {
                 color: Colors.white,
                 //设置四周圆角 角度 这里的角度应该为 父Container height 的一半
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                //设置四周边框
-                border: new Border.all(width: 1, color: Colors.red),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: ImageLoadUtil(
+                  url: Urls.imageTest,
+                  height: 60,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             //我的订单
@@ -368,50 +374,56 @@ class _MinePageState extends State<MinePage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            NavigatorUtil.pushNamed(context, "/mine_getMoney");
+                            NavigatorUtil.pushNamed(context, "/sell_order");
                           },
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(top: 12),
-                                  width: 23,
-                                  height: 23,
-                                  child: Image.asset(
-                                      UiUtils.getImgPath("icon_mcdd"))),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: TextView(
-                                  "我的卖单",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: BaseColor.color_333333),
+                          child: Container(
+                            color: BaseColor.color_ffffff_pagege,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    width: 23,
+                                    height: 23,
+                                    child: Image.asset(
+                                        UiUtils.getImgPath("icon_mcdd"))),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: TextView(
+                                    "我的卖单",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: BaseColor.color_333333),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            NavigatorUtil.pushNamed(context, "/mine_getMoney");
+                            NavigatorUtil.pushNamed(context, '/physical_order');
                           },
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(top: 12),
-                                  width: 23,
-                                  height: 23,
-                                  child: Image.asset(
-                                      UiUtils.getImgPath("icon_swdd"))),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: TextView(
-                                  "实物订单",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: BaseColor.color_333333),
+                          child:Container(
+                            color: BaseColor.color_ffffff_pagege,
+                            child:  Column(
+                              children: <Widget>[
+                                Container(
+                                    margin: EdgeInsets.only(top: 12),
+                                    width: 23,
+                                    height: 23,
+                                    child: Image.asset(
+                                        UiUtils.getImgPath("icon_swdd"))),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: TextView(
+                                    "实物订单",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: BaseColor.color_333333),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

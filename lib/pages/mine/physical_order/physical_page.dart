@@ -10,16 +10,16 @@ import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 
-class SellPage extends StatefulWidget {
+class PhysicalPage extends StatefulWidget {
   final int status;
 
-  const SellPage({Key key, this.status}) : super(key: key);
+  const PhysicalPage({Key key, this.status}) : super(key: key);
 
   @override
-  _SellPageState createState() => _SellPageState();
+  _PhysicalPageState createState() => _PhysicalPageState();
 }
 
-class _SellPageState extends State<SellPage>
+class _PhysicalPageState extends State<PhysicalPage>
     with AutomaticKeepAliveClientMixin {
   bool isFail = false;
   int userId;
@@ -69,7 +69,7 @@ class _SellPageState extends State<SellPage>
   Widget _createByHomeOrder(index) {
     return GestureDetector(
       onTap: () {
-        NavigatorUtil.pushNamed(context, "/sell_detail", arguments: {
+        NavigatorUtil.pushNamed(context, "/physical_detail", arguments: {
           'goods_order_id': "1"
         }).then((v) {
           if (v != null) {

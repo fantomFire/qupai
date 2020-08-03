@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:qupai/pages/mine/physical_order/physical_page.dart';
 import 'package:qupai/pages/mine/sell_order/sell_page.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/widgets/appbars.dart';
-class OrderSell extends StatefulWidget {
+class PhysicalScreen extends StatefulWidget {
   @override
-  _OrderSellState createState() => _OrderSellState();
+  _PhysicalScreenState createState() => _PhysicalScreenState();
 }
 
-class _OrderSellState extends State<OrderSell>
+class _PhysicalScreenState extends State<PhysicalScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  List<String> _tabTitles = ["全部",'待交易', "待收款", "已申诉","已完成",];
+  List<String> _tabTitles = ["全部",'待发货', "待收货","已完成",];
   TabController _tabController;
   PageController _pageController;
 
@@ -75,28 +76,19 @@ class _OrderSellState extends State<OrderSell>
   List<Widget> getPages() {
 
     return [
-      SellPage(
+      PhysicalPage(
         status: 0,
-       // easyRefreshController: _easyRefreshControllers[0],
-
       ),
-      SellPage(
+      PhysicalPage(
         status:1,
-     //   easyRefreshController: _easyRefreshControllers[1],
-
       ),
-      SellPage(
+      PhysicalPage(
         status:2,
-        //easyRefreshController: _easyRefreshControllers[2],
       ),
-      SellPage(
+      PhysicalPage(
         status: 3,
-     //   easyRefreshController: _easyRefreshControllers[3],
       ),
-      SellPage(
-        status: 4,
-       // easyRefreshController: _easyRefreshControllers[4],
-      ),
+
     ];
 
   }

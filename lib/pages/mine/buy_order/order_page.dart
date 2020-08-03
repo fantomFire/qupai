@@ -67,19 +67,19 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
   bool get wantKeepAlive => true;
 
   Widget _createByHomeOrder(index) {
-    return Card(
-      color: BaseColor.color_ffffff,
-      margin: EdgeInsets.only(left: 16, right: 16, top: 10),
-      child: GestureDetector(
-        onTap: () {
-             NavigatorUtil.pushNamed(context, "/order_detail", arguments: {
-              'goods_order_id': "1"
-            }).then((v) {
-              if (v != null) {
-             _easyRefreshController.callRefresh();
-              }
-            });
-        },
+    return GestureDetector(
+      onTap: () {
+        NavigatorUtil.pushNamed(context, "/order_detail", arguments: {
+          'goods_order_id': "1"
+        }).then((v) {
+          if (v != null) {
+            _easyRefreshController.callRefresh();
+          }
+        });
+      },
+      child: Card(
+        color: BaseColor.color_ffffff,
+        margin: EdgeInsets.only(left: 16, right: 16, top: 10),
         child: Column(
           children: <Widget>[
             Container(
@@ -154,9 +154,9 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
               child: Row(
                 children: <Widget>[
                   Image.asset(UiUtils.getImgPath("tongzhi1"),width: 50,height: 20,),
-                   Expanded(
-                     child: Container(),
-                   ),
+                  Expanded(
+                    child: Container(),
+                  ),
                   GestureDetector(
                     child: Container(
                       height: 25,
@@ -164,8 +164,8 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
                       margin: EdgeInsets.only(right: 10),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        border: Border.all(color: BaseColor.color_bbbb,width: 1)
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          border: Border.all(color: BaseColor.color_bbbb,width: 1)
                       ),
                       child: TextView('取消订单',style: TextStyles.color_bbb_13,),
 

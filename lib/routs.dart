@@ -8,6 +8,10 @@ import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
+import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
+import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
+import 'package:qupai/pages/mine/sell_order/order_sell_screen.dart';
+import 'package:qupai/pages/mine/sell_order/sell_detail.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
 import 'pages/mainPage.dart';
@@ -41,5 +45,10 @@ Map<String, WidgetBuilder> routes() {
     '/ensureOrder': (context) => EnsureOrder(),
     '/buy_order': (context) => OrderScreen(),
     '/order_detail':(context) => OrderDetail(),
+    "/sell_detail":(context) => SellDetail(),
+    "/physical_detail":(context) => PhysicalDetail(),
+    '/sell_order':(context) => OrderSell(),
+    '/physical_order':(context) => PhysicalScreen(),
+
   };
 }
