@@ -12,6 +12,7 @@ import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
 import 'package:qupai/pages/mine/sell_order/order_sell_screen.dart';
 import 'package:qupai/pages/mine/sell_order/sell_detail.dart';
+import 'package:qupai/pages/mine/seting_page.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
 import 'pages/mainPage.dart';
@@ -49,6 +50,6 @@ Map<String, WidgetBuilder> routes() {
     "/physical_detail":(context) => PhysicalDetail(),
     '/sell_order':(context) => OrderSell(),
     '/physical_order':(context) => PhysicalScreen(),
-
+    "/setting_page":(context) => SettingPage(),
   };
 }
