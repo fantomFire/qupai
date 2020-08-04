@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:qupai/common_views/customview.dart';
+import 'package:qupai/model/banner_bean.dart';
+import 'package:qupai/model/home_bean.dart';
+import 'package:qupai/model/special_s.dart';
+import 'package:qupai/model/special_x.dart';
 import 'package:qupai/urls.dart';
 import 'package:qupai/utils/CommonUtil.dart';
+import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
@@ -18,35 +24,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   ScrollController _scrollController = ScrollController();
-  List _swperListData = [
-    Urls.imageTest,
-    Urls.imageTest
-  ];
   int _page = 1;
   bool isChange = false;
-  List list = [
-    "1",
-    '2',
-    '3',
-    '4'
-  ];
+  List list = ["1", '2', '3', '4'];
+  HomeBean homeBean;
 
+  List<BannerBean> bannerList = new List();
+  List<SpecialSBean> specialsList = new List();
+  List<SpecialXBean> specialxList = new List();
 
   @override
   void initState() {
     super.initState();
     CommonUtil.initCache(context);
+    getHomeInfo(true);
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-
         automaticallyImplyLeading: false,
-        title: TextView("趣拍",style: TextStyles.color_333333_18,),
+        title: TextView(
+          "趣拍",
+          style: TextStyles.color_333333_18,
+        ),
         centerTitle: false,
         elevation: 0,
         actions: <Widget>[
@@ -63,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen>
           )
         ],
       ),
-      body:RefreshIndicator(
+      body: RefreshIndicator(
           onRefresh: _refreshData,
           child: ListView(
             controller: _scrollController,
@@ -71,11 +74,11 @@ class _HomeScreenState extends State<HomeScreen>
               Container(
                 child: Column(
                   children: <Widget>[
-                    _swperListData.length > 0
-                        ? _swiperWidget(_swperListData)
+                    bannerList.length > 0
+                        ? _swiperWidget(bannerList)
                         : Container(),
                     Container(
-                       height: 36,
+                        height: 36,
                         padding: EdgeInsets.only(left: 15),
                         color: Theme.of(context).backgroundColor,
                         child: Row(
@@ -87,8 +90,7 @@ class _HomeScreenState extends State<HomeScreen>
                             Expanded(
                               child: Text(
                                 "趣拍交易正式上线了，欢迎大家前来体验！",
-                                style: TextStyle(
-                                    fontSize: 12),
+                                style: TextStyle(fontSize: 12),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -115,13 +117,18 @@ class _HomeScreenState extends State<HomeScreen>
                         onTap: () {
                           Navigator.pushNamed(context, "/demonstrationSession");
                         },
-                        child: Center(
+                        child: homeBean?.show==null?Center(
                             child: Image.asset(
-                              UiUtils.getImgPath("example"),
-                              width: 162,
-                              height: 80,
-                              fit: BoxFit.fill,
-                            )),
+                          UiUtils.getImgPath("example"),
+                          width: 162,
+                          height: 80,
+                          fit: BoxFit.fill,
+                        )):ImageLoadUtil(
+                          url: Urls.base+homeBean?.show,
+                          width: 162,
+                          height: 80,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Expanded(
@@ -129,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen>
                         onTap: () async {
                           await showDialog(
                             context: context,
-                            barrierDismissible: false, //// user must tap button!
+                            barrierDismissible: false,
+                            //// user must tap button!
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 shape: RoundedRectangleBorder(
@@ -139,20 +147,20 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                                 content: Text(
                                   '正在开发中，敬请期待！',
-                                  style: TextStyle(
-                                      fontSize: 13),
+                                  style: TextStyle(fontSize: 13),
                                 ),
                                 actions: <Widget>[
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       FlatButton(
                                         child: Text(
                                           '确认',
-                                          style:
-                                          TextStyle(color: Color(0xffC60000)),
+                                          style: TextStyle(
+                                              color: Color(0xffC60000)),
                                         ),
                                         onPressed: () {
                                           Navigator.pop(context, "sure");
@@ -167,11 +175,11 @@ class _HomeScreenState extends State<HomeScreen>
                         },
                         child: Center(
                             child: Image.asset(
-                             UiUtils.getImgPath("integral"),
-                              width: 162,
-                              height: 80,
-                              fit: BoxFit.fill,
-                            )),
+                          UiUtils.getImgPath("integral"),
+                          width: 162,
+                          height: 80,
+                          fit: BoxFit.fill,
+                        )),
                       ),
                     )
                   ],
@@ -183,29 +191,29 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               _afternoonWidget(list),
             ],
-    )),
+          )),
     );
   }
+
 // 下拉刷新数据
   Future<Null> _refreshData() async {
     _page = 1;
-    _getSwiper();
+  getHomeInfo(false);
   }
+
   @override
   bool get wantKeepAlive => true;
-
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
+
   //上午
   Widget _morningWidget(list) {
     return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
@@ -214,29 +222,32 @@ class _HomeScreenState extends State<HomeScreen>
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: Color(0xffF1F1F1)),
-            padding: EdgeInsets.symmetric(
-                horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("上午场",style: TextStyle(fontSize: 18,color: BaseColor.color_333333,fontWeight: FontWeight.bold),),
+                Text(
+                  "上午场",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: BaseColor.color_333333,
+                      fontWeight: FontWeight.bold),
+                ),
                 Text("9:30-11:30",
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey))
+                    style: TextStyle(fontSize: 12, color: Colors.grey))
               ],
             ),
           ),
           Container(
               child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(), //禁止滚动
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listMorningItemWidget(list[index], index);
-                },
-              ))
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(), //禁止滚动
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _listMorningItemWidget(list[index], index);
+            },
+          ))
         ],
       ),
     );
@@ -246,30 +257,27 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
         onTap: () {
           if (index == 0) {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":"1"});
+            Navigator.pushNamed(context, "/auctionSession",
+                arguments: {"status": "1"});
           } else {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":"2"});
+            Navigator.pushNamed(context, "/auctionSession",
+                arguments: {"status": "2"});
           }
         },
         child: Container(
           height: 170,
-          margin: EdgeInsets.only(
-
-              top: 15),
+          margin: EdgeInsets.only(top: 15),
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    Urls.imageTest),
+                image: NetworkImage(Urls.imageTest),
                 fit: BoxFit.fill,
               ),
-              borderRadius:
-              BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10)),
           child: Align(
             alignment: Alignment.topCenter,
             child: Container(
               height: 40,
-              padding: EdgeInsets.symmetric(
-                  horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -286,104 +294,93 @@ class _HomeScreenState extends State<HomeScreen>
                       alignment: Alignment.center,
                       child: Text(
                         index == 0 ? "特价场" : "普通场",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       )),
                   data == '1'
                       ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.schedule,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "未开拍",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize:10),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 0.2),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.schedule,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                "未开拍",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              )
+                            ],
+                          ),
                         )
-                      ],
-                    ),
-                  )
                       : data == '2'
-                      ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.update,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "拍卖中",
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize:
-                             10),
-                        )
-                      ],
-                    ),
-                  )
-                      : data == '3'
-                      ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal:
-                       4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.power_settings_new,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "已结束",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 10),
-                        )
-                      ],
-                    ),
-                  )
-                      : SizedBox()
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 255, 255, 0.2),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.update,
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "拍卖中",
+                                    style: TextStyle(
+                                        color: Colors.green, fontSize: 10),
+                                  )
+                                ],
+                              ),
+                            )
+                          : data == '3'
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 0.2),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.power_settings_new,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "已结束",
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 10),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : SizedBox()
                 ],
               ),
             ),
           ),
         ));
   }
-  void _getSwiper() {}
   //轮播图
-  Widget _swiperWidget( swperListData) {
+  Widget _swiperWidget(  List<BannerBean> bannerList) {
     return Container(
       height: 180,
       child: AspectRatio(
@@ -391,11 +388,11 @@ class _HomeScreenState extends State<HomeScreen>
         child: Swiper(
             itemBuilder: (BuildContext context, int index) {
               return CachedNetworkImage(
-                imageUrl: Urls.imageTest,
+                imageUrl: Urls.imageBase+bannerList[index].banner_pic,
                 fit: BoxFit.fill,
               );
             },
-            itemCount: list.length,
+            itemCount: bannerList.length,
             autoplay: true,
             onTap: (index) {
               // Navigator.pushNamed(context, '/productContent',
@@ -411,15 +408,12 @@ class _HomeScreenState extends State<HomeScreen>
             autoplayDisableOnInteraction: true),
       ),
     );
-
   }
 
   //下午
   Widget _afternoonWidget(list) {
     return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
@@ -427,30 +421,32 @@ class _HomeScreenState extends State<HomeScreen>
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: Color(0xffF1F1F1)),
-            padding: EdgeInsets.symmetric(
-              horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("下午场",style: TextStyle(fontSize: 18,color: BaseColor.color_333333,fontWeight: FontWeight.bold),),
+                Text(
+                  "下午场",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: BaseColor.color_333333,
+                      fontWeight: FontWeight.bold),
+                ),
                 Text("14:30-16:30",
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey))
+                    style: TextStyle(fontSize: 12, color: Colors.grey))
               ],
             ),
           ),
           Container(
-
               child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(), //禁止滚动
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _listAfternoonItemWidget(list[index], index);
-                },
-              ))
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(), //禁止滚动
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _listAfternoonItemWidget(list[index], index);
+            },
+          ))
         ],
       ),
     );
@@ -460,29 +456,27 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
         onTap: () {
           if (index == 0) {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data});
+            Navigator.pushNamed(context, "/auctionSession",
+                arguments: {"status": data});
           } else {
-            Navigator.pushNamed(context, "/auctionSession",arguments: {"status":data});
+            Navigator.pushNamed(context, "/auctionSession",
+                arguments: {"status": data});
           }
         },
         child: Container(
           height: 170,
-          margin: EdgeInsets.only(
-              top: 15),
+          margin: EdgeInsets.only(top: 15),
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    Urls.imageTest),
+                image: NetworkImage(Urls.imageTest),
                 fit: BoxFit.fill,
               ),
-              borderRadius:
-              BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10)),
           child: Align(
             alignment: Alignment.topCenter,
             child: Container(
               height: 40,
-              padding: EdgeInsets.symmetric(
-                  horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -494,106 +488,116 @@ class _HomeScreenState extends State<HomeScreen>
                           fit: BoxFit.fill,
                         ),
                       ),
-                      width:58,
+                      width: 58,
                       height: 23,
                       alignment: Alignment.center,
                       child: Text(
                         index == 0 ? "特价场" : "普通场",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       )),
                   data == '1'
                       ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.schedule,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "未开拍",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10),
+                          decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 255, 255, 0.2),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.schedule,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                "未开拍",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              )
+                            ],
+                          ),
                         )
-                      ],
-                    ),
-                  )
-                      : data== '2'
-                      ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.update,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "拍卖中",
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize:
-                              10),
-                        )
-                      ],
-                    ),
-                  )
-                      : data == '3'
-                      ? Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(255, 255, 255, 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal:
-                        4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment:
-                      CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.power_settings_new,
-                          size: 12,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "已结束",
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 10),
-                        )
-                      ],
-                    ),
-                  )
-                      : SizedBox()
+                      : data == '2'
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(255, 255, 255, 0.2),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.update,
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "拍卖中",
+                                    style: TextStyle(
+                                        color: Colors.green, fontSize: 10),
+                                  )
+                                ],
+                              ),
+                            )
+                          : data == '3'
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(255, 255, 255, 0.2),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 3, horizontal: 4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.power_settings_new,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "已结束",
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 10),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : SizedBox()
                 ],
               ),
             ),
           ),
         ));
   }
-  
-  
+
+  void getHomeInfo(bool bool) async {
+    HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.homeInfo, {},
+        initState: bool);
+    if (response.result) {
+      homeBean = HomeBean.fromJson(response.datas);
+      if (homeBean?.banner != null && homeBean.banner.length > 0) {
+        bannerList = homeBean.banner;
+      }
+      if (homeBean?.special_s != null && homeBean.special_s.length > 0) {
+        specialsList = homeBean.special_s;
+      }
+      if (homeBean?.special_x != null && homeBean.special_x.length > 0) {
+        specialxList = homeBean.special_x;
+      }
+
+      setState(() {
+
+      });
+    }
+  }
 }

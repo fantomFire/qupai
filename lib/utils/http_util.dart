@@ -46,8 +46,8 @@ class HttpUtil {
 
       if (response.statusCode == 200) {
        var  datas =  json.decode(response.data);
-        String   code = datas['code'];
-        if (code != null && code == '200') {
+        int    code = datas['code'];
+        if (code != null && code == 200) {
           hideLoadingProgress(context, showLoading);
           return HttpResponse(true, code, datas["message"], datas["data"]);
         }else {
