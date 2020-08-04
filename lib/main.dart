@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'as gs;
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:qupai/pages/mainPage.dart';
 import 'package:qupai/routs.dart';
@@ -18,6 +19,7 @@ import 'common_views/maxscaletextwidget.dart';
 //main
 void main () async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await SpUtil.getInstance();
   EasyLoading.instance
     ..maskType = EasyLoadingMaskType.custom

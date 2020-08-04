@@ -81,6 +81,7 @@ dependencies:
   video_player: ^0.10.11+2
   file_picker: ^1.13.0
   flutter_local_notifications: ^1.4.4+2
+  jpush_flutter: 0.5.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
