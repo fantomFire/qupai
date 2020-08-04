@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen>
                           height: 80,
                           fit: BoxFit.fill,
                         )):ImageLoadUtil(
-                          url: Urls.base+homeBean?.show,
+                          url: Urls.imageBase+homeBean?.show,
                           width: 162,
                           height: 80,
                           fit: BoxFit.fill,

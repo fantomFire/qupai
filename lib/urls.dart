@@ -1,6 +1,6 @@
 class Urls {
   static final String base = "http://auction.skybirdcloud.com/api";
-  static final String imageBase = "http://tianyun.skybirdcloud.com/";
+  static final String imageBase = "http://auction.skybirdcloud.com/";
   static final String imageTest = "http://5b0988e595225.cdn.sohucs.com/images/20190421/f71c5a13db224d82882c336db9fe7b6e.jpeg";
   static final String Login = "/Clientlogin/login"; //登录
   static final String Register = "/login/registered"; //注册
