@@ -10,6 +10,9 @@ import 'package:qupai/pages/home/ensure_order.dart';
 import 'package:qupai/pages/mine/add_address.dart';
 import 'package:qupai/pages/mine/address_manager.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
+import 'package:qupai/pages/mine/my_share/share_page.dart';
+import 'package:qupai/pages/mine/my_share/wcash_page.dart';
+import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
 import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
 import 'package:qupai/pages/mine/sell_order/order_sell_screen.dart';
@@ -50,27 +53,27 @@ Map<String, WidgetBuilder> routes() {
     '/demonstrationSession': (context) => DemonstrationSessionPage(),
     '/ensureOrder': (context) => EnsureOrder(),
     '/buy_order': (context) => OrderScreen(),
-    '/order_detail':(context) => OrderDetail(),
-    "/sell_detail":(context) => SellDetail(),
-    "/physical_detail":(context) => PhysicalDetail(),
-    '/sell_order':(context) => OrderSell(),
-    '/physical_order':(context) => PhysicalScreen(),
-    "/setting_page":(context) => SettingPage(),
+    '/order_detail': (context) => OrderDetail(),
+    "/sell_detail": (context) => SellDetail(),
+    "/physical_detail": (context) => PhysicalDetail(),
+    '/sell_order': (context) => OrderSell(),
+    '/physical_order': (context) => PhysicalScreen(),
+    "/setting_page": (context) => SettingPage(),
     '/user_info': (BuildContext context) {
       Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
       return arguments == null
           ? UserInfoPage()
           : UserInfoPage(
-        user: arguments['user'],
-      );
+              user: arguments['user'],
+            );
     },
     "/update_nickname": (BuildContext context) {
       Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
       return arguments == null
           ? UpdateNickname()
           : UpdateNickname(
-        user_nickname: arguments['user_nickname'],
-      );
+              user_nickname: arguments['user_nickname'],
+            );
     },
     "/address_manager": (BuildContext context) => AddressManager(),
     "/add_address": (BuildContext context) {
@@ -78,9 +81,12 @@ Map<String, WidgetBuilder> routes() {
       return arguments == null
           ? AddAddress()
           : AddAddress(
-        addressData: arguments['addressData'],
-      );
+              addressData: arguments['addressData'],
+            );
     },
     "/update_pass": (BuildContext context) => UpdatePass(),
+    "/my_wallet": (context) => WalletPage(),
+    "/my_share": (context) => SharePage(),
+    "/to_wcash": (context) => WCashPage(),
   };
 }

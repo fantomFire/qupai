@@ -79,4 +79,8 @@ class BaseColor {
   static const Color color_bg_dialog = Color(0x60000000);
   static const Color color_3E7FFF = Color(0xFF3E7FFF);
 
+  //收入明细
+  static const Color color_2BA245 = Color(0xFF2BA245);
+  static const Color color_FF0000 = Color(0xFF2FF0000);
+
 }

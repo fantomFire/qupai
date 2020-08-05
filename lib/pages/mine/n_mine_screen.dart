@@ -236,7 +236,7 @@ class _MinePageState extends State<MinePage> {
                   Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
@@ -453,7 +453,7 @@ class _MinePageState extends State<MinePage> {
               child: Column(
                 children: <Widget>[
                   mainItemWidget("icon_fxjl", "分享奖励", true, () {
-                    NavigatorUtil.pushNamed(context, "/mine_appointment");
+                    NavigatorUtil.pushNamed(context, "/my_share");
                   }),
                   mainItemWidget("icon_smrz", "实名认证", true, () {}),
                   mainItemWidget("icon_skm", "收款码", true, () {}),
