@@ -79,13 +79,20 @@ class _MinePageState extends State<MinePage> {
                     margin: EdgeInsets.only(top: 28, right: 13, left: 13),
                     child: Row(
                       children: <Widget>[
-                        Container(
-                          child: ClipOval(
-                            child: ImageLoadUtil(
-                              url: '${Urls.imageBase}${userInfoBean?.user_img}',
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.fill,
+                        GestureDetector(
+                          onTap: (){
+                            NavigatorUtil.pushNamed(context, "/user_info",).then((v){
+                              getUserInfo();
+                            });
+                          },
+                          child: Container(
+                            child: ClipOval(
+                              child: ImageLoadUtil(
+                                url: '${Urls.imageBase}${userInfoBean?.user_img}',
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),

@@ -7,12 +7,16 @@ import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
+import 'package:qupai/pages/mine/add_address.dart';
+import 'package:qupai/pages/mine/address_manager.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
 import 'package:qupai/pages/mine/sell_order/order_sell_screen.dart';
 import 'package:qupai/pages/mine/sell_order/sell_detail.dart';
 import 'package:qupai/pages/mine/seting_page.dart';
+import 'package:qupai/pages/mine/update_nickname.dart';
+import 'package:qupai/pages/mine/user_info.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
 import 'pages/mainPage.dart';
@@ -51,5 +55,30 @@ Map<String, WidgetBuilder> routes() {
     '/sell_order':(context) => OrderSell(),
     '/physical_order':(context) => PhysicalScreen(),
     "/setting_page":(context) => SettingPage(),
+    '/user_info': (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? UserInfoPage()
+          : UserInfoPage(
+        user: arguments['user'],
+      );
+    },
+    "/update_nickname": (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? UpdateNickname()
+          : UpdateNickname(
+        user_nickname: arguments['user_nickname'],
+      );
+    },
+    "/address_manager": (BuildContext context) => AddressManager(),
+    "/add_address": (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? AddAddress()
+          : AddAddress(
+        addressData: arguments['addressData'],
+      );
+    },
   };
 }
