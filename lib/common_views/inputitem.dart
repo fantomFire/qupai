@@ -20,7 +20,7 @@ class InputItem extends StatelessWidget {
   final double fontSize;
   final bool inputEnable;
   final bool obscureText;
-
+  final bool inputBorder ;
   const InputItem(
       {Key key,
       this.title,
@@ -36,8 +36,8 @@ class InputItem extends StatelessWidget {
       this.noBottomLine: true,
       this.lineMargin,
         this.obscureText:false,
-      this.fontSize: 16,
-      this.inputEnable: true})
+      this.fontSize: 14,
+      this.inputEnable: true, this.inputBorder:false})
       : super(key: key);
 
   @override
@@ -86,7 +86,7 @@ class InputItem extends StatelessWidget {
                       keyboardType: textInputType,
                       inputFormatters: inputFormatters,
                       decoration: InputDecoration(
-                          hintText: hintText, border: InputBorder.none, hintStyle: TextStyle(fontSize: fontSize, color: BaseColor.color_999999)),
+                          hintText: hintText, border: inputBorder?null:InputBorder.none, hintStyle: TextStyle(fontSize: fontSize, color: BaseColor.color_999999)),
                       obscureText: obscureText,
                       style: TextStyle(fontSize: fontSize, color: BaseColor.color_333333),
                       textAlign: inputTextAlign,

@@ -9,6 +9,7 @@ import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/native_utils.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
@@ -50,7 +51,9 @@ class _SettingPageState extends State<SettingPage> {
           children: <Widget>[
             AppBars.normalTitle(context, "设置"),
             Line(),
-            setItemWidgetClick("修改密码", hasNext: true,onTap: (){}),
+            setItemWidgetClick("修改密码", hasNext: true,onTap: (){
+              NavigatorUtil.pushNamed(context, "/update_pass");
+            }),
             setItemWidgetClick("消息通知", hasNext: false),
 
 
