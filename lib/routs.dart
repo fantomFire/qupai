@@ -10,6 +10,7 @@ import 'package:qupai/pages/home/ensure_order.dart';
 import 'package:qupai/pages/mine/add_address.dart';
 import 'package:qupai/pages/mine/address_manager.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
+import 'package:qupai/pages/mine/identification_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
@@ -20,6 +21,8 @@ import 'package:qupai/pages/mine/sell_order/sell_detail.dart';
 import 'package:qupai/pages/mine/seting_page.dart';
 import 'package:qupai/pages/mine/update_nickname.dart';
 import 'package:qupai/pages/mine/update_pass.dart';
+import 'package:qupai/pages/mine/user_guide/uguide_detail_page.dart';
+import 'package:qupai/pages/mine/user_guide/uguide_page.dart';
 import 'package:qupai/pages/mine/user_info.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
@@ -88,5 +91,10 @@ Map<String, WidgetBuilder> routes() {
     "/my_wallet": (context) => WalletPage(),
     "/my_share": (context) => SharePage(),
     "/to_wcash": (context) => WCashPage(),
+    //实名认证
+    "/to_identifilcation": (context) => IdentificationPage(),
+    //用户指南
+    "/to_user_guide": (context) => UGuidePage(),
+    "/to_user_guide_detail": (context) => UGuideDetailPage(),
   };
 }
