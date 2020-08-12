@@ -462,7 +462,9 @@ class _MinePageState extends State<MinePage> {
                   mainItemWidget("icon_yhzn", "用户指南", true, () {
                     NavigatorUtil.pushNamed(context, "/to_user_guide");
                   }),
-                  mainItemWidget("icon_fxts", "风险提示", false, () {}),
+                  mainItemWidget("icon_fxts", "风险提示", false, () {
+                    NavigatorUtil.pushNamed(context, "/to_user_risk");
+                  }),
                 ],
               ),
             ),
