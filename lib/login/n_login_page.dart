@@ -2,9 +2,15 @@ import 'dart:async';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
+import 'package:qupai/utils/permission_init_upgrade.dart';
+import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/widgets/WZTextField.dart';
+
+import '../urls.dart';
+import 'entity/login_entity.dart';
 
 class NLoginPage extends StatefulWidget {
   NLoginPage({Key key}) : super(key: key);
@@ -96,11 +102,13 @@ class _LoginPageState extends State<NLoginPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0)),
                     onPressed: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      _login();
 
-                      //当前测试专用
+                    /*  //当前测试专用
                       SpUtil.putString("user_id", "1");
 
-                      NavigatorUtil.pushNamed(context, "/main_page");
+                      NavigatorUtil.pushNamed(context, "/main_page");*/
                     },
                   )),
               Container(
@@ -145,4 +153,55 @@ class _LoginPageState extends State<NLoginPage> {
       ),
     );
   }
+
+  void _login() async{
+
+  //  SpUtil.clear();
+
+  //  NavigatorUtil.pushReplacementNamed(context, "/main_page");
+    if (phone.length == 0) {
+      ToastUtil.toast("请输入手机号码");
+      return;
+    }
+
+    if (pwd.length== 0) {
+      ToastUtil.toast("请输入密码");
+      return;
+    }
+
+    HttpResponse response = await HttpUtil.send(context, "post", Urls.Login, {
+      "username":phone,
+      "password":pwd,
+    });
+    if(response.result){
+      ToastUtil.toast("登录成功");
+      LoginEntity loginEntity = LoginEntity.fromJson(response.datas);
+      loginSuccess(loginEntity);
+
+      NavigatorUtil.pushReplacementNamed(context, "/main_page");
+    }
+
+  }
+
+  Future loginSuccess(LoginEntity loginEntity) async{
+    SpUtil.putString("user_id", loginEntity.user_id.toString());
+    SpUtil.putObject('user', loginEntity);
+    if(loginEntity.user_token!=null&&loginEntity.user_token.length>0){
+      SpUtil.putString("token", loginEntity.user_token);
+    }
+  }
+
+  Future<void> _init() async {
+
+    await InitAndUpgrade.checkPermission();
+    String user_id =  SpUtil.getString("user_id");
+
+    if(user_id!=null&&user_id.length>0){
+      LoginEntity entity = SpUtil.getObj('user',(v) => LoginEntity.fromJson(v));
+      NavigatorUtil.pushReplacementNamed(context, "/main_page");
+
+    }
+  }
+
+
 }

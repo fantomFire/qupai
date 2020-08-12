@@ -225,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async{
 
-    SpUtil.putString("user_id", "1");
+    SpUtil.clear();
 
  NavigatorUtil.pushReplacementNamed(context, "/main_page");
       if (phoneController.text.length == 0) {
