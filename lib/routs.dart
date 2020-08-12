@@ -23,6 +23,7 @@ import 'package:qupai/pages/mine/update_nickname.dart';
 import 'package:qupai/pages/mine/update_pass.dart';
 import 'package:qupai/pages/mine/user_guide/uguide_detail_page.dart';
 import 'package:qupai/pages/mine/user_guide/uguide_page.dart';
+import 'package:qupai/pages/mine/user_guide/urisk_page.dart';
 import 'package:qupai/pages/mine/user_info.dart';
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
@@ -96,5 +97,7 @@ Map<String, WidgetBuilder> routes() {
     //用户指南
     "/to_user_guide": (context) => UGuidePage(),
     "/to_user_guide_detail": (context) => UGuideDetailPage(),
+    //用户指南
+    "/to_user_risk": (context) => URiskPage(),
   };
 }

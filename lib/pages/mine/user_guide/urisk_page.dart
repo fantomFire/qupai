@@ -10,12 +10,12 @@ import 'package:qupai/values/baseColor.dart';
 
 import '../../../urls.dart';
 
-class UGuidePage extends StatefulWidget {
+class URiskPage extends StatefulWidget {
   @override
-  UGuidePageState createState() => UGuidePageState();
+  URiskPageState createState() => URiskPageState();
 }
 
-class UGuidePageState extends State<UGuidePage> {
+class URiskPageState extends State<URiskPage> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +30,8 @@ class UGuidePageState extends State<UGuidePage> {
       UserGuideRiskBean guideRiskBean =
           UserGuideRiskBean.fromJson(response.datas);
       setState(() {
-        if (guideRiskBean.guide != null) {
-          guidesList = guideRiskBean.guide;
+        if (guideRiskBean.risk != null) {
+          guidesList = guideRiskBean.risk;
         }
       });
     }
@@ -50,7 +50,7 @@ class UGuidePageState extends State<UGuidePage> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-        "用户指南",
+        "风险提示",
         style: TextStyle(fontSize: 18),
       )),
       body: Container(

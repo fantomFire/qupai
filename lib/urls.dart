@@ -28,5 +28,6 @@ class Urls {
   static String uploadPhoto="";
 
   static String homeInfo='/Homepage/index'; //首页信息
+  static String getGuide='/Mydetails/guide';
 
 }
