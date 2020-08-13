@@ -4,6 +4,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 
 class WZTextField extends StatefulWidget {
+  String titleText;
   String hintText;
   String errorText;
   String labelText;
@@ -20,6 +21,7 @@ class WZTextField extends StatefulWidget {
   double suffixIconHeight;
   bool isDense;
   bool readOnly;
+  bool noLine;
   TextAlign textAlign;
   Object onTap;
   TextEditingController controller;
@@ -27,26 +29,28 @@ class WZTextField extends StatefulWidget {
 
   WZTextField(
       {Key key,
-        this.onEditingComplete,
-        this.controller = null,
-        this.maxLines = 1,
-        this.hintText,
-        this.labelText,
-        this.errorText,
-        this.areacode,
-        this.onChanged,
-        this.icon,
-        this.button,
-        this.iconWidth,
-        this.iconHeight,
-        this.suffixIconWidth,
-        this.suffixIconHeight,
-        this.isDense = false,
-        this.readOnly = false,
-        this.textAlign,
-        this.onTap,
-        this.obscureText = false,
-        this.keyboardType})
+      this.onEditingComplete,
+      this.controller = null,
+      this.maxLines = 1,
+      this.titleText,
+      this.hintText,
+      this.labelText,
+      this.errorText,
+      this.areacode,
+      this.onChanged,
+      this.icon,
+      this.button,
+      this.iconWidth,
+      this.iconHeight,
+      this.suffixIconWidth,
+      this.suffixIconHeight,
+      this.isDense = false,
+      this.readOnly = false,
+      this.noLine = false,
+      this.textAlign,
+      this.onTap,
+      this.obscureText = false,
+      this.keyboardType})
       : super(key: key);
 
   @override
@@ -74,13 +78,17 @@ class _WZTextFieldState extends State<WZTextField> {
           keyboardType: widget.keyboardType,
           // enableInteractiveSelection: false,
           textAlign:
-          widget.textAlign == null ? TextAlign.start : widget.textAlign,
+              widget.textAlign == null ? TextAlign.start : widget.textAlign,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
             // border: InputBorder.none,
             isDense: widget.isDense,
             prefixIcon: Row(children: <Widget>[
-              widget.icon == null ? Text('') : widget.icon
+              widget.icon == null
+                  ? Text(widget.titleText,
+                      style:
+                          TextStyle(fontSize: ScreenUtil().getAdapterSize(15)))
+                  : widget.icon
             ]),
             prefixIconConstraints: BoxConstraints(
               maxWidth: widget.iconWidth == null
@@ -110,15 +118,19 @@ class _WZTextFieldState extends State<WZTextField> {
             hintText: widget.hintText,
             hintStyle: TextStyle(
               color: Colors.grey,
-              fontSize: ScreenUtil().getAdapterSize(12),
+              fontSize: ScreenUtil().getAdapterSize(15),
             ),
-            // errorText: widget.errorText,
+            // error
+            // Text: widget.errorText,
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
+              borderSide: BorderSide(
+                  color: widget.noLine ? Colors.transparent : Colors.grey,
+                  width: 0.3),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffC60000), width: 0.3),
-
+              borderSide: BorderSide(
+                  color: widget.noLine ? Colors.transparent : Color(0xffC60000),
+                  width: 0.3),
             ),
           ),
           onChanged: widget.onChanged,

@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/inputitem.dart';
+import 'package:qupai/utils/cacahe_manager.dart';
+import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
-
 
 import '../../urls.dart';
 
@@ -33,51 +36,7 @@ class _UpdatePassState extends State<UpdatePass> {
         backgroundColor: BaseColor.color_ffffff,
         body: Column(
           children: <Widget>[
-           AppBars.normalTitle(context, "修改密码"),
-         /*   Container(
-              margin: EdgeInsets.only(left: 16,right: 16),
-              constraints: BoxConstraints(minHeight: 44),
-              color: BaseColor.color_ffffff,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 44,
-
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: TextView(
-                            "22222",
-                            style: TextStyle(fontSize: 12, color: BaseColor.color_333333),
-                          ),
-                          padding: EdgeInsets.only(left: 15),
-                        ),
-                        *//*   must
-                          ? Container(
-                              child: Image.asset(
-                                UiUtils.getImgPath('img_must'),
-                                width: 7,
-                                height: 7,
-                              ),
-                              padding: EdgeInsets.only(top: 10),
-                              alignment: Alignment.topCenter,
-                            )
-                          : Container(),*//*
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: MyTextField(
-                        controller: oldController,
-
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),*/
+            AppBars.normalTitle(context, "修改密码"),
             InputItem(
               title: "旧密码",
               titleWidth: 80,
@@ -86,7 +45,7 @@ class _UpdatePassState extends State<UpdatePass> {
               hintText: "请输入旧密码",
               fontSize: 14,
               obscureText: true,
-      inputBorder: true,
+              inputBorder: true,
             ),
             InputItem(
               title: "新密码",
@@ -108,14 +67,13 @@ class _UpdatePassState extends State<UpdatePass> {
             ),
             GestureDetector(
               onTap: () {
-                Focus.of(context).requestFocus(FocusNode());
                 _update();
               },
               child: Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(left: 45, top: 80, right: 45),
                   decoration: BoxDecoration(
-                   color: BaseColor.color_C60000,
+                    color: BaseColor.color_C60000,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   constraints: BoxConstraints.expand(width: 280, height: 40),
@@ -148,23 +106,17 @@ class _UpdatePassState extends State<UpdatePass> {
       ToastUtil.toast("再次输入密码不一致");
       return;
     }
-  /*  String user_id = CacheManager.instance.getUerInfo().user_id.toString();
-    HttpResponse response = await HttpUtil.send(
-      context,
-      "post",
-      Urls.updatePass,
-      {
-        'user_id': user_id,
-        'old_password': oldController.text.trim().toString(),
-        'new_password': newController.text.trim().toString(),
-        'confirm_password': conformController.text.trim().toString(),
-      },
-    );
+    String userId = SpUtil.getString("user_id");
+    HttpResponse response =
+        await HttpUtil.send(context, "post", Urls.resetPsd, {
+      "oldpassword": oldController.text.trim(),
+      "password": newController.text.trim(),
+      "repassword": conformController.text.trim(),
+      "user_id": userId,
+    });
     if (response.result) {
-
       ToastUtil.toast("密码修改成功");
       NavigatorUtil.pop(context);
-
-    }*/
+    }
   }
 }
