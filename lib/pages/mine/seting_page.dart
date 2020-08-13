@@ -141,6 +141,8 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   void loginOut() async{
+    SpUtil.clear();
+    NavigatorUtil.pushNamedAndRemoveUntil(context, '/login',"");
     }
   ///加载缓存
   Future<Null> loadCache() async {

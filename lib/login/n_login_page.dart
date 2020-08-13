@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/permission_init_upgrade.dart';
@@ -190,8 +191,9 @@ class _LoginPageState extends State<NLoginPage> {
   Future loginSuccess(LoginEntity loginEntity) async{
     SpUtil.putString("user_id", loginEntity.user_id.toString());
     SpUtil.putObject('user', loginEntity);
-    if(loginEntity.user_token!=null&&loginEntity.user_token.length>0){
-      SpUtil.putString("token", loginEntity.user_token);
+    if(loginEntity.token!=null&&loginEntity.token.length>0){
+      SpUtil.putString("token", loginEntity.token);
+      CacheManager.instance.setCookie(loginEntity.token);
     }
   }
 
@@ -201,7 +203,8 @@ class _LoginPageState extends State<NLoginPage> {
     String user_id =  SpUtil.getString("user_id");
 
     if(user_id.isNotEmpty==true){
-    //  LoginEntity entity = SpUtil.getObj('user',(v) => LoginEntity.fromJson(v));
+     String token =  SpUtil.getString("token");
+      CacheManager.instance.setCookie(token);
       NavigatorUtil.pushReplacementNamed(context, "/main_page");
 
     }
