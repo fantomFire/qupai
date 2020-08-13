@@ -23,13 +23,12 @@ class MinePage extends StatefulWidget {
 }
 
 class _MinePageState extends State<MinePage> {
-  int userId;
+  String userId;
   UserInfoBean userInfoBean;
 
   @override
   void initState() {
     super.initState();
-    userId = CacheManager.instance.getUerInfo()?.user_id;
     getUserInfo();
   }
 
@@ -40,10 +39,10 @@ class _MinePageState extends State<MinePage> {
         child: Column(
           children: <Widget>[
             Container(
-                  height: 225,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Color(0xffD63432), Color(0xffFE8564)]),
+              height: 225,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xffD63432), Color(0xffFE8564)]),
               ),
               child: Column(
                 children: <Widget>[
@@ -80,15 +79,19 @@ class _MinePageState extends State<MinePage> {
                     child: Row(
                       children: <Widget>[
                         GestureDetector(
-                          onTap: (){
-                            NavigatorUtil.pushNamed(context, "/user_info",).then((v){
+                          onTap: () {
+                            NavigatorUtil.pushNamed(
+                              context,
+                              "/user_info",
+                            ).then((v) {
                               getUserInfo();
                             });
                           },
                           child: Container(
                             child: ClipOval(
                               child: ImageLoadUtil(
-                                url: '${Urls.imageBase}${userInfoBean?.user_img}',
+                                url:
+                                    '${Urls.imageBase}${userInfoBean?.user_img}',
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.fill,
@@ -202,8 +205,8 @@ class _MinePageState extends State<MinePage> {
                                               margin: EdgeInsets.only(left: 5),
                                               decoration: BoxDecoration(
                                                   borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius.circular(6)),
+                                                      BorderRadius.all(
+                                                          Radius.circular(6)),
                                                   color: Color(0x55ffffff)),
                                               child: TextView(
                                                 "复制",
@@ -410,9 +413,9 @@ class _MinePageState extends State<MinePage> {
                           onTap: () {
                             NavigatorUtil.pushNamed(context, '/physical_order');
                           },
-                          child:Container(
+                          child: Container(
                             color: BaseColor.color_ffffff_pagege,
-                            child:  Column(
+                            child: Column(
                               children: <Widget>[
                                 Container(
                                     margin: EdgeInsets.only(top: 12),
@@ -526,12 +529,14 @@ class _MinePageState extends State<MinePage> {
   }
 
   void getUserInfo() async {
+    userId = SpUtil.getString("user_id");
+
     HttpResponse response = await HttpUtil.send(
         context, "post", Urls.UserInfo, {"user_id": userId},
         initState: true);
     if (response.result) {
       if (response.datas != null) {
-        // userInfoBean = UserInfoBean.fromJson(response.datas);
+//        userInfoBean = UserInfoBean.fromJson(response.datas);
         setState(() {});
       }
     }

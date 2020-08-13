@@ -8,7 +8,7 @@ class Urls {
   static final String getYZM = '/Login/Smscode'; //验证码
   static final String MyTeam = "/login/team"; //我的团队
   static final String version = "/login/edition"; //版本
-  static final String UserInfo = "/login/my"; //用户信息
+  static final String UserInfo = "/Userinfo/userinfo"; //用户信息
   static final String Setting = "/login/set"; //设置
   static final String customer = '/login/service'; //客服
   static final String uplaoadPictuer = '/user/userheadsculpture';
