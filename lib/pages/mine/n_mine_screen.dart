@@ -458,7 +458,9 @@ class _MinePageState extends State<MinePage> {
                   mainItemWidget("icon_smrz", "实名认证", true, () {
                     NavigatorUtil.pushNamed(context, "/to_identifilcation");
                   }),
-                  mainItemWidget("icon_skm", "收款码", true, () {}),
+                  mainItemWidget("icon_skm", "收款码", true, () {
+                    NavigatorUtil.pushNamed(context, "/to_money_code");
+                  }),
                   mainItemWidget("icon_yhzn", "用户指南", true, () {
                     NavigatorUtil.pushNamed(context, "/to_user_guide");
                   }),

@@ -27,26 +27,26 @@ class WZTextField extends StatefulWidget {
 
   WZTextField(
       {Key key,
-      this.onEditingComplete,
-      this.controller = null,
-      this.maxLines = 1,
-      this.hintText,
-      this.labelText,
-      this.errorText,
-      this.areacode,
-      this.onChanged,
-      this.icon,
-      this.button,
-      this.iconWidth,
-      this.iconHeight,
-      this.suffixIconWidth,
-      this.suffixIconHeight,
-      this.isDense = false,
-      this.readOnly = false,
-      this.textAlign,
-      this.onTap,
-      this.obscureText = false,
-      this.keyboardType})
+        this.onEditingComplete,
+        this.controller = null,
+        this.maxLines = 1,
+        this.hintText,
+        this.labelText,
+        this.errorText,
+        this.areacode,
+        this.onChanged,
+        this.icon,
+        this.button,
+        this.iconWidth,
+        this.iconHeight,
+        this.suffixIconWidth,
+        this.suffixIconHeight,
+        this.isDense = false,
+        this.readOnly = false,
+        this.textAlign,
+        this.onTap,
+        this.obscureText = false,
+        this.keyboardType})
       : super(key: key);
 
   @override
@@ -74,7 +74,7 @@ class _WZTextFieldState extends State<WZTextField> {
           keyboardType: widget.keyboardType,
           // enableInteractiveSelection: false,
           textAlign:
-              widget.textAlign == null ? TextAlign.start : widget.textAlign,
+          widget.textAlign == null ? TextAlign.start : widget.textAlign,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
             // border: InputBorder.none,
@@ -112,13 +112,13 @@ class _WZTextFieldState extends State<WZTextField> {
               color: Colors.grey,
               fontSize: ScreenUtil().getAdapterSize(12),
             ),
-            // 文字提醒
-//             errorText: widget.errorText,
+            // errorText: widget.errorText,
             enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Color(0xffC60000), width: 0.3),
+
             ),
           ),
           onChanged: widget.onChanged,

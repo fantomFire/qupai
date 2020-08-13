@@ -83,4 +83,6 @@ class BaseColor {
   static const Color color_2BA245 = Color(0xFF2BA245);
   static const Color color_FF0000 = Color(0xFF2FF0000);
 
+  static const Color color_eeeeee = Color(0xFFeeeeee);
+
 }

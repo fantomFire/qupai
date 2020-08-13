@@ -11,6 +11,7 @@ import 'package:qupai/pages/mine/add_address.dart';
 import 'package:qupai/pages/mine/address_manager.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
 import 'package:qupai/pages/mine/identification_page.dart';
+import 'package:qupai/pages/mine/money_code/money_code_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
@@ -99,5 +100,6 @@ Map<String, WidgetBuilder> routes() {
     "/to_user_guide_detail": (context) => UGuideDetailPage(),
     //用户指南
     "/to_user_risk": (context) => URiskPage(),
+    "/to_money_code": (context) => MoneyCodePage(),
   };
 }
