@@ -2,9 +2,9 @@ class Urls {
   static final String base = "http://auction.skybirdcloud.com/api";
   static final String imageBase = "http://auction.skybirdcloud.com/";
   static final String imageTest = "http://5b0988e595225.cdn.sohucs.com/images/20190421/f71c5a13db224d82882c336db9fe7b6e.jpeg";
-  static final String Login = "/Clientlogin/login"; //登录
-  static final String Register = "/login/registered"; //注册
-  static final String getYZM = '/login/send';//验证码
+  static final String Login = "/Login/index"; //登录
+  static final String Register = "/Login/register"; //注册
+  static final String getYZM = '/Login/Smscode';//验证码
   static final String MyTeam= "/login/team"; //我的团队
   static final String  version  ="/login/edition";//版本
   static final String  UserInfo  ="/login/my";//用户信息

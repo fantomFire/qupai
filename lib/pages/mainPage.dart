@@ -60,7 +60,8 @@ class _MainPageState extends State<MainPage>
   @override
   void initState() {
     super.initState();
-    user_id = SpUtil.getString("user_id");
+ user_id = SpUtil.getString("user_id");
+
     setUserInfo();
     tabImages = [
       [

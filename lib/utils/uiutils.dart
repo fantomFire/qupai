@@ -22,7 +22,17 @@ static String  imgPath = "https://t1.hddhhn.com/uploads/tu/201604/121/22.jpg";
     lastClickTime = curClickTime;
     return flag;
   }
- static String getSub(List<String> content) {
+  static bool checkPhone(String phone) {
+    RegExp exp = RegExp(r'^1[3|4|5|6|7|8|9][0-9]\d{8}$');
+    return exp.hasMatch(phone);
+  }
+
+  static bool checkIdCard(String idCard) {
+    RegExp exp = RegExp(r'(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)');
+    return exp.hasMatch(idCard);
+  }
+
+  static String getSub(List<String> content) {
     StringBuffer sb = StringBuffer();
     if (content != null) {
       for (var i in content) {
