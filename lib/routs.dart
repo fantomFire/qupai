@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:qupai/login/n_forget_psd_page.dart';
 import 'package:qupai/pages/custom/chat.dart';
 import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
@@ -21,9 +20,9 @@ import 'file:///J:/Code/Project/QuPai/qupai/lib/pages/mine/setting/update_pass.d
 import 'package:qupai/pages/mine/user_guide/uguide_detail_page.dart';
 import 'package:qupai/pages/mine/user_guide/uguide_page.dart';
 import 'package:qupai/pages/mine/user_guide/urisk_page.dart';
-
-import 'login/n_login_page.dart';
-import 'login/n_register_page.dart';
+import 'pages/login/n_forget_psd_page.dart';
+import 'pages/login/n_login_page.dart';
+import 'pages/login/n_register_page.dart';
 import 'pages/mainPage.dart';
 import 'pages/mine/buy_order/order_screen.dart';
 import 'pages/mine/my_info/add_address.dart';

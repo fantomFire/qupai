@@ -2,7 +2,6 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/pages/mine/n_mine_screen.dart';
 import 'package:qupai/pages/team/team.dart';
-import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -10,9 +9,9 @@ import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 
 import '../common_views/customview.dart';
-import '../login/entity/login_entity.dart';
 import 'custom/service_screen.dart';
 import 'home/home_screen.dart';
+import 'login/entity/login_entity.dart';
 
 class MainPage extends StatefulWidget {
   @override

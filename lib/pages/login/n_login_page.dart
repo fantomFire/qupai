@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/urls.dart';
 import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
@@ -10,7 +11,6 @@ import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/widgets/WZTextField.dart';
 
-import '../urls.dart';
 import 'entity/login_entity.dart';
 
 class NLoginPage extends StatefulWidget {

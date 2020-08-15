@@ -1,4 +1,4 @@
-import 'package:qupai/login/entity/login_entity.dart';
+import 'package:qupai/pages/login/entity/login_entity.dart';
 
 import 'entity/province.dart';
 

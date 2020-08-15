@@ -13,7 +13,6 @@ import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/widgets/WZTextField.dart';
 
-import '../urls.dart';
 
 class NForgetPsdPage extends StatefulWidget {
   NForgetPsdPage({Key key}) : super(key: key);
