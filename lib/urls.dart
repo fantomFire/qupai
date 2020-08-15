@@ -24,7 +24,6 @@ class Urls {
   static String sendImage = '/chat/upload';
 
   static String addAliPictuer = "";
-
   static String uploadPhoto = "";
 
   static String homeInfo = '/Homepage/index'; //首页信息
@@ -32,5 +31,8 @@ class Urls {
 
   static final String forgetPsd = "/Login/uppass"; //忘记密码
   static final String resetPsd = "/Login/savepass"; //修改密码
+
+  static String setNickName = '/Userinfo/up_nickname'; //修改昵称
+  static String setUserPhoto = '/Userinfo/userpic'; //修改头像
 
 }

@@ -12,6 +12,7 @@ import 'package:qupai/utils/file_upload.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
+import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
@@ -103,12 +104,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       ),
                       Expanded(
                           child: Container(
-                            child: TextView(
-                              "${userInfoBean?.id}",
-                              style: TextStyles.color_999999_16,
-                              textAlign: TextAlign.right,
-                            ),
-                          ))
+                        child: TextView(
+                          "${userInfoBean?.id}",
+                          style: TextStyles.color_999999_16,
+                          textAlign: TextAlign.right,
+                        ),
+                      ))
                     ],
                   ),
                 ),
@@ -139,7 +140,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             padding: EdgeInsets.only(right: 10),
                             child: TextView(
                               userInfoBean?.nickname == null ||
-                                  userInfoBean?.nickname == ""
+                                      userInfoBean?.nickname == ""
                                   ? "用户 ${userInfoBean?.id}"
                                   : userInfoBean?.nickname,
                               style: TextStyles.color_999999_16,
@@ -193,57 +194,48 @@ class _UserInfoPageState extends State<UserInfoPage> {
           )
         ],
       ),
-    );}
+    );
+  }
 
-    void getUserInfo() async {
+  void getUserInfo() async {
     userId = SpUtil.getString("user_id");
 
     HttpResponse response = await HttpUtil.send(
-    context, "post", Urls.UserInfo, {"user_id": userId},
-    initState: true);
+        context, "post", Urls.UserInfo, {"user_id": userId},
+        initState: true);
     if (response.result) {
-    if (response.datas != null) {
-    setState(() {
-    userInfoBean = UserInfoBean.fromJson(response.datas);
-    });
+      if (response.datas != null) {
+        setState(() {
+          userInfoBean = UserInfoBean.fromJson(response.datas);
+        });
+      }
     }
-    }
-    }
+  }
 
-    void getAddress() async {
+  void getAddress() async {
     /* HttpResponse response = await HttpUtil.send(
         context, "post", Urls.defaultAddress, {'user_id': user_id},
         initState: true);
     if (response.result) {}*/
-    }
+  }
 
-    void selectImage() {
+  void selectImage() {
     if (_fileUploadUtil == null) {
-    _fileUploadUtil = new FileSelect(context);
+      _fileUploadUtil = new FileSelect(context);
     }
     _fileUploadUtil.selectPhoto(({file, result}) {
-    upload(file, result);
+      upload(file, result);
     });
-    }
+  }
 
-    void upload(File file, result) async {
-    /*  HttpResponse httpResponse =
-        await FileUpLoadServer.uploadImage(context, Urls.uplaoadPictuer, file);
+  void upload(File file, result) async {
+    HttpResponse httpResponse =
+        await FileUpLoadServer.uploadPhoto(context, UiUtils.getUserId(), file);
     if (httpResponse.result) {
-      //ToastUtil.toast("上传成功");
-      save(httpResponse.datas);
-
-      setState(() {});
-    }*/
-    }
-
-    void save(String datas) async {
-    /*  HttpResponse httpResponse = await HttpUtil.send(context, 'post',
-        Urls.savePictuer, {'user_id': UiUtils.getUserId(), 'user_img': datas});
-
-    if (httpResponse.result) {
-      //ToastUtil.toast("上传成功");
-      getUserInfo();
-    }*/
+      ToastUtil.toast("上传成功");
+      setState(() {
+        userInfoBean.user_pic = httpResponse.datas.toString();
+      });
     }
   }
+}

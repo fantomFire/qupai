@@ -123,40 +123,14 @@ class _MinePageState extends State<MinePage> {
                                             context, "/mine_leve");
                                       },
                                       child: Container(
-                                        alignment: Alignment.centerLeft,
-                                        height: 18,
-                                        padding: EdgeInsets.only(right: 10),
-                                        margin: EdgeInsets.only(left: 10),
+                                        margin: EdgeInsets.only(left: 14),
+                                        alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(15)),
-                                            color: BaseColor.color_817c94),
-                                        //身份标记
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(right: 4),
-                                              alignment: Alignment.center,
-                                              width: 17,
-                                              height: 17,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color:
-                                                      BaseColor.color_F8D986),
-                                              child: Image.asset(
-                                                  UiUtils.getImgPath("icon_my_lv")),
-                                            ),
-                                            TextView(
-                                              "运营中心",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color:
-                                                      BaseColor.color_ffffff),
-                                            ),
-                                          ],
-                                        ),
+                                            shape: BoxShape.circle,
+                                            color:
+                                            BaseColor.color_F8D986),
+                                        child: Image.asset(
+                                            UiUtils.getImgPath("icon_my_lv")),
                                       ),
                                     ),
                                     Expanded(
