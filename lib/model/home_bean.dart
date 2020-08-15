@@ -15,6 +15,7 @@ class HomeBean {
   String s_end;
   String x_begin;
   String x_end;
+  String notice;
   List<SpecialSBean> special_s;
   List<SpecialXBean> special_x;
   HomeBean();

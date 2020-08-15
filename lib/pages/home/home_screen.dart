@@ -13,6 +13,7 @@ import 'package:qupai/urls.dart';
 import 'package:qupai/utils/CommonUtil.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
+import 'package:qupai/utils/pao_swither.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
@@ -109,7 +110,35 @@ class _HomeScreenState extends State<HomeScreen>
                     bannerList.length > 0
                         ? _swiperWidget(bannerList)
                         : Container(),
+
                     Container(
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      child: Stack(
+                        alignment: Alignment.centerLeft,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 30),
+                            child: Switcher.horizontal(children: getChild()),
+                          ),
+                          /*  ImageAnimation(
+                          w: 23,
+                          h: 19,
+                          entry: ImagesAnimationEntry(
+                              1, 2, "assets/images/tongzhi%s.png")),*/
+                          Container(
+                            margin: EdgeInsets.only(top: 3,left: 10),
+                            child: Image.asset(
+                              'assets/images/xlba.gif',
+                              width: 15,
+                              height: 20,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                /*    Container(
                         height: 36,
                         padding: EdgeInsets.only(left: 15),
                         color: Theme.of(context).backgroundColor,
@@ -128,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                             )
                           ],
-                        ))
+                        ))*/
                   ],
                 ),
               ),
@@ -620,7 +649,17 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ));
   }
-
+  List<Widget> getChild() {
+    List<Widget> list = new List();
+    if(homeBean?.notice!=null){
+      list.add(TextView(homeBean?.notice));
+    }
+   /* if(homeBean?.no){}
+    for (var i in articleList) {
+      list.add(TextView(i.article_content));
+    }*/
+    return list;
+  }
   void getHomeInfo(bool bool) async {
     HttpResponse response = await HttpUtil.send(
         context, "post", Urls.homeInfo, {},

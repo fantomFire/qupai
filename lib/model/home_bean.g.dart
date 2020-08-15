@@ -17,6 +17,7 @@ HomeBean _$HomeBeanFromJson(Map<String, dynamic> json) {
     ..s_begin = json['s_begin'] as String
     ..s_end = json['s_end'] as String
     ..x_begin = json['x_begin'] as String
+    ..notice = json['notice'] as String
     ..x_end = json['x_end'] as String
     ..special_s = (json['special_s'] as List)
         ?.map((e) =>
@@ -38,4 +39,6 @@ Map<String, dynamic> _$HomeBeanToJson(HomeBean instance) => <String, dynamic>{
       'x_end': instance.x_end,
       'special_s': instance.special_s,
       'special_x': instance.special_x,
-    };
+  'notice': instance.notice,
+
+};
