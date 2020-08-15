@@ -14,7 +14,7 @@ import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
 
-import '../../urls.dart';
+import '../../../urls.dart';
 
 class UpdatePass extends StatefulWidget {
   @override

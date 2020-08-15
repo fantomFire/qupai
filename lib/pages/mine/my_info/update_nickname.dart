@@ -6,7 +6,7 @@ import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/widgets/appbars.dart';
 
 
-import '../../urls.dart';
+import '../../../urls.dart';
 
 class UpdateNickname extends StatefulWidget {
   final String user_nickname;

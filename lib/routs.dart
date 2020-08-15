@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:qupai/login/n_forget_psd_page.dart';
 import 'package:qupai/pages/custom/chat.dart';
 import 'package:qupai/pages/home/auction_details.dart';
 import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
-import 'package:qupai/pages/mine/add_address.dart';
-import 'package:qupai/pages/mine/address_manager.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
-import 'package:qupai/pages/mine/identification_page.dart';
 import 'package:qupai/pages/mine/money_code/money_code_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
 import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
+import 'package:qupai/pages/mine/ren_zheng/identification_page.dart';
 import 'package:qupai/pages/mine/sell_order/order_sell_screen.dart';
 import 'package:qupai/pages/mine/sell_order/sell_detail.dart';
-import 'package:qupai/pages/mine/seting_page.dart';
-import 'package:qupai/pages/mine/update_nickname.dart';
-import 'package:qupai/pages/mine/update_pass.dart';
+import 'file:///J:/Code/Project/QuPai/qupai/lib/pages/mine/setting/seting_page.dart';
+import 'file:///J:/Code/Project/QuPai/qupai/lib/pages/mine/setting/update_pass.dart';
 import 'package:qupai/pages/mine/user_guide/uguide_detail_page.dart';
 import 'package:qupai/pages/mine/user_guide/uguide_page.dart';
 import 'package:qupai/pages/mine/user_guide/urisk_page.dart';
-import 'package:qupai/pages/mine/user_info.dart';
+
 import 'login/n_login_page.dart';
 import 'login/n_register_page.dart';
 import 'pages/mainPage.dart';
 import 'pages/mine/buy_order/order_screen.dart';
+import 'pages/mine/my_info/add_address.dart';
+import 'pages/mine/my_info/address_manager.dart';
+import 'pages/mine/my_info/update_nickname.dart';
+import 'pages/mine/my_info/user_info.dart';
 
 Map<String, WidgetBuilder> routes() {
   return <String, WidgetBuilder>{

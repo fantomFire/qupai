@@ -18,7 +18,7 @@ import 'package:qupai/widgets/appbars.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../urls.dart';
+import '../../../urls.dart';
 
 class SettingPage extends StatefulWidget {
   @override
