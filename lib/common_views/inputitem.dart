@@ -33,7 +33,7 @@ class InputItem extends StatelessWidget {
       this.titleWidth,
       this.inputTextAlign: TextAlign.right,
       this.margin,
-      this.noBottomLine: true,
+      this.noBottomLine,
       this.lineMargin,
         this.obscureText:false,
       this.fontSize: 14,
