@@ -35,5 +35,8 @@ class Urls {
   static String setNickName = '/Userinfo/up_nickname'; //修改昵称
   static String setUserPhoto = '/Userinfo/userpic'; //修改头像
   static String toRenZheng = '/Mydetails/certification'; //实名认证
+  static String checkRenZheng = '/Mydetails/iscid'; //检测实名认证
+  static String getRenZheng = '/Mydetails/cidpage'; //获取实名认证数据
+  static String uploadCodePic = '/Mydetails/instancset'; //上传支付二维码
 
 }

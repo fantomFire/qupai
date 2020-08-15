@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/utils/file_select.dart';
+import 'package:qupai/utils/file_upload.dart';
+import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/values/textstyles.dart';
 
 class MoneyCodePage extends StatefulWidget {
   @override
@@ -20,6 +24,13 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
   FileSelect _fileUploadUtil;
   bool hasSelect = false;
   String imgPath = "";
+  File picFile;
+
+  String status;
+  String name;
+  String account;
+  String bankopen;
+  String bankbranch;
 
   @override
   void initState() {
@@ -56,6 +67,7 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                           onTap: () {
                             setState(() {
                               isSelect = 0;
+                              status = "3";
                             });
                           },
                           child: Container(
@@ -132,6 +144,7 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                           onTap: () {
                             setState(() {
                               isSelect = 1;
+                              status = "1";
                             });
                           },
                           child: Container(
@@ -208,6 +221,7 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                           onTap: () {
                             setState(() {
                               isSelect = 2;
+                              status = "2";
                             });
                           },
                           child: Container(
@@ -293,7 +307,7 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                   ),
                   margin: EdgeInsets.fromLTRB(16, 0, 16, 10),
                   padding: EdgeInsets.all(12),
-                  height: 265,
+                  height: isSelect == 2 ? 360 : 260,
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -387,6 +401,9 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: BaseColor.color_333333),
+                                onChanged: (value) {
+                                  name = value;
+                                },
                               ),
                             )
                           ],
@@ -401,7 +418,8 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                             Expanded(
                               child: TextField(
                                 inputFormatters: [
-                                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z0-9._@-]")),
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[a-zA-Z0-9._@-]")),
                                 ],
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration.collapsed(
@@ -412,9 +430,68 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: BaseColor.color_333333),
+                                onChanged: (value) {
+                                  account = value;
+                                },
                               ),
                             )
                           ],
+                        ),
+                      ),
+                      Offstage(
+                        offstage: isSelect == 2 ? false : true,
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Text("开户银行",
+                                  style:
+                                      TextStyle(color: BaseColor.color_999999)),
+                              Expanded(
+                                child: TextField(
+                                  textAlign: TextAlign.end,
+                                  decoration: InputDecoration.collapsed(
+                                      hintText: "请输入开户银行",
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: BaseColor.color_333333)),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: BaseColor.color_333333),
+                                  onChanged: (value) {
+                                    bankopen = value;
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Offstage(
+                        offstage: isSelect == 2 ? false : true,
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Text("开户支行",
+                                  style:
+                                      TextStyle(color: BaseColor.color_999999)),
+                              Expanded(
+                                child: TextField(
+                                  textAlign: TextAlign.end,
+                                  decoration: InputDecoration.collapsed(
+                                      hintText: "请输入开户支行",
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: BaseColor.color_333333)),
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: BaseColor.color_333333),
+                                  onChanged: (value) {
+                                    bankbranch = value;
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -424,16 +501,32 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
                   margin: EdgeInsets.fromLTRB(16, 59, 16, 0),
                   child: Text(
                     "风险提示：转拍属于C2C交易，资金不经过平台，平台不会自动扣款，需要您手动自行转账给对方，对方才能收到款项。",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: BaseColor.color_C60000
-                    ),
+                    style:
+                        TextStyle(fontSize: 10, color: BaseColor.color_C60000),
                     strutStyle: StrutStyle(
                         forceStrutHeight: true,
                         height: textLineHeight,
                         leading: leading),
                   ),
-                )
+                ),
+                GestureDetector(
+                  onTap: () {
+                    upload(picFile);
+                  },
+                  child: Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(left: 45, top: 50, right: 45),
+                      decoration: BoxDecoration(
+                        color: BaseColor.color_C60000,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      constraints:
+                          BoxConstraints.expand(width: 280, height: 40),
+                      child: Text(
+                        "确定",
+                        style: TextStyles.color_withe_18,
+                      )),
+                ),
               ],
             ),
           ),
@@ -445,11 +538,11 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
 
   String getTitle() {
     if (isSelect == 0) {
-      return "支付宝";
+      return "账号";
     } else if (isSelect == 1) {
-      return "微信号";
+      return "账号";
     } else if (isSelect == 2) {
-      return "银行卡";
+      return "账号";
     }
     return "";
   }
@@ -473,6 +566,7 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
       hasSelect = true;
 
       setState(() {
+        picFile = file;
         imgPath = file.path;
         Fluttertoast.showToast(
           msg: imgPath,
@@ -481,5 +575,15 @@ class _MoneyCodePageState extends State<MoneyCodePage> {
         );
       });
     });
+  }
+
+  void upload(File file) async {
+    HttpResponse httpResponse = await FileUpLoadServer.uploadCodePic(context,
+        file, UiUtils.getUserId(), status, name, account, bankopen, bankbranch);
+    if (httpResponse.result) {
+      ToastUtil.toast("上传成功");
+      setState(() {});
+      Navigator.pop(context, true);
+    }
   }
 }

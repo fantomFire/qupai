@@ -71,6 +71,80 @@ class FileUpLoadServer {
     }
   }
 
+  // 上传支付二维码
+  static Future<HttpResponse> uploadCodePic(
+      BuildContext context,
+      File file,
+      String user_id,
+      String status,
+      String name,
+      String account,
+      String bankopen,
+      String bankbranch,
+      {bool showDialog: true,
+      bool initState: false}) async {
+    if (file != null && file.lengthSync() != 0) {
+      if (!CommonUtil.checkImageType(file)) {
+        ToastUtil.toast("图片格式错误");
+        return HttpResponse(false);
+      } else {
+        HttpUtil.showLoadingProgress(context, showDialog, initState);
+        if (_dio == null) {
+          _dio = Dio();
+          _dio.options.baseUrl = Urls.base;
+          _dio.options.connectTimeout = 10000;
+          _dio.options.receiveTimeout = 20000;
+          HttpUtil.addInterceptor(_dio);
+        }
+        try {
+          FormData formData = new FormData.fromMap({
+            "pic": await MultipartFile.fromFile(
+              file.path,
+              filename: file.path.substring(file.path.lastIndexOf("/") + 1),
+            ),
+            'user_id': user_id,
+            'status': status,
+            'name': name,
+            'account': account,
+            'bankopen': bankopen,
+            'bankbranch': bankbranch,
+          });
+          Response response =
+              await _dio.post(Urls.uploadCodePic, data: formData);
+          if (response.statusCode == 200) {
+            var datas = json.decode(response.data);
+            num code = datas['code'];
+            if (code != null && code == 200) {
+              HttpUtil.hideLoadingProgress(context, showDialog);
+              return HttpResponse(true, code, datas["message"], datas["data"]);
+            }
+          } else {
+            HttpUtil.hideLoadingProgress(context, showDialog);
+            ToastUtil.toast("网络错误！");
+            return HttpResponse(false);
+          }
+        } on DioError catch (e) {
+          HttpUtil.hideLoadingProgress(context, showDialog);
+          if (e != null &&
+              (e.type == DioErrorType.CONNECT_TIMEOUT ||
+                  e.type == DioErrorType.RECEIVE_TIMEOUT ||
+                  e.type == DioErrorType.SEND_TIMEOUT)) {
+            ToastUtil.toast('网络连接超时');
+          } else {
+            ToastUtil.toast("网络连接错误，请检查网络！");
+          }
+          return HttpResponse(false);
+        } catch (e) {
+          HttpUtil.hideLoadingProgress(context, showDialog);
+          ToastUtil.toast("网络错误！");
+          return HttpResponse(false);
+        }
+      }
+    } else {
+      ToastUtil.toast("上传图片错误，请重试！");
+    }
+  }
+
   //上传头像
   static Future<HttpResponse> uploadPhoto(
       BuildContext context, String user_id, File file,
