@@ -91,7 +91,7 @@ class _MinePageState extends State<MinePage> {
                             child: ClipOval(
                               child: ImageLoadUtil(
                                 url:
-                                    '${Urls.imageBase}${userInfoBean?.user_img}',
+                                    '${Urls.imageBase}${userInfoBean?.user_pic}',
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.fill,
@@ -109,7 +109,10 @@ class _MinePageState extends State<MinePage> {
                                 Row(
                                   children: <Widget>[
                                     TextView(
-                                      "小艾同学",
+                                      userInfoBean?.nickname == null ||
+                                              userInfoBean?.nickname == ""
+                                          ? "用户 ${userInfoBean?.id}"
+                                          : userInfoBean?.nickname,
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: BaseColor.color_ffffff),
@@ -143,7 +146,7 @@ class _MinePageState extends State<MinePage> {
                                                   color:
                                                       BaseColor.color_F8D986),
                                               child: Image.asset(
-                                                  UiUtils.getImgPath("star")),
+                                                  UiUtils.getImgPath("icon_my_lv")),
                                             ),
                                             TextView(
                                               "运营中心",
@@ -174,7 +177,7 @@ class _MinePageState extends State<MinePage> {
                                     Expanded(
                                       child: Container(
                                         child: TextView(
-                                          "13812345678",
+                                          userInfoBean?.user_phone,
                                           style: TextStyles.color_ffffff_14,
                                         ),
                                       ),
@@ -183,15 +186,15 @@ class _MinePageState extends State<MinePage> {
                                         child: Container(
                                       child: Row(
                                         children: <Widget>[
-                                          TextView("邀请码 ${'K9527'}",
+                                          TextView(
+                                              "邀请码 ${userInfoBean?.invite}",
                                               style:
                                                   TextStyles.color_ffffff_13),
                                           GestureDetector(
                                             onTap: () {
                                               if (userInfoBean != null) {
                                                 Clipboard.setData(ClipboardData(
-                                                    text: userInfoBean
-                                                        ?.user_invitation_code
+                                                    text: userInfoBean?.invite
                                                         .toString()));
                                                 ToastUtil.toast("已复制该邀请码");
                                               }
@@ -251,7 +254,7 @@ class _MinePageState extends State<MinePage> {
                               Container(
                                 margin: EdgeInsets.only(top: 12),
                                 child: TextView(
-                                  "8799.00",
+                                  userInfoBean?.balance,
                                   style: TextStyle(
                                       fontSize: 17,
                                       color: BaseColor.color_ffffff),
@@ -283,7 +286,9 @@ class _MinePageState extends State<MinePage> {
                               Container(
                                 margin: EdgeInsets.only(top: 12),
                                 child: TextView(
-                                  "8799",
+                                  userInfoBean?.integral == null
+                                      ? "0"
+                                      : userInfoBean?.integral,
                                   style: TextStyle(
                                       fontSize: 17,
                                       color: BaseColor.color_ffffff),
@@ -536,8 +541,9 @@ class _MinePageState extends State<MinePage> {
         initState: true);
     if (response.result) {
       if (response.datas != null) {
-//        userInfoBean = UserInfoBean.fromJson(response.datas);
-        setState(() {});
+        setState(() {
+          userInfoBean = UserInfoBean.fromJson(response.datas);
+        });
       }
     }
   }

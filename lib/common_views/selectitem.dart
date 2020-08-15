@@ -31,7 +31,7 @@ class SelectItem extends StatelessWidget {
       this.inputTextAlign: TextAlign.right,
       this.noBottomLine: true,
       this.lineMargin,
-      this.fontSize: 16,
+      this.fontSize: 14,
       this.rightWidget,
       this.titleTextColor: BaseColor.color_333333})
       : super(key: key);

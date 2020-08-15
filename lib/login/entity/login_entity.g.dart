@@ -11,7 +11,6 @@ LoginEntity _$LoginEntityFromJson(Map<String, dynamic> json) {
     ..user_id = json['user_id']
     ..user_phone = json['user_phone'] as String
     ..token = json['token'] as String;
-
 }
 
 Map<String, dynamic> _$LoginEntityToJson(LoginEntity instance) =>

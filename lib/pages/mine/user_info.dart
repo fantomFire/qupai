@@ -9,13 +9,13 @@ import 'package:qupai/pages/mine/entity/user_info.dart';
 import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/file_select.dart';
 import 'package:qupai/utils/file_upload.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
-
 
 import '../../urls.dart';
 
@@ -31,15 +31,17 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   UserInfoBean userInfoBean;
 
-  String user_id;
-  String _headimg;
+  String userId;
   FileSelect _fileUploadUtil;
 
   @override
   void initState() {
     super.initState();
-   // user_id = CacheManager.instance.getUerInfo().user_id.toString();
-    getUserInfo();
+    if (widget.user == null) {
+      getUserInfo();
+    } else {
+      userInfoBean = widget.user;
+    }
     getAddress();
   }
 
@@ -78,7 +80,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           alignment: Alignment.centerRight,
                           child: ClipOval(
                             child: ImageLoadUtil(
-                              url: '${Urls.imageBase}${userInfoBean?.user_img}',
+                              url: '${Urls.imageBase}${userInfoBean?.user_pic}',
                               width: 60,
                               height: 60,
                               fit: BoxFit.fill,
@@ -101,12 +103,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       ),
                       Expanded(
                           child: Container(
-                        child: TextView(
-                          userInfoBean?.user_name,
-                          style: TextStyles.color_999999_16,
-                          textAlign: TextAlign.right,
-                        ),
-                      ))
+                            child: TextView(
+                              "${userInfoBean?.id}",
+                              style: TextStyles.color_999999_16,
+                              textAlign: TextAlign.right,
+                            ),
+                          ))
                     ],
                   ),
                 ),
@@ -114,8 +116,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 GestureDetector(
                   onTap: () {
                     NavigatorUtil.pushNamed(context, "/update_nickname",
-                            arguments: {'user_nickname': userInfoBean?.user_nickname})
-                        .then((v) {
+                        arguments: {
+                          'user_nickname': userInfoBean?.nickname
+                        }).then((v) {
                       if (v != null) {
                         getUserInfo();
                       }
@@ -135,7 +138,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           child: Container(
                             padding: EdgeInsets.only(right: 10),
                             child: TextView(
-                              userInfoBean?.user_nickname,
+                              userInfoBean?.nickname == null ||
+                                  userInfoBean?.nickname == ""
+                                  ? "用户 ${userInfoBean?.id}"
+                                  : userInfoBean?.nickname,
                               style: TextStyles.color_999999_16,
                               textAlign: TextAlign.right,
                             ),
@@ -147,27 +153,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   ),
                 ),
                 Line(),
-             /*   GestureDetector(
-                  onTap: () {
-                    NavigatorUtil.pushNamed(context, "/update_pass");
-                  },
-                  child: Container(
-                    height: 50,
-                    color: BaseColor.color_ffffff,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        TextView(
-                          "修改密码",
-                          style: TextStyle(
-                              fontSize: 16, color: BaseColor.color_333333),
-                        ),
-                        Image.asset(UiUtils.getImgPath("nextpage"))
-                      ],
-                    ),
-                  ),
-                ),
-                Line(),*/
                 GestureDetector(
                   onTap: () {
                     NavigatorUtil.pushNamed(context, "/address_manager");
@@ -208,39 +193,41 @@ class _UserInfoPageState extends State<UserInfoPage> {
           )
         ],
       ),
-    );
-  }
+    );}
 
-  void getUserInfo() async {
-   /* HttpResponse response = await HttpUtil.send(
-        context, "post", Urls.UserInfo, {"user_id": UiUtils.getUserId()},
-        initState: true);
+    void getUserInfo() async {
+    userId = SpUtil.getString("user_id");
+
+    HttpResponse response = await HttpUtil.send(
+    context, "post", Urls.UserInfo, {"user_id": userId},
+    initState: true);
     if (response.result) {
-      if (response.datas != null) {
-        userInfoBean = UserInfoBean.fromJson(response.datas);
-        setState(() {});
-      }
-    }*/
-  }
+    if (response.datas != null) {
+    setState(() {
+    userInfoBean = UserInfoBean.fromJson(response.datas);
+    });
+    }
+    }
+    }
 
-  void getAddress() async {
-   /* HttpResponse response = await HttpUtil.send(
+    void getAddress() async {
+    /* HttpResponse response = await HttpUtil.send(
         context, "post", Urls.defaultAddress, {'user_id': user_id},
         initState: true);
     if (response.result) {}*/
-  }
+    }
 
-  void selectImage() {
+    void selectImage() {
     if (_fileUploadUtil == null) {
-      _fileUploadUtil = new FileSelect(context);
+    _fileUploadUtil = new FileSelect(context);
     }
     _fileUploadUtil.selectPhoto(({file, result}) {
-      upload(file, result);
+    upload(file, result);
     });
-  }
+    }
 
-  void upload(File file, result) async {
-  /*  HttpResponse httpResponse =
+    void upload(File file, result) async {
+    /*  HttpResponse httpResponse =
         await FileUpLoadServer.uploadImage(context, Urls.uplaoadPictuer, file);
     if (httpResponse.result) {
       //ToastUtil.toast("上传成功");
@@ -248,15 +235,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
       setState(() {});
     }*/
-  }
+    }
 
-  void save(String datas) async {
-  /*  HttpResponse httpResponse = await HttpUtil.send(context, 'post',
+    void save(String datas) async {
+    /*  HttpResponse httpResponse = await HttpUtil.send(context, 'post',
         Urls.savePictuer, {'user_id': UiUtils.getUserId(), 'user_img': datas});
 
     if (httpResponse.result) {
       //ToastUtil.toast("上传成功");
       getUserInfo();
     }*/
+    }
   }
-}
