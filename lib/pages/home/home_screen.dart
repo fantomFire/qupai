@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:qupai/utils/CommonUtil.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/pao_swither.dart';
+import 'package:qupai/utils/time_utlils.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
@@ -28,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen>
   ScrollController _scrollController = ScrollController();
   int _page = 1;
   bool isChange = false;
-  List list = ["1", '2', '3', '4'];
   HomeBean homeBean;
 
   List<BannerBean> bannerList = new List();
@@ -250,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen>
               SizedBox(
                 height: 10,
               ),
-              _afternoonWidget(list),
+              _afternoonWidget(),
             ],
           )),
     );
@@ -268,6 +270,9 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _scrollController.dispose();
+
+    _timerIndex.cancel();
+    _timerIndex=null;
     super.dispose();
   }
 
@@ -295,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen>
                       color: BaseColor.color_333333,
                       fontWeight: FontWeight.bold),
                 ),
-                Text("9:30-11:30",
+                Text('${homeBean?.s_begin}-${homeBean?.s_end}',
                     style: TextStyle(fontSize: 12, color: Colors.grey))
               ],
             ),
@@ -318,14 +323,14 @@ class _HomeScreenState extends State<HomeScreen>
     return GestureDetector(
         onTap: () {
             Navigator.pushNamed(context, "/auctionSession",
-                arguments: {"status": data.type.toString()});
+                arguments: {"status": data.id.toString()});
         },
         child: Container(
           height: 170,
           margin: EdgeInsets.only(top: 15),
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(Urls.imageTest),
+                image: NetworkImage(Urls.imageBase+data.pic),
                 fit: BoxFit.fill,
               ),
               borderRadius: BorderRadius.circular(10)),
@@ -349,82 +354,87 @@ class _HomeScreenState extends State<HomeScreen>
                       height: 23,
                       alignment: Alignment.center,
                       child: Text(
-                        index == 0 ? "特价场" : "普通场",
+                        data.type == 1 ? "特价场" : "普通场",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       )),
-                  data == '1'
+                  morningState ==1
                       ? Container(
                           decoration: BoxDecoration(
                             color: Color.fromRGBO(255, 255, 255, 0.2),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           padding:
-                              EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                              EdgeInsets.symmetric(vertical: 3, horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                Icons.schedule,
-                                size: 12,
-                                color: Colors.white,
+                              Container(
+                                child: Image.asset(UiUtils.getImgPath('home_not_start')),
                               ),
-                              Text(
-                                "未开拍",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                              Container(
+                                 padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                child:     Text(
+                                  "未开拍",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10),
+                                ),
                               )
+
                             ],
                           ),
                         )
-                      : data == '2'
+                      : morningState == 1
                           ? Container(
                               decoration: BoxDecoration(
                                 color: Color.fromRGBO(255, 255, 255, 0.2),
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               padding: EdgeInsets.symmetric(
-                                  vertical: 3, horizontal: 5),
+                                  vertical: 3, horizontal:8),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.update,
-                                    size: 12,
-                                    color: Colors.white,
+                                  Container(
+                                    child: Image.asset(UiUtils.getImgPath('home_live')),
                                   ),
-                                  Text(
-                                    "拍卖中",
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 10),
+                                  Container(
+                                     padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                    child:    Text(
+                                      "拍卖中",
+                                      style: TextStyle(
+                                          color: Colors.green, fontSize: 10),
+                                    ),
                                   )
+
                                 ],
                               ),
                             )
-                          : data == '3'
+                          : morningState == 2
                               ? Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromRGBO(255, 255, 255, 0.2),
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 4),
+                                      vertical: 3, horizontal: 8),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.power_settings_new,
-                                        size: 12,
-                                        color: Colors.white,
+                                      Container(
+                                        child: Image.asset(UiUtils.getImgPath('home_end')),
                                       ),
-                                      Text(
-                                        "已结束",
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 10),
-                                      )
+                                     Container(
+                                       padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                       child:   Text(
+                                         "已结束",
+                                         style: TextStyle(
+                                             color: Colors.red, fontSize: 10),
+                                       ),
+                                     )
                                     ],
                                   ),
                                 )
@@ -482,7 +492,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   //下午
-  Widget _afternoonWidget(list) {
+  Widget _afternoonWidget() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       color: Theme.of(context).backgroundColor,
@@ -504,7 +514,7 @@ class _HomeScreenState extends State<HomeScreen>
                       color: BaseColor.color_333333,
                       fontWeight: FontWeight.bold),
                 ),
-                Text("14:30-16:30",
+                Text('${homeBean?.x_begin}-${homeBean?.x_end}',
                     style: TextStyle(fontSize: 12, color: Colors.grey))
               ],
             ),
@@ -513,9 +523,9 @@ class _HomeScreenState extends State<HomeScreen>
               child: ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(), //禁止滚动
-            itemCount: list.length,
+            itemCount: specialxList.length,
             itemBuilder: (BuildContext context, int index) {
-              return _listAfternoonItemWidget(list[index], index);
+              return _listAfternoonItemWidget(specialxList[index], index);
             },
           ))
         ],
@@ -523,15 +533,12 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _listAfternoonItemWidget(data, index) {
+  Widget _listAfternoonItemWidget(SpecialXBean data, index) {
     return GestureDetector(
         onTap: () {
           if (index == 0) {
             Navigator.pushNamed(context, "/auctionSession",
-                arguments: {"status": data});
-          } else {
-            Navigator.pushNamed(context, "/auctionSession",
-                arguments: {"status": data});
+                arguments: {"status": data.id.toString()});
           }
         },
         child: Container(
@@ -563,82 +570,88 @@ class _HomeScreenState extends State<HomeScreen>
                       height: 23,
                       alignment: Alignment.center,
                       child: Text(
-                        index == 0 ? "特价场" : "普通场",
+                        data.type == 1 ? "特价场" : "普通场",
                         style: TextStyle(color: Colors.white, fontSize: 12),
                       )),
-                  data == '1'
+                  afternoonState == 0
                       ? Container(
                           decoration: BoxDecoration(
                             color: Color.fromRGBO(255, 255, 255, 0.2),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           padding:
-                              EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                              EdgeInsets.symmetric(vertical: 3, horizontal:8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                Icons.schedule,
-                                size: 12,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                "未开拍",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                             Container(
+                               child: Image.asset(UiUtils.getImgPath('home_not_start')),
+                             ),
+                              Container(
+                                 padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                child:    Text(
+                                  "未开拍",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 10),
+                                ),
                               )
+
                             ],
                           ),
                         )
-                      : data == '2'
+                      : afternoonState == 1
                           ? Container(
                               decoration: BoxDecoration(
                                 color: Color.fromRGBO(255, 255, 255, 0.2),
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               padding: EdgeInsets.symmetric(
-                                  vertical: 3, horizontal: 5),
+                                  vertical: 3, horizontal:8),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.update,
-                                    size: 12,
-                                    color: Colors.white,
+                                  Container(
+                                    child: Image.asset(UiUtils.getImgPath('home_live')),
                                   ),
-                                  Text(
-                                    "拍卖中",
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 10),
+                                  Container(
+                                     padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                    child:   Text(
+                                      "拍卖中",
+                                      style: TextStyle(
+                                          color: Colors.green, fontSize: 10),
+                                    ),
                                   )
+
                                 ],
                               ),
                             )
-                          : data == '3'
+                          : afternoonState == 2
                               ? Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromRGBO(255, 255, 255, 0.2),
                                     borderRadius: BorderRadius.circular(14),
                                   ),
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 4),
+                                      vertical: 3, horizontal: 8),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.power_settings_new,
-                                        size: 12,
-                                        color: Colors.white,
+                                      Container(
+                                        child: Image.asset(UiUtils.getImgPath('home_end')),
                                       ),
-                                      Text(
-                                        "已结束",
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 10),
+                                      Container(
+                                         padding: EdgeInsets.only(bottom: 3,left: 3 ),
+                                        child:   Text(
+                                          "已结束",
+                                          style: TextStyle(
+                                              color: Colors.red, fontSize: 10),
+                                        ),
                                       )
+
                                     ],
                                   ),
                                 )
@@ -679,6 +692,61 @@ class _HomeScreenState extends State<HomeScreen>
       setState(() {
 
       });
+      if(homeBean.s_begin!=null){
+        _timeFunc();
+
+      }
+
     }
   }
+  Timer _timerIndex;
+ int morningState = 0;
+  int afternoonState = 0;
+
+  void _timeFunc() {
+   // if(){}
+  //  String _newDate = TimeUtils.getCurrentTime();
+    var _newDate = DateTime.now();
+    const period = const Duration(seconds: 1);
+   String currentDay =  TimeUtils.getCurrentDate();
+    var _diffS_begin = DateTime.parse("$currentDay ${homeBean?.s_begin}");
+    var _diffS_end = DateTime.parse("$currentDay ${homeBean?.s_end}");
+    var _diffx_begin = DateTime.parse("$currentDay ${homeBean?.x_begin}");
+    var _diffx_end = DateTime.parse("$currentDay ${homeBean?.x_end}");
+    _timerIndex = Timer.periodic(period, (timer) {
+      //到时回调
+      _diffS_begin = _diffS_begin.subtract(Duration(seconds: 1));
+      _diffS_end = _diffS_end.subtract(Duration(seconds: 1));
+      _diffx_begin = _diffx_begin.subtract(Duration(seconds: 1));
+      _diffx_end = _diffx_end.subtract(Duration(seconds: 1));
+
+      // count++;
+      if (_diffS_begin.difference(_newDate).inSeconds >0) {
+        morningState = 0;
+        //取消定时器，避免无限回调
+//        timer.cancel();
+//        timer = null;
+      }else if(_diffS_begin.difference(_newDate).inSeconds<0&&_diffS_end.difference(_newDate).inSeconds>0){
+        morningState = 1;
+      }else{
+        morningState = 2;
+      }
+      // 下午;
+      if (_diffx_begin.difference(_newDate).inSeconds >0) {
+        afternoonState = 0;
+        //取消定时器，避免无限回调
+//        timer.cancel();
+//        timer = null;
+      }else if(_diffx_begin.difference(_newDate).inSeconds<0&&_diffx_end.difference(_newDate).inSeconds>0){
+        afternoonState = 1;
+      }else{
+        afternoonState = 2;
+      }
+
+      setState(() {
+      });
+      // debugPrint(_text);
+    });
+  }
+
 }

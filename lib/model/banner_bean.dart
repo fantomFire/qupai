@@ -4,14 +4,14 @@ part 'banner_bean.g.dart';
 
 @JsonSerializable()
 class BannerBean {
-  BannerBean();
+
 
   num id;
   String banner_pic;
   String creat_at;
 
   num status;
-
+  BannerBean();
   factory BannerBean.fromJson(Map<String, dynamic> json) =>
       _$BannerBeanFromJson(json);
 

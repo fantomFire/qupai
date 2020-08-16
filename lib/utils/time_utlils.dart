@@ -32,6 +32,13 @@ class TimeUtils {
           dateTime, [ mm, "-", dd, " ", HH, ":", nn, ":", ss]);
     }
   }
+  static String parseTime(String  time ,{format="hh:mm:ss"}) {
+    if (time == null) {
+      return "";
+    } else {
+      return "";
+    }
+  }
   static String  parseString(int  time){
     if(time==null){
       return "";
