@@ -3,7 +3,9 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/common_views/refeshview_custom.dart';
+import 'package:qupai/model/good_order_bean.dart';
 import 'package:qupai/urls.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -24,6 +26,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
   bool isFail = false;
   int userId;
   EasyRefreshController _easyRefreshController = EasyRefreshController();
+  List<GoodOrderBean> orderList = List();
 
   bool _hasNoMore = true;
   int curPage = 1;
@@ -48,15 +51,13 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
               isFail = false;
             });
           },
-          childCount: 3,
+          childCount: orderList.length,
           childItem: (context, index) {
-            return _createByHomeOrder(index);
+            return _createByHomeOrder(orderList[index]);
           },
           onRefresh: () async {
             curPage = 1;
-          },
-          onLoadMore: () {
-            curPage++;
+            getListInfo(true);
           },
         ),
       ),
@@ -65,12 +66,11 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
 
   @override
   bool get wantKeepAlive => true;
-
-  Widget _createByHomeOrder(index) {
+  Widget _createByHomeOrder(GoodOrderBean info) {
     return GestureDetector(
       onTap: () {
         NavigatorUtil.pushNamed(context, "/order_detail", arguments: {
-          'goods_order_id': "1"
+          'id': info.id.toString()
         }).then((v) {
           if (v != null) {
             _easyRefreshController.callRefresh();
@@ -90,7 +90,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextView(
-                    "订单编号:2222222",
+                    "订单编号: ${info.order_no}",
                     style: TextStyles.color_999999_12,
                   ),
                   TextView(
@@ -106,7 +106,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
               child: Row(
                 children: <Widget>[
                   ImageLoadUtil(
-                    url: Urls.imageTest,
+                    url: Urls.imageBase+info.goods_pic,
                     width: 90,
                     height: 90,
                     fit: BoxFit.fill,
@@ -122,20 +122,20 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextView(
-                            '我是商品名称呀',style: TextStyles.color_333333_14,
+                            '${info.goods_name}',style: TextStyles.color_333333_14,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           TextView(
-                            '库号：123456',style: TextStyles.color_999999_13,
+                            '库号：${info.number_stock}',style: TextStyles.color_999999_13,
                           ),
                           TextView(
-                            '规格：121212',style: TextStyles.color_999999_13,
+                            '规格：${info.goods_spec}',style: TextStyles.color_999999_13,
                           ),
                           Container(
                             width: double.infinity,
                             child: TextView(
-                              '合计：121212',style: TextStyles.color_999999_13,
+                              '合计：${info.goods_price}',style: TextStyles.color_999999_13,
                               textAlign: TextAlign.right,
                             ),
                           ),
@@ -188,11 +188,50 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
                 ],
               ),
             ),
-
-
           ],
         ),
       ),
     );
+  }
+
+  void getListInfo(bool init) async{
+    HttpResponse response;
+    if(widget.status==0){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderAll, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==1){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderUnPaid, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==2){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderConform, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==3){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderAppeal, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==4){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderCancel, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==5){
+      response = await HttpUtil.send(
+          context, "post", Urls.orderCompleted, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }
+    if(response.result){
+      orderList.clear();
+      if(response.datas['order']!=null){
+        for( int i = 0;i<response.datas['order'].length;i++){
+          GoodOrderBean goodOrderBean = GoodOrderBean.fromJson(response.datas['order'][i]);
+          orderList.add(goodOrderBean);
+        }
+      }
+      setState(() {
+
+      });
+    }
   }
 }

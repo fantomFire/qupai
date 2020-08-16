@@ -58,7 +58,14 @@ Map<String, WidgetBuilder> routes() {
     '/demonstrationSession': (context) => DemonstrationSessionPage(),
     '/ensureOrder': (context) => EnsureOrder(),
     '/buy_order': (context) => OrderScreen(),
-    '/order_detail': (context) => OrderDetail(),
+    '/order_detail': (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? OrderDetail()
+          : OrderDetail(
+        id: arguments['id'],
+      );
+    } ,
     "/sell_detail": (context) => SellDetail(),
     "/physical_detail": (context) => PhysicalDetail(),
     '/sell_order': (context) => OrderSell(),

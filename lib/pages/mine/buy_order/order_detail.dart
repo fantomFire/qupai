@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -12,11 +13,20 @@ import 'package:qupai/widgets/appbars.dart';
 
 import '../../../urls.dart';
 class OrderDetail extends StatefulWidget {
+  final String id;
+
+  const OrderDetail({Key key, this.id}) : super(key: key);
   @override
   _OrderDetailState createState() => _OrderDetailState();
 }
 
 class _OrderDetailState extends State<OrderDetail> {
+  @override
+  void initState() {
+    super.initState();
+    getGoodDetail(widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -261,4 +271,16 @@ class _OrderDetailState extends State<OrderDetail> {
       ),
     );
   }
+
+  void getGoodDetail(String id)async {
+   HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.orderDetail, {'id':id},
+        initState: true);
+
+
+
+
+  }
+
+
 }

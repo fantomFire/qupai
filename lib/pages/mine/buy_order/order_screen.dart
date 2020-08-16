@@ -74,33 +74,24 @@ class _OrderScreenState extends State<OrderScreen>
   bool get wantKeepAlive => true;
 
   List<Widget> getPages() {
-
     return [
       OrderScreenDemand(
         status: 0,
-       // easyRefreshController: _easyRefreshControllers[0],
-
       ),
       OrderScreenDemand(
         status:1,
-     //   easyRefreshController: _easyRefreshControllers[1],
-
       ),
       OrderScreenDemand(
-        status:4,
-        //easyRefreshController: _easyRefreshControllers[2],
+        status:2,
       ),
       OrderScreenDemand(
         status: 3,
-     //   easyRefreshController: _easyRefreshControllers[3],
+      ),
+      OrderScreenDemand(
+        status: 4,
       ),
       OrderScreenDemand(
         status: 5,
-       // easyRefreshController: _easyRefreshControllers[4],
-      ),
-      OrderScreenDemand(
-        status: 6,
-        // easyRefreshController: _easyRefreshControllers[4],
       ),
     ];
 

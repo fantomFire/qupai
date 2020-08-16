@@ -42,4 +42,14 @@ class Urls {
   static String getRenZheng = '/Mydetails/cidpage'; //获取实名认证数据
   static String uploadCodePic = '/Mydetails/instancset'; //上传支付二维码
 
+
+  static final String orderAll = "/Myorder/index"; //我的买单 全部
+  static final String orderUnPaid = "/Myorder/unpaid"; //我的买单 待付款
+  static final String orderConform = "/Myorder/unconfirmed"; //我的买单 待确认
+  static final String orderAppeal = "/Myorder/appeal"; //我的买单 申诉
+  static final String orderCancel = "/Myorder/cancel"; //我的买单 已取消
+  static final String orderCompleted = "/Myorder/completed"; //我的买单 已完成
+  static final String orderDetail = "/Myorder/orderdetail"; //我的买单 详情
+
+
 }
