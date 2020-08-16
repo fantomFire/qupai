@@ -51,7 +51,8 @@ Map<String, WidgetBuilder> routes() {
       return arguments == null
           ? AuctionDetailsPage()
           : AuctionDetailsPage(
-              status: arguments['status'],
+              id: arguments['id'],
+          status:arguments['status']
             );
     },
     '/demonstrationSession': (context) => DemonstrationSessionPage(),

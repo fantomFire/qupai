@@ -17,6 +17,8 @@ String goods_type;
   var status;
   String special_name;
   String goods_detail;
+  String bz;
+
 
   GoodItemBean();
   factory GoodItemBean.fromJson(Map<String, dynamic> json) =>

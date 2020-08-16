@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/model/good_item_bean.dart';
@@ -8,6 +7,7 @@ import 'package:qupai/model/good_list_bean.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/time_utlils.dart';
+import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 
 import '../../urls.dart';
@@ -23,7 +23,6 @@ class AuctionSessionPage extends StatefulWidget {
 
 class _AuctionSessionPageState extends State<AuctionSessionPage>
     with SingleTickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
   TabController _tabController; //需要定义一个Controller
   List tabs = ["可拍卖", "已拍卖"];
   String _day1;
@@ -126,8 +125,12 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
   Widget _listWaitingItemWidget(List<GoodItemBean> data, int index) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, "/auctionDetails",
-              arguments: {"widget.status": data[index].id});
+          if(timeState==0){
+            ToastUtil.toast("拍卖未开始，请等待");
+          }else{
+            Navigator.pushNamed(context, "/auctionDetails",
+                arguments: {"id": data[index].id.toString(),'status':timeState});
+          }
         },
         child: Card(
           shape:
@@ -177,8 +180,13 @@ class _AuctionSessionPageState extends State<AuctionSessionPage>
   Widget _listFinishItemWidget(List<GoodItemBean> data, int index) {
     return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, "/auctionDetails",
-              arguments: {"widget.status": data[index].id});
+          if(timeState==0){
+            ToastUtil.toast("拍卖未开始，请等待");
+          }else{
+            Navigator.pushNamed(context, "/auctionDetails",
+                arguments: {"id": data[index].id.toString()});
+          }
+
         },
         child: Stack(
           children: <Widget>[

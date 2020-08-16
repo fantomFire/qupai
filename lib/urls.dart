@@ -27,8 +27,8 @@ class Urls {
   static String uploadPhoto = "";
 
   static String homeInfo = '/Homepage/index'; //首页信息
-  static String goodsList =  '/Homepage/specialgoods'; //专场列表
-
+  static String goodsList = '/Homepage/specialgoods'; //专场列表
+  static String goodDetail = '/Homepage/goods'; //商品详情
 
   static String getGuide = '/Mydetails/guide';
 

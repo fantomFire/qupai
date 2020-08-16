@@ -4,29 +4,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:qupai/utils/native_utils.dart';
+import 'package:qupai/model/good_item_bean.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 
 import '../../urls.dart';
 class AuctionDetailsPage extends StatefulWidget {
-  final String  status;
-  AuctionDetailsPage({Key key, this.status}) : super(key: key);
+  final String  id ;
+  final int  status ;
 
+  AuctionDetailsPage({Key key, this.id, this.status}) : super(key: key);
   @override
   _AuctionDetailsPageState createState() => _AuctionDetailsPageState();
 }
 
 class _AuctionDetailsPageState extends State<AuctionDetailsPage>
     with SingleTickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
-  TabController _tabController; //需要定义一个Controller
-  List tabs = ["可拍卖", "已拍卖"];
   bool isChange = false;
-  List _swperListData = [
-    Urls.imageTest,
-    Urls.imageTest
-  ];
+  List _swperListData = List();
+  GoodItemBean  goodDetail;
   String _day1;
   String _hour1;
   String _minute1;
@@ -36,76 +33,20 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 200)).then((e) {
-      _timeFunc("2020-07-28 18:00");
-    });
-    _tabController = TabController(length: tabs.length, vsync: this);
-    //底部加载更多监听
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          ScreenUtil().getAdapterSize(160)) {
-        setState(() {
-          isChange = true;
-        });
-      } else {
-        setState(() {
-          isChange = false;
-        });
-      }
-    });
-    _tabController.addListener(() {
-      if (_tabController.index.toDouble() == _tabController.animation.value) {
-        if (_tabController.index == 0) {
-          LogUtil.v("可拍卖", tag: "趣拍");
-        } else if (_tabController.index == 1) {
-          LogUtil.v("已拍卖", tag: "趣拍");
-        }
-      }
-    });
+    getGoodDetail(widget.id, true);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+
     _timerIndex.cancel();
     super.dispose();
   }
 
   // 下拉刷新数据
-  Future<Null> _refreshData() async {}
-
-  void _timeFunc(time) {
-    var _newDate = DateTime.now();
-    const period = const Duration(seconds: 1);
-    print(time);
-    var _diffDate = DateTime.parse(time.toString());
-    _timerIndex = Timer.periodic(period, (timer) {
-      //到时回调
-      _diffDate = _diffDate.subtract(Duration(seconds: 1));
-      // count++;
-      if (_diffDate.difference(_newDate).inSeconds <= 0) {
-        //取消定时器，避免无限回调
-        timer.cancel();
-        timer = null;
-      }
-      // print();
-      var _surplus = _diffDate.difference(_newDate);
-      int _day = (_surplus.inSeconds ~/ 3600) ~/ 24;
-      int hour = (_surplus.inSeconds ~/ 3600) % 24;
-      int minute = _surplus.inSeconds % 3600 ~/ 60;
-      int second = _surplus.inSeconds % 60;
-      // formatTime(hour) + ":" + formatTime(minute) + ":" + formatTime(second);
-      setState(() {
-        _day1 = _day.toString() ?? '0';
-        _hour1 = hour.toString() ?? '0';
-        _minute1 = minute.toString() ?? '0';
-        _second1 = second.toString() ?? '0';
-        // _text = _diffDate.weekday.toString()+'  ' +_diffDate.hour.toString()+':' + _diffDate.minute.toString() +':'+ _diffDate.second.toString();
-      });
-      // debugPrint(_text);
-    });
+  Future<Null> _refreshData() async {
+    getGoodDetail(widget.id, false);
   }
-
   Widget _headerWidget(list) {
     return Container(
       height: ScreenUtil().getAdapterSize(220),
@@ -184,21 +125,21 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "库号：123456789",
+                          "库号：${goodDetail?.goods_spec}",
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
                           ),
                         ),
                         Text(
-                          "作者：XXX",
+                          "作者：${goodDetail?.goods_author}",
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
                           ),
                         ),
                         Text(
-                          "规格：60X60",
+                          "规格：${goodDetail?.goods_spec}",
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
@@ -325,7 +266,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "详细描述",
+                         goodDetail?.goods_detail,
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
@@ -375,7 +316,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          "帮助描述",
+                          goodDetail?.bz,
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
@@ -393,17 +334,16 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
     return RefreshIndicator(
         onRefresh: _refreshData,
         child: SingleChildScrollView(
-          controller: _scrollController,
           child: Column(
             children: <Widget>[
-              _headerWidget(_swperListData),
+              _swperListData.length==0?Container(): _headerWidget(_swperListData),
               Container(
                   padding: EdgeInsets.symmetric(
                       vertical: ScreenUtil().getAdapterSize(6),
                       horizontal: ScreenUtil().getAdapterSize(10)),
-                  color: widget.status == '1'
+                  color: widget.status == 0
                       ? Color(0xff2BA245)
-                      : widget.status == '2'
+                      : widget.status == 1
                           ? Color(0xffC60000)
                           : Color(0xff999999),
                   child: Row(
@@ -583,7 +523,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
             Expanded(
               child: Center(
                   child: FlatButton(
-                color: widget.status == '2'
+                color: widget.status ==2
                     ? Color(0xffC60000)
                     : Color(0xffBBBBBB),
                 colorBrightness: Brightness.dark,
@@ -610,4 +550,75 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
       ),
     );
   }
+
+  void getGoodDetail(String id ,bool init) async{
+    HttpResponse response = await HttpUtil.send(context, "post", Urls.goodDetail,
+        {'id': id,},
+        initState: init);
+    if (response.result) {
+        goodDetail = GoodItemBean.fromJson(response.datas);
+        _swperListData.clear();
+        if(goodDetail?.goods_pic!=null){
+          _swperListData.add(Urls.imageBase+goodDetail?.goods_pic);
+        }
+      setState(() {});
+      //  _timeFunc();
+
+  }}
+/*
+    void _timeFunc() {
+      var _newDate = DateTime.now();
+      const period = const Duration(seconds: 1);
+      String currentDay = TimeUtils.getCurrentDate();
+
+      var _diffS_begin = DateTime.parse("$currentDay ${goodDetail?.}");
+      var _diffS_end = DateTime.parse("$currentDay ${goodList?.end_time}");
+
+      _timerIndex = Timer.periodic(period, (timer) {
+        //到时回调
+        _diffS_begin = _diffS_begin.subtract(Duration(seconds: 1));
+        _diffS_end = _diffS_end.subtract(Duration(seconds: 1));
+
+        if (_diffS_begin.difference(_newDate).inSeconds > 0) {
+          timeState = 0;
+          var _surplus = _diffS_begin.difference(_newDate);
+          int _day = (_surplus.inSeconds ~/ 3600) ~/ 24;
+          int hour = (_surplus.inSeconds ~/ 3600) % 24;
+          int minute = _surplus.inSeconds % 3600 ~/ 60;
+          int second = _surplus.inSeconds % 60;
+          _day1 = _day.toString() ?? '0';
+          _hour1 = hour.toString() ?? '0';
+          _minute1 = minute.toString() ?? '0';
+          _second1 = second.toString() ?? '0';
+          waitNotice = _day1 + ':' + _hour1 + ':' + _minute1 + ':' + _second1;
+
+          //取消定时器，避免无限回调
+
+        } else if (_diffS_begin.difference(_newDate).inSeconds < 0 &&
+            _diffS_end.difference(_newDate).inSeconds > 0) {
+          timeState = 1;
+          var _surplus = _diffS_end.difference(_newDate);
+          int _day = (_surplus.inSeconds ~/ 3600) ~/ 24;
+          int hour = (_surplus.inSeconds ~/ 3600) % 24;
+          int minute = _surplus.inSeconds % 3600 ~/ 60;
+          int second = _surplus.inSeconds % 60;
+          _day1 = _day.toString() ?? '0';
+          _hour1 = hour.toString() ?? '0';
+          _minute1 = minute.toString() ?? '0';
+          _second1 = second.toString() ?? '0';
+          waitNotice = _day1 + ':' + _hour1 + ':' + _minute1 + ':' + _second1;
+        } else {
+          timeState = 2;
+          waitNotice = "";
+          timer.cancel();
+          timer=null;
+
+        }
+        setState(() {
+        });
+        // debugPrint(_text);
+      });
+    }
+*/
+
 }
