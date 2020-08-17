@@ -3,7 +3,9 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/common_views/refeshview_custom.dart';
+import 'package:qupai/model/good_order_bean.dart';
 import 'package:qupai/urls.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -27,10 +29,12 @@ class _PhysicalPageState extends State<PhysicalPage>
 
   bool _hasNoMore = true;
   int curPage = 1;
+  List<GoodOrderBean> orderList = List();
 
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -54,10 +58,11 @@ class _PhysicalPageState extends State<PhysicalPage>
           },
           onRefresh: () async {
             curPage = 1;
+            getListInfo(true);
           },
-          onLoadMore: () {
+       /*   onLoadMore: () {
             curPage++;
-          },
+          },*/
         ),
       ),
     );
@@ -194,5 +199,37 @@ class _PhysicalPageState extends State<PhysicalPage>
         ),
       ),
     );
+  }
+  void getListInfo(bool init) async{
+    HttpResponse response;
+    if(widget.status==0){
+      response = await HttpUtil.send(
+          context, "post", Urls.buygoods, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==1){
+      response = await HttpUtil.send(
+          context, "post", Urls.togoods, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==2){
+      response = await HttpUtil.send(
+          context, "post", Urls.goodsnot, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==3){
+      response = await HttpUtil.send(
+          context, "post", Urls.goodsreceived, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }
+    if(response.result){
+      orderList.clear();
+    /*  if(response.datas['order']!=null){
+        for( int i = 0;i<response.datas['order'].length;i++){
+          GoodOrderBean goodOrderBean = GoodOrderBean.fromJson(response.datas['order'][i]);
+          orderList.add(goodOrderBean);
+        }
+      }*/
+      setState(() {
+
+      });
+    }
   }
 }

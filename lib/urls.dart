@@ -59,6 +59,12 @@ class Urls {
   static final String sellDetail = "/Myorder/myorderdel"; //我的卖单 详情
 
 
+  static final String buygoods = "/Myorder/buygoods"; //实物订单 全部
+  static final String togoods = "/Myorder/togoods"; //实物订单 待发货
+  static final String goodsnot = "/Myorder/goodsnot"; //实物订单 待收货
+  static final String goodsreceived = "/Myorder/goodsreceived"; //实物订单已完成
+
+
 
 
 
