@@ -2,11 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:qupai/common_views/customview.dart';
+import 'package:qupai/model/province.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
-
-
-import 'entity/province.dart';
 
 class PickerUtils {
   //列表选择框

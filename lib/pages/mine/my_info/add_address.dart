@@ -38,16 +38,16 @@ class _AddAddressState extends State<AddAddress> {
   @override
   void initState() {
     super.initState();
-    if (widget.addressData != null) {
-      nameController.text = widget.addressData.address_people;
-      phoneController.text = widget.addressData.address_phone;
-      detailController.text = widget.addressData.address_add;
+/*    if (widget.addressData != null) {
+      nameController.text = widget.addressData?.address_people;
+      phoneController.text = widget.addressData?.address_phone;
+      detailController.text = widget.addressData?.address_add;
       _addressController.text =
-          "${widget.addressData.address_province} ${widget.addressData.address_city} ${widget.addressData.address_district}";
-      address_province = widget.addressData.address_province;
-      address_city = widget.addressData.address_city;
-      address_district = widget.addressData.address_district;
-    }
+          "${widget.addressData?.address_province} ${widget.addressData?.address_city} ${widget.addressData?.address_district}";
+      address_province = widget.addressData?.address_province;
+      address_city = widget.addressData?.address_city;
+      address_district = widget.addressData?.address_district;
+    }*/
   }
 
   @override

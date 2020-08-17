@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:qupai/model/city.dart';
+import 'package:qupai/model/province.dart';
 
 import 'cacahe_manager.dart';
-import 'entity/city.dart';
-import 'entity/province.dart';
+
 
 
 class CommonUtil {

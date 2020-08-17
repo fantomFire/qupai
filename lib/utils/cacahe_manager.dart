@@ -1,7 +1,5 @@
+import 'package:qupai/model/province.dart';
 import 'package:qupai/pages/login/entity/login_entity.dart';
-
-import 'entity/province.dart';
-
 class CacheManager{
   CacheManager._internal();
 
