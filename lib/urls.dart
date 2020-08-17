@@ -54,8 +54,11 @@ class Urls {
   static final String sellAll = "/Myorder/saleorder"; //我的卖单 全部
   static final String sellNosale = "/Myorder/nosale"; //我的卖单 待交易
   static final String sellNobuy = "/Myorder/nobuy"; //我的卖单 待收款
-  static final String sellConfirmappeal = "/Myorder/confirmappeal"; //我的卖单 申诉
+  static final String sellHaveappeal = "/Myorder/haveappeal"; //我的卖单 申诉
   static final String sellReceived = "/Myorder/received"; //我的卖单 已完成
+  static final String sellDetail = "/Myorder/myorderdel"; //我的卖单 详情
+
+
 
 
 

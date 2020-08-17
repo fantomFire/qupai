@@ -51,9 +51,7 @@ Map<String, WidgetBuilder> routes() {
       return arguments == null
           ? AuctionDetailsPage()
           : AuctionDetailsPage(
-              id: arguments['id'],
-          status:arguments['status']
-            );
+              id: arguments['id'], status: arguments['status']);
     },
     '/demonstrationSession': (context) => DemonstrationSessionPage(),
     '/ensureOrder': (context) => EnsureOrder(),
@@ -63,10 +61,17 @@ Map<String, WidgetBuilder> routes() {
       return arguments == null
           ? OrderDetail()
           : OrderDetail(
-        id: arguments['id'],
-      );
-    } ,
-    "/sell_detail": (context) => SellDetail(),
+              id: arguments['id'],
+            );
+    },
+    "/sell_detail": (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? SellDetail()
+          : SellDetail(
+              id: arguments['id'],
+            );
+    },
     "/physical_detail": (context) => PhysicalDetail(),
     '/sell_order': (context) => OrderSell(),
     '/physical_order': (context) => PhysicalScreen(),

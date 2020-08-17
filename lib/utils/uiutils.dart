@@ -398,4 +398,6 @@ class UiUtils {
     int a = opacity ?? 255;
     return new Color(r: r, b: b, g: g, a: a);*/
   }
+
+  static String getOrderState(status) {}
 }

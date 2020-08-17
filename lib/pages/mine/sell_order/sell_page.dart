@@ -3,6 +3,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/common_views/refeshview_custom.dart';
+import 'package:qupai/model/good_order_bean.dart';
 import 'package:qupai/urls.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
@@ -28,6 +29,7 @@ class _SellPageState extends State<SellPage>
 
   bool _hasNoMore = true;
   int curPage = 1;
+  List<GoodOrderBean> orderList = List();
 
   @override
   void initState() {
@@ -49,9 +51,9 @@ class _SellPageState extends State<SellPage>
               isFail = false;
             });
           },
-          childCount: 3,
+          childCount: orderList.length,
           childItem: (context, index) {
-            return _createByHomeOrder(index);
+            return _createByHomeOrder(orderList[index]);
           },
           onRefresh: () async {
             curPage = 1;
@@ -68,11 +70,11 @@ class _SellPageState extends State<SellPage>
   @override
   bool get wantKeepAlive => true;
 
-  Widget _createByHomeOrder(index) {
+  Widget _createByHomeOrder(GoodOrderBean info) {
     return GestureDetector(
       onTap: () {
         NavigatorUtil.pushNamed(context, "/sell_detail", arguments: {
-          'goods_order_id': "1"
+          'id': info.id.toString()
         }).then((v) {
           if (v != null) {
             _easyRefreshController.callRefresh();
@@ -92,7 +94,7 @@ class _SellPageState extends State<SellPage>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextView(
-                    "订单编号:2222222",
+                    "订单编号: ${info.number_stock}",
                     style: TextStyles.color_999999_12,
                   ),
                   TextView(
@@ -124,20 +126,20 @@ class _SellPageState extends State<SellPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TextView(
-                            '我是商品名称呀',style: TextStyles.color_333333_14,
+                           info.goods_name,style: TextStyles.color_333333_14,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           TextView(
-                            '库号：123456',style: TextStyles.color_999999_13,
+                            '库号：${info.number_stock}',style: TextStyles.color_999999_13,
                           ),
                           TextView(
-                            '规格：121212',style: TextStyles.color_999999_13,
+                            '规格：${info.goods_spec}',style: TextStyles.color_999999_13,
                           ),
                           Container(
                             width: double.infinity,
                             child: TextView(
-                              '合计：121212',style: TextStyles.color_999999_13,
+                              '合计：${info.goods_price}',style: TextStyles.color_999999_13,
                               textAlign: TextAlign.right,
                             ),
                           ),
@@ -214,15 +216,26 @@ class _SellPageState extends State<SellPage>
           initState: init);
     }else if(widget.status==3){
       response = await HttpUtil.send(
-          context, "post", Urls.sellConfirmappeal, {'user_id':UiUtils.getUserId()},
+          context, "post", Urls.sellHaveappeal, {'user_id':UiUtils.getUserId()},
           initState: init);
     }else if(widget.status==4){
       response = await HttpUtil.send(
           context, "post", Urls.sellReceived, {'user_id':UiUtils.getUserId()},
           initState: init);
     }
+    orderList.clear();
+
+    if(response.result){
+      if(response.datas!=null){
+        for( int i = 0;i<response.datas.length;i++){
+          GoodOrderBean goodOrderBean = GoodOrderBean.fromJson(response.datas[i]);
+          orderList.add(goodOrderBean);
+        }
+      }
+      setState(() {
+
+      });
 
 
-
-  }
+  }}
 }
