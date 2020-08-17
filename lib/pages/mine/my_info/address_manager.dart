@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/model/address_bean.dart';
+import 'package:qupai/urls.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
+import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
+
 class AddressManager extends StatefulWidget {
   @override
   _AddressManagerState createState() => _AddressManagerState();
@@ -13,14 +17,13 @@ class AddressManager extends StatefulWidget {
 
 class _AddressManagerState extends State<AddressManager> {
   bool isCheck = true;
-  int userId;
+  String userId = UiUtils.getUserId();
   List<AddressBean> addressList = List();
   int selectIndex = -1;
 
   @override
   void initState() {
     super.initState();
-   // userId = CacheManager.instance.getUerInfo()?.user_id;
     getAddressList();
   }
 
@@ -29,7 +32,7 @@ class _AddressManagerState extends State<AddressManager> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-      AppBars.normalTitleWithRightButton(context, "地址管理", "添加", () {
+          AppBars.normalTitleWithRightButton(context, "地址管理", "添加", () {
             NavigatorUtil.pushNamed(context, "/add_address").then((v) {
               if (v) {
                 getAddressList();
@@ -65,22 +68,22 @@ class _AddressManagerState extends State<AddressManager> {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(right: 15),
-                      child: TextView(addressList[index]?.address_people,
+                      child: TextView(addressList[index]?.address_name,
                           style: TextStyles.color_333333_15),
                     ),
                     TextView(addressList[index]?.address_phone.toString(),
                         style: TextStyles.color_333333_15),
                   ],
                 ),
-             Container(
-               alignment: Alignment.centerLeft,
-               child:    TextView(
-                 getAdress(addressList[index]),
-                 style: TextStyles.color_999999_14,
-                 maxLines: 2,
-                 overflow: TextOverflow.ellipsis,
-               ),
-             ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: TextView(
+                    getAddress(addressList[index]),
+                    style: TextStyles.color_999999_14,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
           ),
@@ -92,16 +95,15 @@ class _AddressManagerState extends State<AddressManager> {
                 Expanded(
                     child: GestureDetector(
                   onTap: () {
-                   if(selectIndex!=index){
-                     setCurrentAddress(index);
-
-                   }
+                    if (selectIndex != index) {
+                      setCurrentAddress(index);
+                    }
                   },
                   child: Row(
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.only(right: 10),
-                        child: selectIndex ==index
+                        child: selectIndex == index
                             ? Image.asset(
                                 UiUtils.getImgPath("address_xuanzhong_icon"),
                                 height: 19,
@@ -158,10 +160,9 @@ class _AddressManagerState extends State<AddressManager> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                          UiUtils.showTipDialog(context,"是否删除该地址",onSubmit: (){
-                            deleteAddress(index);
-                          });
-
+                        UiUtils.showTipDialog(context, "是否删除该地址", onSubmit: () {
+                          deleteAddress(index);
+                        });
                       },
                       child: Row(
                         children: <Widget>[
@@ -191,66 +192,54 @@ class _AddressManagerState extends State<AddressManager> {
     );
   }
 
+  String getAddress(AddressBean bean) {
+    String address = bean.address_region.trim() + bean.address_detailed;
+    print(address);
+    return address.toString().trim();
+  }
+
   void getAddressList() async {
-  /*  HttpResponse response = await HttpUtil.send(
-        context, "post", Urls.AddressList, {"user_id": userId.toString()},
+    HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.getAddressList, {"user_id": UiUtils.getUserId()},
         initState: true);
 
     if (response.result) {
       addressList.clear();
       if (response.datas != null && response.datas.length > 0) {
-
-        for (int i = 0;i< response.datas.length;i++) {
+        for (int i = 0; i < response.datas.length; i++) {
           AddressBean item = AddressBean.fromJson(response.datas[i]);
-          if (item.address_status == "1") {
+          if (item.status == 1) {
             selectIndex = i;
           }
           addressList.add(item);
         }
-
-      }else{
+      } else {
         ToastUtil.toast(response.message);
       }
       setState(() {});
-    }*/
+    }
   }
 
   void deleteAddress(int index) async {
-   /* HttpResponse response = await HttpUtil.send(
-        context,
-        "post",
-        Urls.DeleteAddress,
-        {"address_id": addressList[index]?.address_id.toString()},
+    HttpResponse response = await HttpUtil.send(context, "post",
+        Urls.delAddress, {"id": addressList[index]?.id.toString()},
         initState: false);
     if (response.result) {
       ToastUtil.toast("删除地址成功");
       getAddressList();
-    }*/
+    }
   }
 
-  String getAdress(AddressBean address) {
-    StringBuffer sb = new StringBuffer();
-    if (address.address_province != null) {
-      sb.write(address.address_province);
-    }
-    if (address.address_city != null) {
-      sb.write(address.address_city);
-    }
-    if (address.address_district != null) {
-      sb.write(address.address_district);
-    }
-    if (address.address_add != null) {
-      sb.write(address.address_add);
-    }
-    return sb.toString();
-  }
-
-  void setCurrentAddress(int index) async{
-  /*  HttpResponse response = await HttpUtil.send(
-        context, "post", Urls.SetAddress, {"user_id": userId.toString(),"address_id":addressList[index].address_id,"address_status":"1"},);
+  void setCurrentAddress(int index) async {
+    HttpResponse response = await HttpUtil.send(
+      context,
+      "post",
+      Urls.setDefaultAddress,
+      {"user_id": userId, "id": addressList[index].id},
+    );
 
     if (response.result) {
       getAddressList();
-    }*/
+    }
   }
 }

@@ -4,19 +4,13 @@ part 'address_bean.g.dart';
 
 @JsonSerializable()
 class AddressBean {
-  var address_id;
-  var user_id;
-  String address_people;
-
-  String address_add;
-
+  num id;
+  num u_id;
+  num status;
+  String address_name;
   String address_phone;
-
-  String address_status;
-  String address_province;
-  String address_city;
-  String address_district;
-  var create_time;
+  String address_region;
+  String address_detailed;
 
   AddressBean();
 
