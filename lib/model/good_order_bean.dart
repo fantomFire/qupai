@@ -18,7 +18,7 @@ class GoodOrderBean{
   String buyer_at;
   String remarks;
   String pay_voucher;
-  var status;
+  var status;     //1待付款 2待确认 3申诉 4 已取消 5已完成6 待发货 7 待收货 8已收货
   String special_name;
   String goods_detail;
   var qr_time;

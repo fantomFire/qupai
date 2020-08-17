@@ -4,6 +4,7 @@ import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/common_views/refeshview_custom.dart';
 import 'package:qupai/urls.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -54,10 +55,11 @@ class _SellPageState extends State<SellPage>
           },
           onRefresh: () async {
             curPage = 1;
+            getSellList(true);
           },
-          onLoadMore: () {
+       /*   onLoadMore: () {
             curPage++;
-          },
+          },*/
         ),
       ),
     );
@@ -194,5 +196,33 @@ class _SellPageState extends State<SellPage>
         ),
       ),
     );
+  }
+
+  void getSellList(bool init)async {
+    HttpResponse response;
+    if(widget.status==0){
+      response = await HttpUtil.send(
+          context, "post", Urls.sellAll, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==1){
+      response = await HttpUtil.send(
+          context, "post", Urls.sellNosale, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==2){
+      response = await HttpUtil.send(
+          context, "post", Urls.sellNobuy, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==3){
+      response = await HttpUtil.send(
+          context, "post", Urls.sellConfirmappeal, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }else if(widget.status==4){
+      response = await HttpUtil.send(
+          context, "post", Urls.sellReceived, {'user_id':UiUtils.getUserId()},
+          initState: init);
+    }
+
+
+
   }
 }

@@ -33,7 +33,7 @@ class _OrderSellState extends State<OrderSell>
         body: Column(
           children: <Widget>[
 
-            AppBars.normalTitle(context, '我的买单'),
+            AppBars.normalTitle(context, '我的卖单'),
             Container(
               child: TabBar(
                 onTap: (index) {
@@ -77,25 +77,18 @@ class _OrderSellState extends State<OrderSell>
     return [
       SellPage(
         status: 0,
-       // easyRefreshController: _easyRefreshControllers[0],
-
       ),
       SellPage(
         status:1,
-     //   easyRefreshController: _easyRefreshControllers[1],
-
       ),
       SellPage(
         status:2,
-        //easyRefreshController: _easyRefreshControllers[2],
       ),
       SellPage(
         status: 3,
-     //   easyRefreshController: _easyRefreshControllers[3],
       ),
       SellPage(
         status: 4,
-       // easyRefreshController: _easyRefreshControllers[4],
       ),
     ];
 
