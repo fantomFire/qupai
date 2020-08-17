@@ -3,7 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
+import 'package:qupai/model/buy_info_bean.dart';
+import 'package:qupai/model/good_info_bean.dart';
 import 'package:qupai/model/good_order_bean.dart';
+import 'package:qupai/model/order_info_bean.dart';
+import 'package:qupai/model/sell_order_detail.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/imageutil.dart';
 import 'package:qupai/utils/navigator_util.dart';
@@ -22,7 +26,10 @@ class SellDetail extends StatefulWidget {
 }
 
 class _SellDetailState extends State<SellDetail> {
-  GoodOrderBean goodOrderBean;
+  SellOrderDetail goodOrderBean;
+  GoodInfoBean goods;
+  OrderInfoBean orderinfo;
+  BuyInfoBean buyer;
 
   @override
   void initState() {
@@ -89,11 +96,11 @@ class _SellDetailState extends State<SellDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         TextView(
-                          "订单编号: ${goodOrderBean?.order_no}",
+                          "订单编号: ${goods?.orderno}",
                           style: TextStyles.color_999999_12,
                         ),
                         TextView(
-                          UiUtils.getOrderState(goodOrderBean?.status),
+                          UiUtils.getOrderState(goodOrderBean?.order_status),
                           style: TextStyles.color_999999_12,
                         ),
                       ],
@@ -105,7 +112,7 @@ class _SellDetailState extends State<SellDetail> {
                     child: Row(
                       children: <Widget>[
                         ImageLoadUtil(
-                          url: Urls.imageTest,
+                          url: Urls.imageBase+goods?.goods_pic,
                           width: 90,
                           height: 90,
                           fit: BoxFit.fill,
@@ -121,15 +128,15 @@ class _SellDetailState extends State<SellDetail> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 TextView(
-                                  goodOrderBean?.goods_name,style: TextStyles.color_333333_14,
+                                  goods?.goodsname,style: TextStyles.color_333333_14,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 TextView(
-                                  '作者：${ goodOrderBean?.goods_author}',style: TextStyles.color_999999_13,
+                                  '作者：${ goods?.goodsauthor}',style: TextStyles.color_999999_13,
                                 ),
                                 TextView(
-                                  '规格：${ goodOrderBean?.goods_spec}',style: TextStyles.color_999999_13,
+                                  '规格：${ goods?.goodsspec}',style: TextStyles.color_999999_13,
                                 ),
                                 Container(
 
@@ -137,10 +144,10 @@ class _SellDetailState extends State<SellDetail> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       TextView(
-                                        '库号：${ goodOrderBean?.number_stock}',style: TextStyles.color_999999_13,
+                                        '库号：${ goods?.numberstock}',style: TextStyles.color_999999_13,
                                       ),
                                       TextView(
-                                        '合计：${ goodOrderBean?.goods_price} ',style: TextStyles.color_999999_13,
+                                        '合计：${ goods?.goodsprice} ',style: TextStyles.color_999999_13,
                                       ),
                                     ],
                                   ),
@@ -171,7 +178,7 @@ class _SellDetailState extends State<SellDetail> {
                           ),
                         Expanded(
                           flex: 2,
-                          child: TextView('${ goodOrderBean?.order_no}',style: TextStyles.color_333333_13,),
+                          child: TextView('${ orderinfo?.orderno}',style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
@@ -186,7 +193,7 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextView('${ goodOrderBean?.creat_at??""}',style: TextStyles.color_333333_13,),
+                          child: TextView('${ orderinfo?.creattime??""}',style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
@@ -201,12 +208,12 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextView('${ goodOrderBean?.buyer_at??""}',style: TextStyles.color_333333_13,),
+                          child: TextView('${ orderinfo?.payat??""}',style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
                   ),
-                  Container(
+              /*    Container(
                     padding: EdgeInsets.only(left: 16,top: 14),
                     child: Row(
                       children: <Widget>[
@@ -220,11 +227,11 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                       ],
                     ),
-                  ),
+                  ),*/
                   Container(
                     padding: EdgeInsets.only(left: 16,top: 14,bottom: 14,right: 16),
                     width: double.infinity,
-                    child: TextView('联系电话：${ goodOrderBean?.sj_phone}（可联系商家处理）',style: TextStyles.color_999999_11,textAlign: TextAlign.right,),
+                    child: TextView('联系电话：${ buyer?.userphone}（可联系商家处理）',style: TextStyles.color_999999_11,textAlign: TextAlign.right,),
 
                   ),
                   Line(height: 10,),
@@ -244,7 +251,7 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextView('11204589638',style: TextStyles.color_333333_13,),
+                          child: TextView(buyer?.nickname,style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
@@ -259,7 +266,7 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextView('2020-2-2',style: TextStyles.color_333333_13,),
+                          child: TextView(buyer?.username,style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
@@ -274,7 +281,7 @@ class _SellDetailState extends State<SellDetail> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: TextView('2020-2-2',style: TextStyles.color_333333_13,),
+                          child: TextView(buyer?.userphone,style: TextStyles.color_333333_13,),
                         ),
                       ],
                     ),
@@ -331,7 +338,12 @@ class _SellDetailState extends State<SellDetail> {
         initState: true);
 
     if (response.datas != null) {
-      goodOrderBean = GoodOrderBean.fromJson(response.datas);
+      goodOrderBean = SellOrderDetail.fromJson(response.datas);
+      if(goodOrderBean!=null){
+        goods = goodOrderBean.goods;
+        orderinfo = goodOrderBean.orderinfo;
+        buyer = goodOrderBean.buyer;
+      }
     }
     setState(() {
 
