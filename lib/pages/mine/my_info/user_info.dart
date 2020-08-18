@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/pages/mine/entity/user_info.dart';
-import 'package:qupai/utils/cacahe_manager.dart';
 import 'package:qupai/utils/file_select.dart';
 import 'package:qupai/utils/file_upload.dart';
 import 'package:qupai/utils/http_util.dart';
@@ -43,7 +42,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
     } else {
       userInfoBean = widget.user;
     }
-    getAddress();
   }
 
   @override
@@ -175,13 +173,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.only(left: 10, right: 10),
-                            /*   child: TextView(
+                               child: TextView(
                               userInfoBean?.address,
                               style: TextStyles.color_999999_16,
                               textAlign: TextAlign.right,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                            ),*/
+                            ),
                           ),
                         ),
                         Image.asset(UiUtils.getImgPath("nextpage"))
@@ -212,12 +210,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
     }
   }
 
-  void getAddress() async {
-    /* HttpResponse response = await HttpUtil.send(
-        context, "post", Urls.defaultAddress, {'user_id': user_id},
-        initState: true);
-    if (response.result) {}*/
-  }
 
   void selectImage() {
     if (_fileUploadUtil == null) {

@@ -96,7 +96,7 @@ class _AddAddressState extends State<AddAddress> {
               ),
               GestureDetector(
                 onTap: () {
-                  if (widget.addressData == null) {
+                  if (!isEdit) {
                     submitAddress();
                   } else {
                     submitEditAddress();
