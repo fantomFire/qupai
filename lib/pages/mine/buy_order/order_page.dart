@@ -218,7 +218,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
         child: Row(
           children: <Widget>[
             Image.asset(
-              UiUtils.getImgPath("tongzhi1"),
+              UiUtils.getImgPath("more"),
               width: 50,
               height: 20,
             ),
@@ -265,7 +265,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
         child: Row(
           children: <Widget>[
             Image.asset(
-              UiUtils.getImgPath("tongzhi1"),
+              UiUtils.getImgPath("more"),
               width: 50,
               height: 20,
             ),
@@ -312,7 +312,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
         child: Row(
           children: <Widget>[
             Image.asset(
-              UiUtils.getImgPath("tongzhi1"),
+              UiUtils.getImgPath("more"),
               width: 50,
               height: 20,
             ),
@@ -344,7 +344,7 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
         child: Row(
           children: <Widget>[
             Image.asset(
-              UiUtils.getImgPath("tongzhi1"),
+              UiUtils.getImgPath("more"),
               width: 50,
               height: 20,
             ),
@@ -361,8 +361,8 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
   String getRout(int status) {
     if (status == 5) {
       return "/order_detail";
-    }else if (status == 5) {
-      return "/order_detail";
+    }else if (status == 2) {
+      return "/order_wait";
     }
   }
 }

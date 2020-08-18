@@ -6,6 +6,7 @@ import 'package:qupai/pages/home/auction_session.dart';
 import 'package:qupai/pages/home/demonstration_session.dart';
 import 'package:qupai/pages/home/ensure_order.dart';
 import 'package:qupai/pages/mine/buy_order/order_detail.dart';
+import 'package:qupai/pages/mine/buy_order/order_wait_pay.dart';
 import 'package:qupai/pages/mine/money_code/money_code_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
@@ -65,6 +66,17 @@ Map<String, WidgetBuilder> routes() {
         orderStatus:arguments['orderStatus'],
             );
     },
+    "/order_wait": (BuildContext context) {
+      Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
+      return arguments == null
+          ? OrderWaitPay()
+          : OrderWaitPay(
+        id: arguments['id'],
+        orderStatus:arguments['orderStatus'],
+      );
+    },
+
+
     "/sell_detail": (BuildContext context) {
       Map<String, Object> arguments = ModalRoute.of(context).settings.arguments;
       return arguments == null
