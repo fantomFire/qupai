@@ -117,12 +117,10 @@ Map<String, WidgetBuilder> routes() {
     "/update_pass": (BuildContext context) => UpdatePass(),
     "/my_wallet": (context) => WalletPage(),
     "/my_share": (context) => SharePage(),
-    "/to_wcash": (context) => WCashPage(),
     //实名认证
     "/to_identifilcation": (context) => IdentificationPage(),
     //用户指南
     "/to_user_guide": (context) => UGuidePage(),
-    "/to_user_guide_detail": (context) => UGuideDetailPage(),
     //用户指南
     "/to_user_risk": (context) => URiskPage(),
     "/to_money_code": (context) => MoneyCodePage(),

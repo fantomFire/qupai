@@ -7,8 +7,8 @@ import 'package:qupai/common_views/line.dart';
 import 'package:qupai/pages/mine/entity/share_bean.dart';
 import 'package:qupai/pages/mine/entity/share_list_bean.dart';
 import 'package:qupai/pages/mine/my_share/share_list.dart';
+import 'package:qupai/pages/mine/my_share/wcash_page.dart';
 import 'package:qupai/utils/http_util.dart';
-import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
@@ -144,7 +144,11 @@ class _SharePageState extends State<SharePage>
             ),
             GestureDetector(
                 onTap: () {
-                  NavigatorUtil.pushNamed(context, "/to_wcash");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return WCashPage(
+                      money: double.parse(balance),
+                    );
+                  }));
                 },
                 child: Container(
                   alignment: Alignment.center,

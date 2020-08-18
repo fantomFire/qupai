@@ -1,14 +1,32 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/model/other_bean.dart';
+import 'package:qupai/urls.dart';
+import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/utils/navigator_util.dart';
+import 'package:qupai/utils/toast_util.dart';
+import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 
 class WCashPage extends StatefulWidget {
+  final double money;
+
+  const WCashPage({Key key, this.money}) : super(key: key);
+
   @override
   WCashPageState createState() => WCashPageState();
 }
 
 class WCashPageState extends State<WCashPage> {
+  String txMoney = "0";
+
+  @override
+  void initState() {
+    super.initState();
+    getTXhl();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,14 +70,18 @@ class WCashPageState extends State<WCashPage> {
                           style: TextStyle(fontSize: 25),
                         ),
                         Expanded(
-                          child: Container(child: TextField()),
+                          child: Container(child: TextField(
+                            onChanged: (value) {
+                              txMoney = value;
+                            },
+                          )),
                         ),
                       ],
                     ),
                   ),
                   Container(
                     child: Text(
-                      "*提现金额会即使转入您的余额，将会扣除提现金额的10%作为代缴人所得税",
+                      "*提现金额会即使转入您的余额，将会扣除提现金额的${txhl}%作为代缴人所得税",
                       style: TextStyle(
                           fontSize: ScreenUtil().getSp(9),
                           color: BaseColor.color_guashouerror),
@@ -89,7 +111,9 @@ class WCashPageState extends State<WCashPage> {
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
-                      onPressed: () async {},
+                      onPressed: () async {
+                        toTx();
+                      },
                     )),
               ),
             ),
@@ -97,5 +121,56 @@ class WCashPageState extends State<WCashPage> {
         ),
       ),
     );
+  }
+
+  num txhl = 0;
+
+  void getTXhl() async {
+    HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.getZRyehl, {"user_id": UiUtils.getUserId()},
+        initState: true);
+
+    if (response.result) {
+      if (response.datas != null && response.datas.length > 0) {
+        OtherBean otherBean = OtherBean.fromJson(response.datas);
+        txhl = otherBean.yetxl;
+      } else {
+        ToastUtil.toast(response.message);
+      }
+      setState(() {});
+    }
+  }
+
+  void toTx() async {
+    double num = double.parse(txMoney);
+    if (num > widget.money) {
+      return ToastUtil.toast("提现金额不能超过总余额");
+    }
+
+    if (txMoney == ""||num == 0) {
+      return ToastUtil.toast("提现金额不能为零");
+    }
+
+    HttpResponse response = await HttpUtil.send(
+        context,
+        "post",
+        Urls.toZRye,
+        {
+          "user_id": UiUtils.getUserId(),
+          "money": txMoney,
+          "txl": txhl.toString()
+        },
+        initState: true);
+
+    if (response.result) {
+      if (response.datas != null && response.datas.length > 0) {
+        OtherBean otherBean = OtherBean.fromJson(response.datas);
+        txhl = otherBean.yetxl;
+      } else {
+        ToastUtil.toast(response.message);
+        NavigatorUtil.pop(context);
+      }
+      setState(() {});
+    }
   }
 }
