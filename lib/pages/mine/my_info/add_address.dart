@@ -7,14 +7,16 @@ import 'package:qupai/model/address_bean.dart';
 import 'package:qupai/model/city.dart';
 import 'package:qupai/model/district.dart';
 import 'package:qupai/model/province.dart';
+import 'package:qupai/urls.dart';
 import 'package:qupai/utils/cacahe_manager.dart';
+import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/pickerutils.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
-
 
 class AddAddress extends StatefulWidget {
   final AddressBean addressData;
@@ -34,20 +36,19 @@ class _AddAddressState extends State<AddAddress> {
   String address_province;
   String address_city;
   String address_district;
+  String userId = UiUtils.getUserId();
+  bool isEdit = false;
 
   @override
   void initState() {
     super.initState();
-/*    if (widget.addressData != null) {
-      nameController.text = widget.addressData?.address_people;
+    if (widget.addressData != null) {
+      nameController.text = widget.addressData?.address_name;
       phoneController.text = widget.addressData?.address_phone;
-      detailController.text = widget.addressData?.address_add;
-      _addressController.text =
-          "${widget.addressData?.address_province} ${widget.addressData?.address_city} ${widget.addressData?.address_district}";
-      address_province = widget.addressData?.address_province;
-      address_city = widget.addressData?.address_city;
-      address_district = widget.addressData?.address_district;
-    }*/
+      _addressController.text = widget.addressData?.address_region;
+      detailController.text = widget.addressData?.address_detailed;
+      isEdit = true;
+    }
   }
 
   @override
@@ -60,7 +61,7 @@ class _AddAddressState extends State<AddAddress> {
           },
           child: Column(
             children: <Widget>[
-              AppBars.normalTitle(context, "添加地址"),
+              AppBars.normalTitle(context, isEdit ? "修改地址" : "添加地址"),
               InputItem(
                 title: "收货人",
                 controller: nameController,
@@ -105,7 +106,7 @@ class _AddAddressState extends State<AddAddress> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(left: 45, top: 200, right: 45),
                     decoration: BoxDecoration(
-                     color: BaseColor.color_C60000,
+                      color: BaseColor.color_C60000,
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     constraints: BoxConstraints.expand(width: 280, height: 40),
@@ -135,14 +136,14 @@ class _AddAddressState extends State<AddAddress> {
             } else {}
             if (picker.getSelectedValues().length >= 2) {
               City selectCity = picker.getSelectedValues()[1];
-              sb.write(" ");
+              sb.write("");
               sb.write(selectCity.name);
               address_city = selectCity.name;
             } else {}
             if (picker.getSelectedValues().length >= 3) {
               District selectDistrict = picker.getSelectedValues()[2];
 
-              sb.write(" ");
+              sb.write("");
               sb.write(selectDistrict.name);
               address_district = selectDistrict.name;
             } else {}
@@ -155,7 +156,6 @@ class _AddAddressState extends State<AddAddress> {
   }
 
   void submitAddress() async {
-    int userId = CacheManager.instance.getUerInfo()?.user_id;
     if (nameController.text.trim().length == 0) {
       ToastUtil.toast("请输入收货人姓名");
     } else if (phoneController.text.trim().length == 0) {
@@ -165,25 +165,22 @@ class _AddAddressState extends State<AddAddress> {
     } else if (detailController.text.trim().length == 0) {
       ToastUtil.toast("请输入收货人详细地址");
     } else {
-     /* HttpResponse response =
+      HttpResponse response =
           await HttpUtil.send(context, "post", Urls.addAddress, {
-        "user_id": userId.toString(),
-        "address_people": nameController.text.trim().toString(),
-        "address_phone": phoneController.text.trim().toString(),
-        "address_add": detailController.text.trim().toString(),
-        "address_province": address_province,
-        "address_city": address_city,
-        "address_district": address_district,
+        "user_id": userId,
+        "name": nameController.text.trim().toString(),
+        "phone": phoneController.text.trim().toString(),
+        "region": _addressController.text.trim().toString(),
+        "detailed": detailController.text.trim().toString(),
       });
       if (response.result) {
         ToastUtil.toast("添加地址成功");
         NavigatorUtil.pop(context, true);
-      }*/
+      }
     }
   }
 
   void submitEditAddress() async {
-    int userId = CacheManager.instance.getUerInfo()?.user_id;
     if (nameController.text.trim().length == 0) {
       ToastUtil.toast("请输入收货人姓名");
     } else if (phoneController.text.trim().length == 0) {
@@ -193,20 +190,18 @@ class _AddAddressState extends State<AddAddress> {
     } else if (detailController.text.trim().length == 0) {
       ToastUtil.toast("请输入收货人详细地址");
     } else {
-    /*  HttpResponse response =
-          await HttpUtil.send(context, "post", Urls.EditAddress, {
-        "address_id": widget.addressData.address_id,
-        "address_people": nameController.text.trim().toString(),
-        "address_phone": phoneController.text.trim().toString(),
-        "address_add": detailController.text.trim().toString(),
-        "address_province": address_province,
-        "address_city": address_city,
-        "address_district": address_district,
+      HttpResponse response =
+          await HttpUtil.send(context, "post", Urls.editAddress, {
+        "id": widget.addressData.id,
+        "name": nameController.text.trim().toString(),
+        "phone": phoneController.text.trim().toString(),
+        "region": _addressController.text.trim().toString(),
+        "detailed": detailController.text.trim().toString(),
       });
       if (response.result) {
         ToastUtil.toast("修地址成功");
         NavigatorUtil.pop(context, true);
-      }*/
+      }
     }
   }
 }

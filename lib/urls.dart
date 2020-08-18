@@ -64,6 +64,12 @@ class Urls {
   static final String goodsnot = "/Myorder/goodsnot"; //实物订单 待收货
   static final String goodsreceived = "/Myorder/goodsreceived"; //实物订单已完成
 
+  static final String addAddress = "/Userinfo/address"; //用户信息 添加地址
+  static final String getAddressList = "/Userinfo/address_list"; //用户信息 地址管理列表
+  static final String editAddress = "/Userinfo/upaddress"; //用户信息 修改地址
+  static final String setDefaultAddress = "/Userinfo/defaultaddress"; //用户信息 设置默认
+  static final String delAddress = "/Userinfo/deladdress"; //用户信息 删除地址
+
 
 
 
