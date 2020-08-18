@@ -135,7 +135,7 @@ class _MinePageState extends State<MinePage> {
                                           fit: BoxFit.fill,
                                         )),
                                         child: Text(
-                                          userLv(userInfoBean.level),
+                                          userLv(userInfoBean?.level),
                                           style: TextStyle(
                                               fontSize: 8, color: Colors.white),
                                         ),
@@ -527,6 +527,7 @@ class _MinePageState extends State<MinePage> {
     } else if (lv == 5) {
       return "运营中心";
     }
+    return "" ;
   }
 
   void getUserInfo() async {

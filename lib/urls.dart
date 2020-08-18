@@ -75,7 +75,7 @@ class Urls {
   static final String getZRyehl = "/Mydetails/balancepage"; //转入余额页面汇率
   static final String toZRye = "/Mydetails/WithdrawOrder"; //转入余额
 
-
+  static final String showspecial = '/Homepage/showspecial';//演示专场
 
 
 

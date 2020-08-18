@@ -400,7 +400,7 @@ class UiUtils {
   }
 
   static String getOrderState(int status) {
-    //1待付款 2待确认 3申诉 4 已取消 5已完成6 待发货 7 待收货 8已收货
+    //1待付款 2待确认 3申诉 4 已取消 5已完成6 待发货 7 待收货 8已收货 9 待交易 10 待收款 11 已申诉 12 已收款
       if(status ==1){
         return '待付款';
       }else  if(status ==2){
@@ -417,6 +417,14 @@ class UiUtils {
         return '待收货';
       }else  if(status ==8){
         return '已收货';
+      }else  if(status ==9){
+        return '待交易';
+      }else  if(status ==10){
+        return '待收款';
+      }else  if(status ==11){
+        return '已申诉';
+      }else  if(status ==11){
+        return '已收款';
       }
 
 

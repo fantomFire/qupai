@@ -199,10 +199,10 @@ class _OrderScreenDemandState extends State<OrderScreenDemand>
     }
     if (response.result) {
       orderList.clear();
-      if (response.datas['order'] != null) {
-        for (int i = 0; i < response.datas['order'].length; i++) {
+      if (response.datas != null) {
+        for (int i = 0; i < response.datas.length; i++) {
           GoodOrderBean goodOrderBean =
-              GoodOrderBean.fromJson(response.datas['order'][i]);
+              GoodOrderBean.fromJson(response.datas[i]);
           orderList.add(goodOrderBean);
         }
       }

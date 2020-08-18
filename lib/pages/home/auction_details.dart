@@ -38,8 +38,9 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
 
   @override
   void dispose() {
-
-    _timerIndex.cancel();
+      if(_timerIndex.isActive){
+        _timerIndex.cancel();
+      }
     super.dispose();
   }
 

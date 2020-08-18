@@ -23,8 +23,8 @@ class NLoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<NLoginPage> {
-  String phone;
-  String pwd;
+  String phone = '15991704862';
+  String pwd='12345678.';
   @override
   void initState() {
     super.initState();

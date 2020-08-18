@@ -1,6 +1,9 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/widgets/WZVideo.dart';
+
+import '../../urls.dart';
 
 class DemonstrationSessionPage extends StatefulWidget {
 
@@ -36,25 +39,10 @@ class _DemonstrationSessionPageState extends State<DemonstrationSessionPage> {
 
   //获取详情
   _getDeatils() async {
-    // NewResp response = await DioUtilNew.getInstance().request(
-    //   MethodNew.post,
-    //   HttpUrl.instructionsDetailsUrl,
-    //   data: {
-    //     "instructions_id": widget.arguments["id"].toString(),
-    //   },
-    // );
-    // if (response.code == "200") {
-    //   setState(() {
-    //     _swperListData = response.data["instructions_course"];
-    //     _data = response.data;
-    //   });
-    // } else {
-    //   Fluttertoast.showToast(
-    //     msg: response.message,
-    //     toastLength: Toast.LENGTH_SHORT,
-    //     gravity: ToastGravity.BOTTOM,
-    //   );
-    // }
+
+    HttpResponse response = await HttpUtil.send(context, "post", Urls.showspecial, {
+      "id":'1',
+    });
   }
 
   //轮播图
