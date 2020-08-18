@@ -399,5 +399,26 @@ class UiUtils {
     return new Color(r: r, b: b, g: g, a: a);*/
   }
 
-  static String getOrderState(status) {}
+  static String getOrderState(int status) {
+    //1待付款 2待确认 3申诉 4 已取消 5已完成6 待发货 7 待收货 8已收货
+      if(status ==1){
+        return '待付款';
+      }else  if(status ==2){
+        return '待确认';
+      }else  if(status ==3){
+        return '申诉';
+      }else  if(status ==4){
+        return '已取消';
+      }else  if(status ==5){
+        return '已完成';
+      }else  if(status ==6){
+        return '待发货';
+      }else  if(status ==7){
+        return '待收货';
+      }else  if(status ==8){
+        return '已收货';
+      }
+
+
+  }
 }

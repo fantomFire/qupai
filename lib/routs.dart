@@ -62,6 +62,7 @@ Map<String, WidgetBuilder> routes() {
           ? OrderDetail()
           : OrderDetail(
               id: arguments['id'],
+        orderStatus:arguments['orderStatus'],
             );
     },
     "/sell_detail": (BuildContext context) {

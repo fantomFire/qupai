@@ -13,15 +13,15 @@ import 'package:qupai/values/textstyles.dart';
 import 'package:qupai/widgets/appbars.dart';
 
 import '../../../urls.dart';
-class OrderDetail extends StatefulWidget {
+class OrderWaitPay extends StatefulWidget {
   final String id;
 final int orderStatus;
-  const OrderDetail({Key key, this.id, this.orderStatus}) : super(key: key);
+  const OrderWaitPay({Key key, this.id, this.orderStatus}) : super(key: key);
   @override
-  _OrderDetailState createState() => _OrderDetailState();
+  _OrderWaitPayState createState() => _OrderWaitPayState();
 }
 
-class _OrderDetailState extends State<OrderDetail> {
+class _OrderWaitPayState extends State<OrderWaitPay> {
   GoodOrderBean goodOrderBean;
   @override
   void initState() {
