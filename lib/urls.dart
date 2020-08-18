@@ -71,6 +71,7 @@ class Urls {
   static final String delAddress = "/Userinfo/deladdress"; //用户信息 删除地址
 
   static final String getWalletList = "/Userinfo/wallet"; //我的钱包
+  static final String getShareList = "/Mydetails/index"; //分享奖励
 
 
 

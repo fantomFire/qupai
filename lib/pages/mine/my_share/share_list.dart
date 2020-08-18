@@ -4,17 +4,16 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/common_views/refeshview_custom.dart';
+import 'package:qupai/pages/mine/entity/share_bean.dart';
 import 'package:qupai/urls.dart';
 import 'package:qupai/utils/imageutil.dart';
-import 'package:qupai/utils/navigator_util.dart';
-import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
-import 'package:qupai/values/textstyles.dart';
 
 class ShareList extends StatefulWidget {
   final int status;
+  final List<ShareBean> list;
 
-  const ShareList({Key key, this.status}) : super(key: key);
+  const ShareList({Key key, this.status, this.list}) : super(key: key);
 
   @override
   _ShareListState createState() => _ShareListState(status);
@@ -53,7 +52,7 @@ class _ShareListState extends State<ShareList>
               isFail = false;
             });
           },
-          childCount: 5,
+          childCount: widget.list.length,
           childItem: (context, index) {
             if (status == 0) {
               return _createIncomeDetail(index);
@@ -91,7 +90,7 @@ class _ShareListState extends State<ShareList>
                       style: TextStyle(
                           fontSize: ScreenUtil().getSp(15),
                           color: BaseColor.color_333333)),
-                  TextView("-150",
+                  TextView("-${widget.list[index].tx_money}",
                       style: TextStyle(
                           fontSize: ScreenUtil().getSp(15),
                           color: BaseColor.color_FF0000)),
@@ -103,11 +102,11 @@ class _ShareListState extends State<ShareList>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  TextView("2020-08-03 15:00:00",
+                  TextView(widget.list[index].creattime,
                       style: TextStyle(
                           fontSize: ScreenUtil().getSp(11),
                           color: BaseColor.color_999999)),
-                  TextView("已提现至钱包",
+                  TextView("审核中",
                       style: TextStyle(
                           fontSize: ScreenUtil().getSp(11),
                           color: BaseColor.color_999999)),
@@ -138,6 +137,7 @@ class _ShareListState extends State<ShareList>
                     margin: EdgeInsets.only(right: 8, bottom: 16),
                     child: ClipOval(
                       child: ImageLoadUtil(
+                        url: '${Urls.imageBase}${widget.list[index].userpic}',
                         width: 37,
                         height: 37,
                         fit: BoxFit.fill,
@@ -155,20 +155,21 @@ class _ShareListState extends State<ShareList>
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  TextView("小艾同学",
+                                  TextView(widget.list[index].nickname,
                                       style: TextStyle(
                                           fontSize: ScreenUtil().getSp(12),
                                           color: BaseColor.color_333333)),
                                   Container(
                                     margin: EdgeInsets.only(left: 13),
-                                    child: TextView("初级会员",
+                                    child: TextView(
+                                        userLv(widget.list[index].level),
                                         style: TextStyle(
                                             fontSize: ScreenUtil().getSp(6),
                                             color: BaseColor.color_333333)),
                                   ),
                                 ],
                               ),
-                              TextView("+150",
+                              TextView("+${widget.list[index].money}",
                                   style: TextStyle(
                                       fontSize: ScreenUtil().getSp(15),
                                       color: BaseColor.color_2BA245)),
@@ -180,11 +181,11 @@ class _ShareListState extends State<ShareList>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              TextView("13812345678",
+                              TextView(widget.list[index].phone,
                                   style: TextStyle(
                                       fontSize: ScreenUtil().getSp(11),
                                       color: BaseColor.color_999999)),
-                              TextView("2020-08-03 15:00:00",
+                              TextView(widget.list[index].creattime,
                                   style: TextStyle(
                                       fontSize: ScreenUtil().getSp(11),
                                       color: BaseColor.color_999999)),
@@ -204,5 +205,19 @@ class _ShareListState extends State<ShareList>
         ),
       ),
     );
+  }
+
+  String userLv(num lv) {
+    if (lv == 1) {
+      return "初始会员";
+    } else if (lv == 2) {
+      return "普通会员";
+    } else if (lv == 3) {
+      return "vip会员";
+    } else if (lv == 4) {
+      return "社群长";
+    } else if (lv == 5) {
+      return "运营中心";
+    }
   }
 }

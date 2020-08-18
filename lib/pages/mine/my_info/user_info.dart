@@ -210,7 +210,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
     }
   }
 
-
   void selectImage() {
     if (_fileUploadUtil == null) {
       _fileUploadUtil = new FileSelect(context);

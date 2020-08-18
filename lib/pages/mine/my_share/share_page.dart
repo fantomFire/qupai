@@ -1,11 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
+import 'package:qupai/pages/mine/entity/share_bean.dart';
+import 'package:qupai/pages/mine/entity/share_list_bean.dart';
 import 'package:qupai/pages/mine/my_share/share_list.dart';
+import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/navigator_util.dart';
+import 'package:qupai/utils/toast_util.dart';
+import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
 import 'package:qupai/widgets/appbars.dart';
+
+import '../../../urls.dart';
 
 class SharePage extends StatefulWidget {
   @override
@@ -21,6 +30,7 @@ class _SharePageState extends State<SharePage>
   void initState() {
     super.initState();
     _pageController = new PageController();
+    getShareList();
   }
 
   @override
@@ -56,7 +66,7 @@ class _SharePageState extends State<SharePage>
                             style:
                                 TextStyle(fontSize: 16, color: Colors.white)),
                         TextSpan(
-                            text: "8799.00",
+                            text: balance,
                             style:
                                 TextStyle(fontSize: 30, color: Colors.white)),
                       ]))),
@@ -157,12 +167,38 @@ class _SharePageState extends State<SharePage>
 
   List<Widget> getPages() {
     return [
-      ShareList(
-        status: 0,
-      ),
-      ShareList(
-        status: 1,
-      ),
+      ShareList(status: 0, list: srList),
+      ShareList(status: 1, list: zcList),
     ];
+  }
+
+  String balance;
+  List<ShareBean> srList = List();
+  List<ShareBean> zcList = List();
+
+  void getShareList() async {
+    HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.getShareList, {"user_id": UiUtils.getUserId()},
+        initState: true);
+
+    if (response.result) {
+      srList.clear();
+      zcList.clear();
+      if (response.datas != null && response.datas.length > 0) {
+        ShareListBean listBean = ShareListBean.fromJson(response.datas);
+        for (int i = 0; i < listBean.incomeinfo.length; i++) {
+          ShareBean item = listBean.incomeinfo[i];
+          srList.add(item);
+        }
+        for (int i = 0; i < listBean.zc.length; i++) {
+          ShareBean item = listBean.zc[i];
+          zcList.add(item);
+        }
+        balance = listBean?.balance;
+      } else {
+        ToastUtil.toast(response.message);
+      }
+      setState(() {});
+    }
   }
 }

@@ -123,14 +123,22 @@ class _MinePageState extends State<MinePage> {
                                             context, "/mine_leve");
                                       },
                                       child: Container(
+                                        height: 15,
+                                        width: 52,
+                                        padding: EdgeInsets.only(left: 12),
                                         margin: EdgeInsets.only(left: 14),
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                            BaseColor.color_F8D986),
-                                        child: Image.asset(
-                                            UiUtils.getImgPath("icon_my_lv")),
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              UiUtils.getImgPath("icon_my_lv")),
+                                          fit: BoxFit.fill,
+                                        )),
+                                        child: Text(
+                                          userLv(userInfoBean.level),
+                                          style: TextStyle(
+                                              fontSize: 8, color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                     Expanded(
@@ -505,6 +513,20 @@ class _MinePageState extends State<MinePage> {
       return BaseColor.color_lineColor;
     }
     return Colors.transparent;
+  }
+
+  String userLv(num lv) {
+    if (lv == 1) {
+      return "初始会员";
+    } else if (lv == 2) {
+      return "普通会员";
+    } else if (lv == 3) {
+      return "vip会员";
+    } else if (lv == 4) {
+      return "社群长";
+    } else if (lv == 5) {
+      return "运营中心";
+    }
   }
 
   void getUserInfo() async {
