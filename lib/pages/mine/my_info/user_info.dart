@@ -42,7 +42,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
     } else {
       userInfoBean = widget.user;
     }
-    getAddress();
   }
 
   @override
@@ -211,12 +210,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
     }
   }
 
-  void getAddress() async {
-    /* HttpResponse response = await HttpUtil.send(
-        context, "post", Urls.defaultAddress, {'user_id': user_id},
-        initState: true);
-    if (response.result) {}*/
-  }
 
   void selectImage() {
     if (_fileUploadUtil == null) {

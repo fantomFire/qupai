@@ -70,6 +70,9 @@ class Urls {
   static final String setDefaultAddress = "/Userinfo/defaultaddress"; //用户信息 设置默认
   static final String delAddress = "/Userinfo/deladdress"; //用户信息 删除地址
 
+  static final String getWalletList = "/Userinfo/wallet"; //我的钱包
+
+
 
 
 
