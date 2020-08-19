@@ -28,6 +28,7 @@ class _OrderDetailState extends State<OrderDetail> {
   void initState() {
     super.initState();
     getGoodDetail(widget.id);
+    getChangeInfo(widget.id);
   }
 
   @override
@@ -105,7 +106,6 @@ class _OrderDetailState extends State<OrderDetail> {
                   color: Color(0xffC60000),
                   child: Text(
                     "转拍",
-
                     style: TextStyles.color_ffffff_17,
                   ),
                 ),
@@ -127,6 +127,13 @@ class _OrderDetailState extends State<OrderDetail> {
     setState(() {
 
     });
+  }
+
+  void getChangeInfo(String id) async{
+
+    HttpResponse response = await HttpUtil.send(
+        context, "post", Urls.orderChange, {'id': id},
+        initState: true);
   }
 
 

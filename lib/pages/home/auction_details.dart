@@ -46,7 +46,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
 
   // 下拉刷新数据
   Future<Null> _refreshData() async {
-    getGoodDetail(widget.id, false);
+    getGoodDetail(widget.id, true);
   }
   Widget _headerWidget(list) {
     return Container(
@@ -267,7 +267,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                         goodDetail?.goods_detail,
+                         goodDetail?.goods_detail??"",
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,
@@ -317,7 +317,7 @@ class _AuctionDetailsPageState extends State<AuctionDetailsPage>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          goodDetail?.bz,
+                          '${goodDetail?.bz}',
                           style: TextStyle(
                             fontSize: ScreenUtil().getAdapterSize(11),
                             color: Colors.grey,

@@ -11,10 +11,11 @@ String goods_type;
   String goods_spec;
   String goods_price;
   String goods_pic;
-  var special_type;
-  var special_is;
+  var special_type; //1上午场 2 下午场
+  var special_is;   //1 特价场 2，普通场
   var special_id;
   var status;
+  var is_xj ; // 1 下架 2 上架
   String special_name;
   String goods_detail;
   String bz;

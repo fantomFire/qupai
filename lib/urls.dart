@@ -50,6 +50,8 @@ class Urls {
   static final String orderCancel = "/Myorder/cancel"; //我的买单 已取消
   static final String orderCompleted = "/Myorder/completed"; //我的买单 已完成
   static final String orderDetail = "/Myorder/orderdetail"; //我的买单 详情
+  static final String orderChange = "/Myorder/aucmessage"; //我的买单 转拍提示
+
 
   static final String sellAll = "/Myorder/saleorder"; //我的卖单 全部
   static final String sellNosale = "/Myorder/nosale"; //我的卖单 待交易
