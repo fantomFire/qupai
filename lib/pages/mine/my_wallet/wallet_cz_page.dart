@@ -1,14 +1,12 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:qupai/model/other_bean.dart';
-import 'package:qupai/pages/mine/entity/user_info.dart';
-import 'package:qupai/urls.dart';
-import 'package:qupai/utils/http_util.dart';
-import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
-import 'package:qupai/values/baseColor.dart';
+import 'package:tobias/tobias.dart' as tobias;
+
+import '../../../utils/toast_util.dart';
+import '../../../utils/toast_util.dart';
 
 class WalletCZPage extends StatefulWidget {
   @override
@@ -144,12 +142,39 @@ class WalletCZPageState extends State<WalletCZPage> {
     );
   }
 
+  String payInfo = "";
+
   //充值
   void toChongzhi() async {
     double num = double.parse(czMoney);
 
     if (czMoney == "" || num == 0) {
       return ToastUtil.toast("充值金额不能为零");
+    }
+
+    var result = await tobias.isAliPayInstalled();
+
+    if (result == null || !result) {
+      ToastUtil.toast("请先安装支付宝");
+    }
+
+    if (result) {
+      var payResult = await tobias.aliPay(payInfo);
+      print(payResult);
+
+      if (payResult['result'] != null) {
+
+        print(payResult['result']['alipay_trade_app_pay_response']);
+        print(payResult['result']['alipay_trade_app_pay_response']['code']);
+
+        if (payResult['resultStatus'] == 9000) {
+          ToastUtil.toast("支付宝支付成功");
+          Navigator.of(context).pop();
+        } else {
+          ToastUtil.toast("支付宝支付失败");
+          Navigator.of(context).pop();
+        }
+      }
     }
   }
 }
