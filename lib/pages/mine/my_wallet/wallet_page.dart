@@ -7,6 +7,8 @@ import 'package:qupai/pages/mine/entity/wallet_bean.dart';
 import 'package:qupai/pages/mine/entity/wallet_list_bean.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_wcash_page.dart';
 import 'package:qupai/utils/http_util.dart';
+import 'package:qupai/utils/native_utils.dart';
+import 'package:qupai/utils/navigator_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
 import 'package:qupai/values/baseColor.dart';
@@ -78,8 +80,7 @@ class _WalletPageState extends State<WalletPage>
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      setState(() {});
-                      print('点击了充值');
+                      NavigatorUtil.pushNamed(context, "/to_chongzhi");
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -98,7 +99,8 @@ class _WalletPageState extends State<WalletPage>
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
                         return WalletWCashPage(
                           money: double.parse(balance),
                         );

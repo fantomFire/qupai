@@ -11,6 +11,7 @@ import 'package:qupai/pages/mine/money_code/money_code_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
 import 'package:qupai/pages/mine/my_wallet/add_zfb_page.dart';
+import 'package:qupai/pages/mine/my_wallet/wallet_cz_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_wcash_page.dart';
 import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
@@ -127,5 +128,6 @@ Map<String, WidgetBuilder> routes() {
     "/to_user_risk": (context) => URiskPage(),
     "/to_money_code": (context) => MoneyCodePage(),
     "/add_zfb": (context) => AddZfbPage(),
+    "/to_chongzhi": (context) => WalletCZPage(),
   };
 }

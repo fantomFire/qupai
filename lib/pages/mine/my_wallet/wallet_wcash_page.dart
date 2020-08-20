@@ -74,7 +74,9 @@ class WalletWCashPageState extends State<WalletWCashPage> {
                           style: TextStyle(fontSize: 25),
                         ),
                         Expanded(
-                          child: Container(child: TextField(
+                          child: Container(
+                              child: TextField(
+                            keyboardType: TextInputType.number,
                             onChanged: (value) {
                               txMoney = value;
                             },
