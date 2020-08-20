@@ -21,6 +21,7 @@ GoodItemBean _$GoodItemBeanFromJson(Map<String, dynamic> json) {
     ..special_is = json['special_is']
     ..special_id = json['special_id']
     ..status = json['status']
+    ..is_xj = json['is_xj']
     ..special_name = json['special_name'] as String
     ..goods_detail = json['goods_detail'] as String
     ..bz = json['bz'] as String;
@@ -41,6 +42,7 @@ Map<String, dynamic> _$GoodItemBeanToJson(GoodItemBean instance) =>
       'special_is': instance.special_is,
       'special_id': instance.special_id,
       'status': instance.status,
+      'is_xj': instance.is_xj,
       'special_name': instance.special_name,
       'goods_detail': instance.goods_detail,
       'bz': instance.bz,

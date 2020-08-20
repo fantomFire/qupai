@@ -152,6 +152,7 @@ class WalletCZPageState extends State<WalletCZPage> {
       return ToastUtil.toast("充值金额不能为零");
     }
 
+    //检测是否安装支付宝
     var result = await tobias.isAliPayInstalled();
 
     if (result == null || !result) {
@@ -159,6 +160,7 @@ class WalletCZPageState extends State<WalletCZPage> {
     }
 
     if (result) {
+      //去支付
       var payResult = await tobias.aliPay(payInfo);
       print(payResult);
 

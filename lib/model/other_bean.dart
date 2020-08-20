@@ -6,6 +6,8 @@ part 'other_bean.g.dart';
 @JsonSerializable()
 class OtherBean {
   num yetxl;
+  String name;
+  String cid;
 
   OtherBean();
 
