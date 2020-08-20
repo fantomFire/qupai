@@ -5,6 +5,7 @@ import 'package:qupai/common_views/customview.dart';
 import 'package:qupai/common_views/line.dart';
 import 'package:qupai/pages/mine/entity/wallet_bean.dart';
 import 'package:qupai/pages/mine/entity/wallet_list_bean.dart';
+import 'package:qupai/pages/mine/my_wallet/wallet_wcash_page.dart';
 import 'package:qupai/utils/http_util.dart';
 import 'package:qupai/utils/toast_util.dart';
 import 'package:qupai/utils/uiutils.dart';
@@ -97,8 +98,11 @@ class _WalletPageState extends State<WalletPage>
                   ),
                   GestureDetector(
                     onTap: () {
-                      print('点击了提现');
-                      setState(() {});
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return WalletWCashPage(
+                          money: double.parse(balance),
+                        );
+                      }));
                     },
                     child: Container(
                       alignment: Alignment.center,

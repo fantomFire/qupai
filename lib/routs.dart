@@ -10,7 +10,9 @@ import 'package:qupai/pages/mine/buy_order/order_wait_pay.dart';
 import 'package:qupai/pages/mine/money_code/money_code_page.dart';
 import 'package:qupai/pages/mine/my_share/share_page.dart';
 import 'package:qupai/pages/mine/my_share/wcash_page.dart';
+import 'package:qupai/pages/mine/my_wallet/add_zfb_page.dart';
 import 'package:qupai/pages/mine/my_wallet/wallet_page.dart';
+import 'package:qupai/pages/mine/my_wallet/wallet_wcash_page.dart';
 import 'package:qupai/pages/mine/physical_order/physical_detail.dart';
 import 'package:qupai/pages/mine/physical_order/physical_screen.dart';
 import 'package:qupai/pages/mine/ren_zheng/identification_page.dart';
@@ -124,5 +126,6 @@ Map<String, WidgetBuilder> routes() {
     //用户指南
     "/to_user_risk": (context) => URiskPage(),
     "/to_money_code": (context) => MoneyCodePage(),
+    "/add_zfb": (context) => AddZfbPage(),
   };
 }
