@@ -79,6 +79,9 @@ class Urls {
 
   static final String showspecial = '/Homepage/showspecial';//演示专场
 
+  static final String toWalletWCash = "/Mydetails/WithdrawOrder"; //钱包提现
+
+
 
 
 

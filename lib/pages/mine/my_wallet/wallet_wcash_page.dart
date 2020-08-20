@@ -97,12 +97,11 @@ class WalletWCashPageState extends State<WalletWCashPage> {
             ),
             GestureDetector(
               onTap: () {
-                NavigatorUtil.pushNamed<UserInfoBean>(context, "/add_zfb")
-                    .then((UserInfoBean result) {
+                NavigatorUtil.pushNamed(context, "/add_zfb").then((result) {
                   if (result != null) {
-                    userInfoBean.zfb_name = result.zfb_name;
-                    userInfoBean.zfb_account = result.zfb_account;
+                    userInfoBean = result;
                   }
+                  setState(() {});
                 });
               },
               child: Container(
@@ -130,13 +129,15 @@ class WalletWCashPageState extends State<WalletWCashPage> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 10),
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(top: 10, left: 15),
                               child: Text(
                                 userInfoBean.zfb_name,
                                 style: TextStyle(fontSize: 15),
                               ),
                             ),
                             Container(
+                              alignment: Alignment.centerLeft,
                               margin: EdgeInsets.only(top: 3, left: 15),
                               child: Text(
                                 userInfoBean.zfb_account,
@@ -193,6 +194,7 @@ class WalletWCashPageState extends State<WalletWCashPage> {
 
   num txhl = 0;
 
+  //提现汇率
   void getTXhl() async {
     HttpResponse response = await HttpUtil.send(
         context, "post", Urls.getZRyehl, {"user_id": UiUtils.getUserId()},
@@ -209,6 +211,7 @@ class WalletWCashPageState extends State<WalletWCashPage> {
     }
   }
 
+  //提现
   void toTx() async {
     double num = double.parse(txMoney);
     if (num > widget.money) {
@@ -219,14 +222,24 @@ class WalletWCashPageState extends State<WalletWCashPage> {
       return ToastUtil.toast("提现金额不能为零");
     }
 
+    if (userInfoBean.zfb_name == "") {
+      return ToastUtil.toast("请添加支付宝对应用户姓名");
+    }
+
+    if (userInfoBean.zfb_account == "") {
+      return ToastUtil.toast("请添加支付宝账号");
+    }
+
     HttpResponse response = await HttpUtil.send(
         context,
         "post",
-        Urls.toZRye,
+        Urls.toWalletWCash,
         {
           "user_id": UiUtils.getUserId(),
           "money": txMoney,
-          "txl": txhl.toString()
+          "txl": txhl.toString(),
+          "zfb_nickname": userInfoBean.zfb_name,
+          "zfb_account": userInfoBean.zfb_account
         },
         initState: true);
 
